@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Knight" />
+
+
+
+<meta name="description" content="看看 zookeeper 有哪些用法吧，共勉。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper 从入门到放弃(01)">
+<meta property="og:url" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/index.html">
+<meta property="og:site_name" content="Knight&#39;s Blog">
+<meta property="og:description" content="看看 zookeeper 有哪些用法吧，共勉。">
+<meta property="og:locale">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581484562251.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581486221327.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581486552704.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581487829840.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581488731835.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581488744096.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581494878460.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581488899045.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581489049217.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581489825419.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581492769845.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581490020869.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581490060309.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581490703165.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581490966506.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581493360943.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581493478728.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581493500567.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581493719478.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581493864410.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581492679794.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581494522504.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581495453077.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581496142325.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581496167114.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581496188036.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581496808809.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581497078003.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581497424788.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581653360942.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581654628713.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581655247921.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581655371234.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581655449629.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581655628116.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581655746861.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581669909482.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581670449538.png">
+<meta property="article:published_time" content="2020-02-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-11-23T14:46:44.000Z">
+<meta property="article:author" content="Knight">
+<meta property="article:tag" content="开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/1581484562251.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Knight&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/V7.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>zookeeper 从入门到放弃(01) | Knight&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/V7.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/tags/java/">java</a></li>
+                        
+                            <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
+                        
+                            <li><a href="/tags/%E7%83%B9%E9%A5%AA/">烹饪</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/" title="GitHub"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/" rel="tag">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/" rel="tag">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/" rel="tag">jsoup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/junit/" rel="tag">junit</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j/" rel="tag">log4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/" rel="tag">solr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/srping/" rel="tag">srping</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%83%B9%E9%A5%AA/" rel="tag">烹饪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E9%98%B6/" rel="tag">进阶</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">email： Knight-JXNU@outlook.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/V7.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags/java/">java</a></li>
+                
+                    <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
+                
+                    <li><a href="/tags/%E7%83%B9%E9%A5%AA/">烹饪</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/" title="GitHub"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-zookeeper 从入门到放弃(01)" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/" class="article-date">
+      <time datetime="2020-02-11T16:00:00.000Z" itemprop="datePublished">2020-02-12</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      zookeeper 从入门到放弃(01)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/zookeeper/">zookeeper</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>看看 zookeeper 有哪些用法吧，共勉。</p>
+<a id="more"></a>
+
+<h3 id="help"><a href="#help" class="headerlink" title="help"></a>help</h3><p>可以列出 zookeeper 的用法</p>
+<p><img src="./1581484562251.png" alt="Alt text"></p>
+<h3 id="addauth-scheme-auth"><a href="#addauth-scheme-auth" class="headerlink" title="addauth scheme auth"></a>addauth scheme auth</h3><p>添加认证用户</p>
+<p>scheme 可选值：</p>
+<ul>
+<li><strong>word</strong> 表示所有。创建节点的默认权限。有唯一的id是anyone授权的时候的模式为 world:anyone:rwadc 表示所有人都对这个节点有rwadc的权限。这里用的是id而不是expression</li>
+<li><strong>ip</strong>     使用 IP 地址认证</li>
+<li><strong>auth</strong>     不需要id。不过这里应该用expression来表示。即(scheme:expression:perm)</li>
+<li><strong>host</strong>  使用用户主机名作为访问控制列表的id。但是这里需要注意的是表达式用的是主机名的后缀即可。举个例子。如果表达式设置为 corp.com可以匹配如host1.corp.com, host2.corp.com的主机名，但是不能匹配 host1.zookeeper.com这个主机名。</li>
+<li><strong>digest</strong> 使用用户名:密码编码成md5的方式来作为访问控制列表的id。但是这里id不作为授权语句的一部分，这里也是用expression的方式。用户名: 密码先进行sha1编码后再用base64编码。这个比较恶心，后面再详细介绍。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addauth digest liuwen:<span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<h3 id="setAcl-s-v-version-R-path-acl"><a href="#setAcl-s-v-version-R-path-acl" class="headerlink" title="setAcl [-s] [-v version] [-R] path acl"></a>setAcl [-s] [-v version] [-R] path acl</h3><p>为节点设置权限</p>
+<table>
+<thead>
+<tr>
+<th align="left">权限</th>
+<th align="right">ACL简写</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">CREATE</td>
+<td align="right">c</td>
+<td align="center">可以创建子节点</td>
+</tr>
+<tr>
+<td align="left">DELETE</td>
+<td align="right">d</td>
+<td align="center">可以删除子节点（仅下一级节点）</td>
+</tr>
+<tr>
+<td align="left">READ</td>
+<td align="right">r</td>
+<td align="center">可以读取节点数据及显示子节点列表</td>
+</tr>
+<tr>
+<td align="left">WRITE</td>
+<td align="right">w</td>
+<td align="center">可以设置节点数据</td>
+</tr>
+<tr>
+<td align="left">ADMIN</td>
+<td align="right">a</td>
+<td align="center">可以设置节点访问控制列表权限</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<h4 id="1-auth"><a href="#1-auth" class="headerlink" title="1.auth"></a>1.auth</h4><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create /test0 &quot;test0&quot;</span><br><span class="line">setAcl /test0 auth:liuwen:w</span><br></pre></td></tr></table></figure>
+<p>这是为 addauth 添加的 liuwen 账号 对 节点 /test0 的一个 w 权限（即写权限），<strong>楼主无意中发现，如果不是 create 此节点的 client，是不能 对此节点设置权限的</strong>，报错如下：</p>
+<p><img src="./1581486221327.png" alt="Alt text"></p>
+<p>没有权限是不能访问的</p>
+<p><img src="./1581486552704.png" alt="Alt text"></p>
+<p>上述示例中，如果在新的客户端 addauth liuwen，是可以对 /test0 赋值的，因为 liuwen 有 test0 的 write 权限</p>
+<p><img src="./1581487829840.png" alt="Alt text"></p>
+<h4 id="2-world"><a href="#2-world" class="headerlink" title="2.world"></a>2.world</h4><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create /test1 &quot;test1&quot;</span><br><span class="line">setAcl /test1 world:anyone:cdrwa</span><br></pre></td></tr></table></figure>
+<p>任意 client 都可以随意访问</p>
+<p><img src="./1581488731835.png" alt="Alt text"></p>
+<p><img src="./1581488744096.png" alt="Alt text"></p>
+<h3 id="getAcl-s-path"><a href="#getAcl-s-path" class="headerlink" title="getAcl [-s] path"></a>getAcl [-s] path</h3><p>获取节点acl信息</p>
+<p><img src="./1581494878460.png" alt="Alt text"></p>
+<h3 id="get-s-w-path"><a href="#get-s-w-path" class="headerlink" title="get [-s] [-w] path"></a>get [-s] [-w] path</h3><p>获取一个节点的 value</p>
+<p><img src="./1581488899045.png" alt="Alt text"></p>
+<p>看起来 zookeeper 是有持久化的，我关闭 server 和 clients 之后，依然可以访问到之前创建的 node </p>
+<h3 id="close"><a href="#close" class="headerlink" title="close"></a>close</h3><p>关闭连接，会关闭当前 client ，但是不会影响其他 client</p>
+<p><img src="./1581489049217.png" alt="Alt text"></p>
+<h3 id="delete-v-version-path"><a href="#delete-v-version-path" class="headerlink" title="delete [-v version] path"></a>delete [-v version] path</h3><p>删除 node，没有 acl 权限的 client 也可以删除相应节点</p>
+<p><img src="./1581489825419.png" alt="Alt text"></p>
+<p><strong>注：如果一个节点下有子节点，使用delete是不行的，需要使用deleteall</strong></p>
+<p><img src="./1581492769845.png" alt="Alt text"></p>
+<h3 id="deleteall-path"><a href="#deleteall-path" class="headerlink" title="deleteall path"></a>deleteall path</h3><p>删除此节点及此节点下的子节点</p>
+<p><strong>注：path必须是一个完整的节点path</strong></p>
+<p><img src="./1581490020869.png" alt="Alt text"></p>
+<p><img src="./1581490060309.png" alt="Alt text"></p>
+<h3 id="setquota-n-b-val-path"><a href="#setquota-n-b-val-path" class="headerlink" title="setquota -n|-b val path"></a>setquota -n|-b val path</h3><ul>
+<li><strong>-n</strong> 表示自身节点+子节点的最大个数</li>
+<li><strong>-b</strong> 表示数据值的最大长度</li>
+<li><strong>val</strong> 子节点最大个数或数据值的最大长度</li>
+<li><strong>path</strong> 节点路径</li>
+</ul>
+<h4 id="n-设置自身节点-子节点的最大个数"><a href="#n-设置自身节点-子节点的最大个数" class="headerlink" title="-n 设置自身节点+子节点的最大个数"></a>-n 设置自身节点+子节点的最大个数</h4><p><img src="./1581490703165.png" alt="Alt text"></p>
+<p><strong>注：比较坑的一点是，虽然可以设置子节点的最大个数，但是超过此个数create也是成功的！！！自身也算最大节点数中的一个</strong></p>
+<p>超过个数限制的话，server端会出现警告信息</p>
+<p><img src="./1581490966506.png" alt="Alt text"></p>
+<h4 id="b-设置节点值的最大数值（单位-byte）"><a href="#b-设置节点值的最大数值（单位-byte）" class="headerlink" title="-b 设置节点值的最大数值（单位 byte）"></a>-b 设置节点值的最大数值（单位 byte）</h4><p><img src="./1581493360943.png" alt="Alt text"></p>
+<p>设置的byte value也可以小于当前节点长度</p>
+<p>重新set节点value byte长度如果大于设置值，server 也会看到相应的 warn 信息</p>
+<p><img src="./1581493478728.png" alt="Alt text"></p>
+<p><img src="./1581493500567.png" alt="Alt text"></p>
+<p><strong>注：如果使用setquota，-n、-b是被锁定的，如果切换设置会提示，org.apache.commons.cli.AlreadySelectedException: The option ‘b’ was specified but an option from this group has already been selected: ‘n’，org.apache.commons.cli.AlreadySelectedException: The option ‘n’ was specified but an option from this group has already been selected: ‘b’，重新create的节点也会被锁定quota，需要关闭当前client，重新启动一个client，诡异？or坑爹？</strong></p>
+<p><img src="./1581493719478.png" alt="Alt text"></p>
+<p><img src="./1581493864410.png" alt="Alt text"></p>
+<h3 id="delquota-n-b-path"><a href="#delquota-n-b-path" class="headerlink" title="delquota [-n|-b] path"></a>delquota [-n|-b] path</h3><p>移除节点数量、长度限制</p>
+<p><strong>注：delete 节点的时候，是不是把 节点 的 quota 删除的</strong></p>
+<p><img src="./1581492679794.png" alt="Alt text"></p>
+<h3 id="listquota-path"><a href="#listquota-path" class="headerlink" title="listquota path"></a>listquota path</h3><p>显示节点的 quota 信息</p>
+<p><img src="./1581494522504.png" alt="Alt text"></p>
+<p><strong>注：Output quota 表示子节点 quota 信息，Output stat 表示当前节点 quota 信息，Output stat 里面的 bytes = （当前节点bytes+子节点bytes），-1表示没有限制</strong></p>
+<h3 id="history"><a href="#history" class="headerlink" title="history"></a>history</h3><p>查看历史命令</p>
+<p><img src="./1581495453077.png" alt="Alt text"></p>
+<h3 id="ls-s-w-R-path"><a href="#ls-s-w-R-path" class="headerlink" title="ls [-s] [-w] [-R] path"></a>ls [-s] [-w] [-R] path</h3><ul>
+<li>-s 状态</li>
+<li>-w 添加监听</li>
+<li>-R 节点及其子节点</li>
+</ul>
+<p><img src="./1581496142325.png" alt="Alt text"></p>
+<p><img src="./1581496167114.png" alt="Alt text"></p>
+<p><img src="./1581496188036.png" alt="Alt text"></p>
+<p><strong>注：如果一个client a在一个节点添加了watcher监听，那么针对此节点增删子节点的改动将被监听到1次，但是别的client b对此节点做的改动，client a监听不到，超过一次，client a也监听不到，困惑，难道是为了节约资源，让程序员自己去控制监听？？？</strong></p>
+<p><img src="./1581496808809.png" alt="Alt text"></p>
+<h3 id="ls2-path-watch"><a href="#ls2-path-watch" class="headerlink" title="ls2 path [watch]"></a>ls2 path [watch]</h3><p>被 ls 取代</p>
+<p><img src="./1581497078003.png" alt="Alt text"></p>
+<h3 id="printwatches-on-off"><a href="#printwatches-on-off" class="headerlink" title="printwatches on|off"></a>printwatches on|off</h3><p>是否打印 watcher 信息，默认值是 on</p>
+<p><img src="./1581497424788.png" alt="Alt text"></p>
+<h3 id="quit"><a href="#quit" class="headerlink" title="quit"></a>quit</h3><p>关闭连接并且退出</p>
+<h3 id="redo-cmdno"><a href="#redo-cmdno" class="headerlink" title="redo cmdno"></a>redo cmdno</h3><p>重新执行 command no 序列的命令</p>
+<p><img src="./1581653360942.png" alt="Alt text"></p>
+<h3 id="removewatches-path-c-d-a-l"><a href="#removewatches-path-c-d-a-l" class="headerlink" title="removewatches path [-c|-d|-a] [-l]"></a>removewatches path [-c|-d|-a] [-l]</h3><p>移除节点的 watcher</p>
+<p>[-c|-d|-a] [-l] 代表什么意思，暂时没有搞懂，居然找不到官方 docs，这项目凉了吗？</p>
+<p><img src="./1581654628713.png" alt="Alt text"></p>
+<h3 id="rmr"><a href="#rmr" class="headerlink" title="rmr"></a>rmr</h3><p>被 deleteall 取代了</p>
+<p><img src="./1581655247921.png" alt="Alt text"></p>
+<p>但是节点及其子节点也能被实实在在地删除，真是坑的一匹啊</p>
+<p><img src="./1581655371234.png" alt="Alt text"></p>
+<h3 id="set-s-v-version-path-data"><a href="#set-s-v-version-path-data" class="headerlink" title="set [-s] [-v version] path data"></a>set [-s] [-v version] path data</h3><p>设置节点值</p>
+<p><img src="./1581655449629.png" alt="Alt text"></p>
+<h3 id="stat-w-path"><a href="#stat-w-path" class="headerlink" title="stat [-w] path"></a>stat [-w] path</h3><p>可以查看到 节点属性，并为之添加一个一次性 watcher</p>
+<p><img src="./1581655628116.png" alt="Alt text"></p>
+<h3 id="sync-path"><a href="#sync-path" class="headerlink" title="sync path"></a>sync path</h3><p>手动同步节点值</p>
+<p>个人感觉在 zookeeper 集群运转正常的情况下，不需要使用这条语句</p>
+<p><img src="./1581655746861.png" alt="Alt text"></p>
+<h3 id="config-c-w-s"><a href="#config-c-w-s" class="headerlink" title="config [-c] [-w] [-s]"></a>config [-c] [-w] [-s]</h3><p>查看当前集zk server配置</p>
+<ul>
+<li>-c 仅输出与当前配置相对应的版本和客户端连接字符串</li>
+<li>-w 用于在znode上设置watcher</li>
+<li>-s 用于显示znode的统计信息</li>
+</ul>
+<p><img src="./1581669909482.png" alt="Alt text"></p>
+<p><img src="./1581670449538.png" alt="Alt text"></p>
+<h3 id="reconfig-s-v-version-file-path-members-serverID-host-port1-port2-port3-…-add-serverId-host-port1-port2-port3-…-remove-serverId-…"><a href="#reconfig-s-v-version-file-path-members-serverID-host-port1-port2-port3-…-add-serverId-host-port1-port2-port3-…-remove-serverId-…" class="headerlink" title="reconfig [-s] [-v version] [[-file path] | [-members serverID=host:port1:port2;port3[,…]]] | [-add serverId=host:port1:port2;port3[,…]] [-remove serverId[,…]*]"></a>reconfig [-s] [-v version] [[-file path] | [-members serverID=host:port1:port2;port3[,…]<em>]] | [-add serverId=host:port1:port2;port3[,…]]</em> [-remove serverId[,…]*]</h3><p>添加/删除/修改新机器到zookeeper集群</p>
+<p>暂时没搞懂</p>
+<p>参考资料：
+<a target="_blank" rel="noopener" href="http://www.yoonper.com/post.php?id=47">ZooKeeper ACL权限控制</a>
+<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/147ca2533aff">Zookeeper权限管理之坑</a>
+<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/aec61105d714">zookeeper-04-基本命令</a>
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cc11001100/p/9971808.html">Zookeeper笔记之quota</a>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42132763/article/details/103770230">Zookeeper源语（客户端命令）集合（3.5.6）</a>
+<a target="_blank" rel="noopener" href="https://www.cndba.cn/dave/article/3300">Zookeeper 客户端 zkCLI 命令详解</a>
+<a target="_blank" rel="noopener" href="http://zookeeper.apache.org/doc">Zookeeper docs</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/">zookeeper 从入门到放弃(01)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2020-02-12, 00:00:00</p>
+        <p><span>最后更新:</span>2022-11-23, 22:46:44</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/" title="zookeeper 从入门到放弃(01)">https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://knightdevelop.github.io/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/02/14/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(02)/">
+                    zookeeper 从入门到放弃(02)
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/02/12/%E6%9C%AC%E5%9C%B0%E5%90%AF%E5%8A%A8%E5%A4%9A%E4%B8%AA%20zookeeper%20server/">
+                    本地启动多个 zookeeper server
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"zookeeper 从入门到放弃(01)　| Knight's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/02/14/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(02)/" title="上一篇: zookeeper 从入门到放弃(02)">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/02/12/%E6%9C%AC%E5%9C%B0%E5%90%AF%E5%8A%A8%E5%A4%9A%E4%B8%AA%20zookeeper%20server/" title="下一篇: 本地启动多个 zookeeper server">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/">Java多线程(0)</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/02/08/hexo%20blog%20%E8%BF%81%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91%E5%B0%8F%E8%AE%B0/">hexo blog 迁移到另一台电脑小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/02/07/h5%20%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%86%85%E7%BD%AE%E6%B5%8F%E8%A7%88%E5%99%A8Safari%E8%B8%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%9D%91(click%E3%80%81audio)/">h5 在微信内置浏览器Safari踩的一些小坑(click、audio)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/10/%E3%80%8A%E5%90%8E%E6%B5%AA%E3%80%8B%E8%A7%82%E5%90%8E%E6%84%9F/">《后浪》观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/14/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(02)/">zookeeper 从入门到放弃(02)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/">zookeeper 从入门到放弃(01)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/12/%E6%9C%AC%E5%9C%B0%E5%90%AF%E5%8A%A8%E5%A4%9A%E4%B8%AA%20zookeeper%20server/">本地启动多个 zookeeper server</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/11/Nul%20%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%A0%E9%99%A4/">Nul 文件的删除</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/11/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(00)/">zookeeper 从入门到放弃(00)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/14/ubuntu%20%E5%BB%BA%E7%AB%99%20-%20tomcat/">ubuntu 建站 - tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/14/%E7%A5%9E%E8%88%9FZ7-KP7S1%20deepin%20%E5%AE%89%E8%A3%85%E9%BB%91%E5%B1%8F/">神舟Z7-KP7S1 deepin 安装黑屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/linux%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/">linux 环境变量设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F-%E5%AE%9E%E6%88%98%E7%AF%87/">设计模式-原型模式-实战篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/06/can%E2%80%99t%20push%20to%20git%20%20use%20https/">can't push to git  use https</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/06/eclipse%20pull%20repository%20by%20ssh%20key/">eclipse pull repository by ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/04/%E6%9C%AC%E5%9C%B0%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E8%B4%A6%E5%8F%B7%E6%8F%90%E4%BA%A4/">本地配置多个github账号，如何使用指定账号提交</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/30/%E5%9C%9F%E8%B1%86%E7%82%96%E7%89%9B%E8%82%89/">土豆炖牛肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/30/%E5%A4%A7%E7%9B%98%E9%B8%A1/">大盘鸡</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/%E8%BE%A3%E6%A4%92%E7%82%92%E8%82%89/">辣椒炒肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/%E8%92%9C%E8%96%B9%E5%9B%9E%E9%94%85%E8%82%89/">蒜薹回锅肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/29/%E6%B5%85%E8%B0%88%20jsoup/">浅谈 jsoup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/BaseSpring/">BaseSpring</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/hexo%20yelee%20local%20search%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8/">hexo yelee local search 不能使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/07/%E8%87%B4%E5%87%86%E5%A4%87%E8%BF%9B%E5%85%A5IT%E8%A1%8C%E4%B8%9A%E5%AD%A6%E5%BC%9F%E5%AD%A6%E5%A6%B9%E4%BB%AC%E7%9A%84%E4%B8%80%E5%B0%81%E4%BF%A1/">致准备进入IT行业学弟学妹们的一封信</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/18/git%20%E6%8F%90%E4%BA%A4%E5%BF%BD%E7%95%A5%E4%B8%80%E4%BA%9B%E6%96%87%E4%BB%B6%E3%80%81%E6%96%87%E4%BB%B6%E5%A4%B9/">git 提交忽略一些文件、文件夹</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/maven%20build%20debug%20%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%20.class%20%E6%96%87%E4%BB%B6/">maven build debug 无法进入 .class 文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/IDEA%20Git%20%E6%8F%90%E4%BA%A4%20403%20Error%20Code/">IDEA Git 提交 403 Error Code</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/28/solr+db/">solr+db</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/22/tomcat8+solr6.5.1/">tomcat8+solr6.5.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/log4j%20debug%20info%20warn%20error/">log4j debug info warn error</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/">java的装箱、拆箱</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/13/JCF/">JCF</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/10/%E6%B5%85%E8%B0%88junit%EF%BC%88%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%89/">浅谈junit（单元测试）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/06/post%20&%20get/">post & get</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/05/maven%20tomcat%20plugin%20%E4%BD%BF%E7%94%A8/">maven tomcat plugin 使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/hibernate%20jpa/">hibernate jpa</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/OWASP%20Top%2010/">OWASP Top 10</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/POSTGRESQL/">POSTGRESQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/">Web如何提高响应速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/hexo&%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/">hexo&马克飞象图片不能正常显示问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/%E6%9C%AC%E5%9C%B0%E6%9C%89%E5%A4%9A%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8hexo%E9%83%A8%E7%BD%B2%E5%88%B0%E7%89%B9%E5%AE%9A%E8%B4%A6%E5%8F%B7/">本地有多个github账号如何使用hexo部署到特定账号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/%E6%B0%B4%E7%85%AE%E7%89%9B%E8%82%89/">水煮牛肉</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2023 Knight
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

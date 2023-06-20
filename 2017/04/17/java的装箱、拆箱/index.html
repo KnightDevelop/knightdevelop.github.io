@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Knight" />
+
+
+
+<meta name="description" content="从Integer出发，理解java的装箱、拆箱机制。 楼主遇到一个问题 123456Integer m &#x3D; 1;Integer n &#x3D; 1;System.out.println(m&#x3D;&#x3D;n);Integer p &#x3D; 1000;Integer q &#x3D; 1000;System.out.println(p&#x3D;&#x3D;q); 答案是：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java的装箱、拆箱">
+<meta property="og:url" content="https://knightdevelop.github.io/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/index.html">
+<meta property="og:site_name" content="Knight&#39;s Blog">
+<meta property="og:description" content="从Integer出发，理解java的装箱、拆箱机制。 楼主遇到一个问题 123456Integer m &#x3D; 1;Integer n &#x3D; 1;System.out.println(m&#x3D;&#x3D;n);Integer p &#x3D; 1000;Integer q &#x3D; 1000;System.out.println(p&#x3D;&#x3D;q); 答案是：">
+<meta property="og:locale">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/temp-129.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/temp128.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/1492431783296.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/1492434502062.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/1492436330412.png">
+<meta property="article:published_time" content="2017-04-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2017-04-17T14:03:10.000Z">
+<meta property="article:author" content="Knight">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://knightdevelop.github.io/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/temp-129.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Knight&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/V7.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>java的装箱、拆箱 | Knight&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/V7.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/tags/java/">java</a></li>
+                        
+                            <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
+                        
+                            <li><a href="/tags/%E7%83%B9%E9%A5%AA/">烹饪</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/" title="GitHub"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/" rel="tag">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/" rel="tag">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/" rel="tag">jsoup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/junit/" rel="tag">junit</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j/" rel="tag">log4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/" rel="tag">solr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/srping/" rel="tag">srping</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%83%B9%E9%A5%AA/" rel="tag">烹饪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E9%98%B6/" rel="tag">进阶</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">email： Knight-JXNU@outlook.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/V7.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags/java/">java</a></li>
+                
+                    <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
+                
+                    <li><a href="/tags/%E7%83%B9%E9%A5%AA/">烹饪</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/" title="GitHub"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-java的装箱、拆箱" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/" class="article-date">
+      <time datetime="2017-04-16T16:00:00.000Z" itemprop="datePublished">2017-04-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java的装箱、拆箱
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>从Integer出发，理解java的装箱、拆箱机制。
+楼主遇到一个问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Integer m &#x3D; 1;</span><br><span class="line">Integer n &#x3D; 1;</span><br><span class="line">System.out.println(m&#x3D;&#x3D;n);</span><br><span class="line">Integer p &#x3D; 1000;</span><br><span class="line">Integer q &#x3D; 1000;</span><br><span class="line">System.out.println(p&#x3D;&#x3D;q);</span><br></pre></td></tr></table></figure>
+<p>答案是：
+true
+false
+为什么会出现这种结果呢，就是因为 java 的装箱和拆箱机制，且听楼主慢慢道来。</p>
+<a id="more"></a>
+
+<p>**注：全篇使用 JDK 1.7 **</p>
+<h4 id="1-1-but-1000-1000"><a href="#1-1-but-1000-1000" class="headerlink" title="1==1 but 1000!=1000"></a>1==1 but 1000!=1000</h4><p>查阅了一些资料，发现当 Integer 在 [-128, 127]（闭区间）之间时，temp1==temp2，不在此区间时 temp1!=temp2，源码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> knight</span></span><br><span class="line"><span class="comment">* <span class="doctag">@createtime</span> : 下午1:16:15</span></span><br><span class="line"><span class="comment">* <span class="doctag">@description</span> : </span></span><br><span class="line"><span class="comment">* <span class="doctag">@result</span> : </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerEqualQuestion</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> start = -<span class="number">129</span>;</span><br><span class="line">        <span class="keyword">int</span> end = <span class="number">128</span>;</span><br><span class="line">        Integer temp1;</span><br><span class="line">        Integer temp2;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=start; i&lt;=end; i++)&#123;</span><br><span class="line">            temp1 = i;</span><br><span class="line">            temp2 = i;</span><br><span class="line">            System.out.println(<span class="string">&quot;new Integer(&quot;</span> + i + <span class="string">&quot;):&quot;</span> + (temp1==temp2));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行 IntegerEqualQuestion main</p>
+<p><img src="./temp-129.png" alt="Alt text"></p>
+<p><img src="./temp128.png" alt="Alt text"></p>
+<p>一眼看不出装箱、拆箱的痕迹，看看编译器有没有做什么手脚
+使用 javac 编译上述文件
+把编译后的 .class 文件与 .java 文件对比</p>
+<p><img src="./1492431783296.png" alt="Alt text"></p>
+<p>发现原来的直接赋值被替换成了 Integer.valueOf</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Returns an &#123;<span class="doctag">@code</span> Integer&#125; instance representing the specified</span></span><br><span class="line"><span class="comment">* &#123;<span class="doctag">@code</span> int&#125; value.  If a new &#123;<span class="doctag">@code</span> Integer&#125; instance is not</span></span><br><span class="line"><span class="comment">* required, this method should generally be used in preference to</span></span><br><span class="line"><span class="comment">* the constructor &#123;<span class="doctag">@link</span> #Integer(int)&#125;, as this method is likely</span></span><br><span class="line"><span class="comment">* to yield significantly better space and time performance by</span></span><br><span class="line"><span class="comment">* caching frequently requested values.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* This method will always cache values in the range -128 to 127,</span></span><br><span class="line"><span class="comment">* inclusive, and may cache other values outside of this range.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span>  i an &#123;<span class="doctag">@code</span> int&#125; value.</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> an &#123;<span class="doctag">@code</span> Integer&#125; instance representing &#123;<span class="doctag">@code</span> i&#125;.</span></span><br><span class="line"><span class="comment">* <span class="doctag">@since</span>  1.5</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">   <span class="comment">//断言 high&gt;=127</span></span><br><span class="line">   <span class="keyword">assert</span> IntegerCache.high &gt;= <span class="number">127</span>;  </span><br><span class="line">   <span class="comment">//判断传入参数 i 是否在范围之间</span></span><br><span class="line">   <span class="comment">//如果是，返回 IntegerCache.cache 数组中索引为 i + (-IntegerCache.low) 的元素</span></span><br><span class="line">   <span class="comment">//如果不是，返回一个新的 Integer 对像</span></span><br><span class="line">   <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)  </span><br><span class="line">       <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerCache</span> </span>&#123;</span><br><span class="line">	<span class="comment">//low定义为-128</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> low = -<span class="number">128</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> high;</span><br><span class="line">    <span class="comment">//定义一个 cache 数组</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Integer cache[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="comment">// high value may be configured by property</span></span><br><span class="line">        <span class="keyword">int</span> h = <span class="number">127</span>;</span><br><span class="line">        <span class="comment">//大概是从 jvm 中取出Integer对象缓冲池的high值，没有仔细研究</span></span><br><span class="line">        String integerCacheHighPropValue =</span><br><span class="line">            sun.misc.VM.getSavedProperty(<span class="string">&quot;java.lang.Integer.IntegerCache.high&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (integerCacheHighPropValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> i = parseInt(integerCacheHighPropValue);</span><br><span class="line">            i = Math.max(i, <span class="number">127</span>);</span><br><span class="line">            <span class="comment">// Maximum array size is Integer.MAX_VALUE</span></span><br><span class="line">            h = Math.min(i, Integer.MAX_VALUE - (-low));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//给high赋值</span></span><br><span class="line">        high = h;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//创建数组对象赋值给 cache</span></span><br><span class="line">		<span class="comment">//大小为 (high-low)+1</span></span><br><span class="line">		<span class="comment">//类型为 Integer</span></span><br><span class="line">        cache = <span class="keyword">new</span> Integer[(high - low) + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> j = low;</span><br><span class="line">        <span class="comment">//给 cache 中的元素赋值，满足 cache[i]=i+low</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; cache.length; k++)</span><br><span class="line">            cache[k] = <span class="keyword">new</span> Integer(j++);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">IntegerCache</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="延伸：探究-sun-misc-VM-getSavedProperty-“java-lang-Integer-IntegerCache-high”"><a href="#延伸：探究-sun-misc-VM-getSavedProperty-“java-lang-Integer-IntegerCache-high”" class="headerlink" title="延伸：探究 sun.misc.VM.getSavedProperty(“java.lang.Integer.IntegerCache.high”);"></a>延伸：探究 sun.misc.VM.getSavedProperty(“java.lang.Integer.IntegerCache.high”);</h4><p>发现这个值是可以通过 jvm 参数设置的，默认是 127，如下可以将这个值设置为200</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Djava.lang.Integer.IntegerCache.high=<span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>运行 IntegerEqualQuestion main</p>
+<p><img src="./1492434502062.png" alt="Alt text"></p>
+<h4 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h4><p>当使用 Integer a = b; b为一个int类型的数据创建一个 Integer 时
+如果 b 满足 b&lt;=high &amp;&amp; b&gt;=low (默认 high=127，low=-128，可以设置 high 的值)，返回 cache[b+high]
+如果 b 不满足上述条件，返回一个新的 Integer
+所以，</p>
+<blockquote>
+<p>有 Integer m=1; Integer n=1; 时
+m==n;<br>此时m、n 都是 cache[1+high]</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>有 Integer p=1000; Integer q=1000; 时
+p!=q;
+此时 p 是一个新创建的 Integer 对象，q 是一个新创建的 Integer 对象</p>
+</blockquote>
+<h4 id="简单的流程图"><a href="#简单的流程图" class="headerlink" title="简单的流程图"></a>简单的流程图</h4><p><img src="./1492436330412.png" alt="Alt text"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/">java的装箱、拆箱</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2017-04-17, 00:00:00</p>
+        <p><span>最后更新:</span>2017-04-17, 22:03:10</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/" title="java的装箱、拆箱">https://knightdevelop.github.io/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://knightdevelop.github.io/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/04/17/log4j%20debug%20info%20warn%20error/">
+                    log4j debug info warn error
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/04/13/JCF/">
+                    JCF
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"java的装箱、拆箱　| Knight's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/04/17/log4j%20debug%20info%20warn%20error/" title="上一篇: log4j debug info warn error">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/04/13/JCF/" title="下一篇: JCF">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/">Java多线程(0)</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/02/08/hexo%20blog%20%E8%BF%81%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91%E5%B0%8F%E8%AE%B0/">hexo blog 迁移到另一台电脑小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/02/07/h5%20%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%86%85%E7%BD%AE%E6%B5%8F%E8%A7%88%E5%99%A8Safari%E8%B8%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%9D%91(click%E3%80%81audio)/">h5 在微信内置浏览器Safari踩的一些小坑(click、audio)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/10/%E3%80%8A%E5%90%8E%E6%B5%AA%E3%80%8B%E8%A7%82%E5%90%8E%E6%84%9F/">《后浪》观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/14/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(02)/">zookeeper 从入门到放弃(02)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/">zookeeper 从入门到放弃(01)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/12/%E6%9C%AC%E5%9C%B0%E5%90%AF%E5%8A%A8%E5%A4%9A%E4%B8%AA%20zookeeper%20server/">本地启动多个 zookeeper server</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/11/Nul%20%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%A0%E9%99%A4/">Nul 文件的删除</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/11/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(00)/">zookeeper 从入门到放弃(00)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/14/ubuntu%20%E5%BB%BA%E7%AB%99%20-%20tomcat/">ubuntu 建站 - tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/14/%E7%A5%9E%E8%88%9FZ7-KP7S1%20deepin%20%E5%AE%89%E8%A3%85%E9%BB%91%E5%B1%8F/">神舟Z7-KP7S1 deepin 安装黑屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/linux%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/">linux 环境变量设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F-%E5%AE%9E%E6%88%98%E7%AF%87/">设计模式-原型模式-实战篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/06/can%E2%80%99t%20push%20to%20git%20%20use%20https/">can't push to git  use https</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/06/eclipse%20pull%20repository%20by%20ssh%20key/">eclipse pull repository by ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/04/%E6%9C%AC%E5%9C%B0%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E8%B4%A6%E5%8F%B7%E6%8F%90%E4%BA%A4/">本地配置多个github账号，如何使用指定账号提交</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/30/%E5%9C%9F%E8%B1%86%E7%82%96%E7%89%9B%E8%82%89/">土豆炖牛肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/30/%E5%A4%A7%E7%9B%98%E9%B8%A1/">大盘鸡</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/%E8%BE%A3%E6%A4%92%E7%82%92%E8%82%89/">辣椒炒肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/%E8%92%9C%E8%96%B9%E5%9B%9E%E9%94%85%E8%82%89/">蒜薹回锅肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/29/%E6%B5%85%E8%B0%88%20jsoup/">浅谈 jsoup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/BaseSpring/">BaseSpring</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/hexo%20yelee%20local%20search%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8/">hexo yelee local search 不能使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/07/%E8%87%B4%E5%87%86%E5%A4%87%E8%BF%9B%E5%85%A5IT%E8%A1%8C%E4%B8%9A%E5%AD%A6%E5%BC%9F%E5%AD%A6%E5%A6%B9%E4%BB%AC%E7%9A%84%E4%B8%80%E5%B0%81%E4%BF%A1/">致准备进入IT行业学弟学妹们的一封信</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/18/git%20%E6%8F%90%E4%BA%A4%E5%BF%BD%E7%95%A5%E4%B8%80%E4%BA%9B%E6%96%87%E4%BB%B6%E3%80%81%E6%96%87%E4%BB%B6%E5%A4%B9/">git 提交忽略一些文件、文件夹</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/maven%20build%20debug%20%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%20.class%20%E6%96%87%E4%BB%B6/">maven build debug 无法进入 .class 文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/IDEA%20Git%20%E6%8F%90%E4%BA%A4%20403%20Error%20Code/">IDEA Git 提交 403 Error Code</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/28/solr+db/">solr+db</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/22/tomcat8+solr6.5.1/">tomcat8+solr6.5.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/log4j%20debug%20info%20warn%20error/">log4j debug info warn error</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/">java的装箱、拆箱</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/13/JCF/">JCF</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/10/%E6%B5%85%E8%B0%88junit%EF%BC%88%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%89/">浅谈junit（单元测试）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/06/post%20&%20get/">post & get</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/05/maven%20tomcat%20plugin%20%E4%BD%BF%E7%94%A8/">maven tomcat plugin 使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/hibernate%20jpa/">hibernate jpa</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/OWASP%20Top%2010/">OWASP Top 10</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/POSTGRESQL/">POSTGRESQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/">Web如何提高响应速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/hexo&%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/">hexo&马克飞象图片不能正常显示问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/%E6%9C%AC%E5%9C%B0%E6%9C%89%E5%A4%9A%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8hexo%E9%83%A8%E7%BD%B2%E5%88%B0%E7%89%B9%E5%AE%9A%E8%B4%A6%E5%8F%B7/">本地有多个github账号如何使用hexo部署到特定账号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/%E6%B0%B4%E7%85%AE%E7%89%9B%E8%82%89/">水煮牛肉</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2023 Knight
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

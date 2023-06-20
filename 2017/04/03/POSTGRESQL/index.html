@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Knight" />
+
+
+
+<meta name="description" content="1. 使用dbeaver连接postgresql 在使用dbeaver下载postgresql（以下简称pg）的driver时，楼主遇到一个问题，就是那个驱动无法正常安装，于是楼主去pg的安装目录找了一下，发现了pg的jdbc驱动，就是下图那个东西。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="POSTGRESQL">
+<meta property="og:url" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/index.html">
+<meta property="og:site_name" content="Knight&#39;s Blog">
+<meta property="og:description" content="1. 使用dbeaver连接postgresql 在使用dbeaver下载postgresql（以下简称pg）的driver时，楼主遇到一个问题，就是那个驱动无法正常安装，于是楼主去pg的安装目录找了一下，发现了pg的jdbc驱动，就是下图那个东西。">
+<meta property="og:locale">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490420105832.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490420373754.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490420797782.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490420518354.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490420622379.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490421499877.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490423932250.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490506464780.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490508578773.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490509350175.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490427934528.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490427979075.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490439541264.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490521253444.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490521278874.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490522390034.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490525683910.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490525655027.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490525623085.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490525494375.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490525878219.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1491287063261.png">
+<meta property="article:published_time" content="2017-04-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2017-05-28T04:38:51.016Z">
+<meta property="article:author" content="Knight">
+<meta property="article:tag" content="其他">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://knightdevelop.github.io/2017/04/03/POSTGRESQL/1490420105832.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Knight&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/V7.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>POSTGRESQL | Knight&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/V7.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/tags/java/">java</a></li>
+                        
+                            <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
+                        
+                            <li><a href="/tags/%E7%83%B9%E9%A5%AA/">烹饪</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/" title="GitHub"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/" rel="tag">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/" rel="tag">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/" rel="tag">jsoup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/junit/" rel="tag">junit</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j/" rel="tag">log4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/" rel="tag">solr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/srping/" rel="tag">srping</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%83%B9%E9%A5%AA/" rel="tag">烹饪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E9%98%B6/" rel="tag">进阶</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">email： Knight-JXNU@outlook.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/V7.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags/java/">java</a></li>
+                
+                    <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
+                
+                    <li><a href="/tags/%E7%83%B9%E9%A5%AA/">烹饪</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/" title="GitHub"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-POSTGRESQL" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/04/03/POSTGRESQL/" class="article-date">
+      <time datetime="2017-04-02T16:00:00.000Z" itemprop="datePublished">2017-04-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      POSTGRESQL
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="1-使用dbeaver连接postgresql"><a href="#1-使用dbeaver连接postgresql" class="headerlink" title="1. 使用dbeaver连接postgresql"></a>1. 使用dbeaver连接postgresql</h4><p><img src="./1490420105832.png" alt="Alt text">
+在使用dbeaver下载postgresql（以下简称pg）的driver时，楼主遇到一个问题，就是那个驱动无法正常安装，于是楼主去pg的安装目录找了一下，发现了pg的jdbc驱动，就是下图那个东西。</p>
+<a id="more"></a>
+<p><img src="./1490420373754.png" alt="Alt text">
+楼主把它配置到dbeaver的driver manager中就可以不用下载直接连接了。
+<strong>step：</strong>dbeaver菜单栏“database”-&gt;driver manager-&gt;postgresql-&gt;edit-&gt;add file-&gt;找到相应的pg driver
+<img src="./1490420797782.png" alt="Alt text">
+对于这些pg连接信息，可以先使用pg自带的pgadmin查看。
+<img src="./1490420518354.png" alt="Alt text">
+<img src="./1490420622379.png" alt="Alt text">
+拿一个简单的create table语句测试一下
+<img src="./1490421499877.png" alt="Alt text">
+这样，postgresql就安装好了！</p>
+<h3 id="2-Tips"><a href="#2-Tips" class="headerlink" title="2. Tips"></a>2. Tips</h3><p>在使用dbeaver的时候，选中任意一张表右键-&gt;generate sql 可以查看一些基于该表的常用crud等操作的sql语句。
+<img src="./1490423932250.png" alt="Alt text"></p>
+<h4 id="3-基础"><a href="#3-基础" class="headerlink" title="3. 基础"></a>3. 基础</h4><h5 id="（1）数据类型"><a href="#（1）数据类型" class="headerlink" title="（1）数据类型"></a>（1）数据类型</h5><p>楼主在这里只介绍一些常用的吧，详情请移步<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.6/static/">https://www.postgresql.org/docs/9.6/static/</a>
+|类型|说明|占用空间|取值范围|
+|:-:|:-:|:-:|:-:|
+|smallint|小范围整型|2个字节|$-2^{15}$<del>（$2^{15}-1$）即-32768</del>32767|
+|int(integer)|普通整型|4个字节|$-2^{31}$<del>（$2^{31}-1$）大概正负21亿多|
+|bigint|大整型|8个字节|$-2^{63}$</del>（$2^{63}-1$）大概正负922亿亿|
+|real|浮点数类型|4个字节|6位十进制精度|
+|double precision|双精度浮点数类型|8个字节|15位十进制精度|
+|numeric|任意精度类型|变长|任意|
+|smallserial|自增小范围整型|2个字节|$2^{0}$<del>（$2^{15}-1$）|
+|serial|自增整型|4个字节|$2^{0}$</del>（$2^{31}-1$）|
+|bigserial|自增大范围整型|8个字节|$2^{0}$<del>（$2^{63}-1$）|
+|char(n)/character(n)|固定长度费二进制字符串，不足补空|n个字节|-|
+|varchar(n)/character varying(n)|变长费二进制字符串，有长度限制|n个字节|-|
+|text|变长非二进制字符串，无长度限制|任意|-|
+|bytea|变长的二进制字符串|1或者4+世纪字符串长度|-|
+|boolean|true/false|1个字节|true/false|
+|timestamp [(p)] [without time zone]|日期时间|8个字节|4713BC</del>294276AD|
+|timestamp [(p)] with time zone|日期时间时区|8个字节|4713BC<del>294276AD|
+|time [(p)] [without time zone]|时间|8个字节|00:00:00</del>24:00:00|
+|time [(p)] with time zone|时间时区|12个字节|00:00:00+1459<del>24:00:00-1459|
+|interval [fields] [(p)]|时间间隔|16个字节|-178000000 years</del>178000000 years|</p>
+<blockquote>
+<p>浮点数类型有几个特殊的值：
+Infinity：正无穷
+-Infinity：负无穷
+NaN：不是数字</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>timestamp
+楼主发现，timestamp有好几种输入格式
+如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> test <span class="keyword">add</span> birthday <span class="type">timestamp</span> <span class="keyword">with</span> <span class="type">time</span> zone;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.test</span><br><span class="line">(id, &quot;name&quot;, flag, birthday)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">1</span>, <span class="string">&#x27;lw&#x27;</span>, <span class="literal">false</span>, <span class="string">&#x27;1994/10/5 00:00:00 +0800&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.test</span><br><span class="line">(id, &quot;name&quot;, flag, birthday)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">2</span>, <span class="string">&#x27;dqy&#x27;</span>, <span class="literal">false</span>, <span class="string">&#x27;1995-3-21 00:00:00 +0800&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>这两种timestamp的输入格式效果是一样的</p>
+</blockquote>
+<blockquote>
+<p><img src="./1490506464780.png" alt="Alt text"></p>
+</blockquote>
+<blockquote>
+<p>timestamp输入格式详解请移步<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.6/static/datatype-datetime.html">https://www.postgresql.org/docs/9.6/static/datatype-datetime.html</a> 的 date input 栏</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>interval
+这个用法楼主没有用过，仔细研究了一下它的用法，以demo的形式来表达吧
+demo1：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> test <span class="keyword">add</span> sleepInterval <span class="type">interval</span> <span class="keyword">hour</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.test</span><br><span class="line">(id, &quot;name&quot;, flag, birthday, sleepinterval)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">3</span>, <span class="string">&#x27;sw&#x27;</span>, <span class="literal">false</span>, <span class="string">&#x27;1994/10/5 00:00:00 +0800&#x27;</span>, <span class="string">&#x27;8 hours&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="./1490508578773.png" alt="Alt text"></p>
+</blockquote>
+<blockquote>
+<p>demo2：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> test <span class="keyword">add</span> lessonInterval <span class="type">interval</span> <span class="keyword">hour</span> <span class="keyword">to</span> <span class="keyword">minute</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.test</span><br><span class="line">(id, &quot;name&quot;, flag, birthday, lessoninterval)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">4</span>, <span class="string">&#x27;zsf&#x27;</span>, <span class="literal">false</span>, <span class="string">&#x27;1994/10/5 00:00:00 +0800&#x27;</span>, <span class="string">&#x27;40 mins&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.test</span><br><span class="line">(id, &quot;name&quot;, flag, lessoninterval)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">5</span>, <span class="string">&#x27;gyf&#x27;</span>, <span class="literal">false</span>, <span class="string">&#x27;1 hours 40 minutes&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.test</span><br><span class="line">(id, &quot;name&quot;, flag, lessoninterval)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">6</span>, <span class="string">&#x27;whz&#x27;</span>, <span class="literal">false</span>, <span class="string">&#x27;1 weeks 1 hours 40 minutes&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="./1490509350175.png" alt="Alt text">
+更多interval输入格式请移步<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.6/static/datatype-datetime.html">https://www.postgresql.org/docs/9.6/static/datatype-datetime.html</a> 的interval input 栏</p>
+</blockquote>
+<h5 id="（2）create-table"><a href="#（2）create-table" class="headerlink" title="（2）create table"></a>（2）create table</h5><p>语法：
+create table table_name
+(
+    column_name1 data_type(size),
+    column_name2 data_type(size),
+    …
+);
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_mem_member</span><br><span class="line">(</span><br><span class="line">	id <span class="type">int</span> <span class="keyword">primary</span> <span class="keyword">key</span>,</span><br><span class="line">	login_name <span class="type">varchar</span>(<span class="number">256</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h5 id="（3）drop-table"><a href="#（3）drop-table" class="headerlink" title="（3）drop table"></a>（3）drop table</h5><p>语法：
+drop table table_name
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> t_so_orderline;</span><br></pre></td></tr></table></figure>
+<h5 id="（4）insert"><a href="#（4）insert" class="headerlink" title="（4）insert"></a>（4）insert</h5><p>语法：
+insert into table_name(column1, column2, …, columnN)
+values(value1, value2, …, valueN);
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.t_mem_member</span><br><span class="line">(id, login_name)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">1</span>, <span class="string">&#x27;lw&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="（5）select"><a href="#（5）select" class="headerlink" title="（5）select"></a>（5）select</h5><p>语法：
+select column1, column2, …, columnN from table_name
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line"><span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> public.t_mem_member;</span><br></pre></td></tr></table></figure>
+<h5 id="（6）left-outer-join"><a href="#（6）left-outer-join" class="headerlink" title="（6）left outer join"></a>（6）left outer join</h5><p>语法：
+select … from table1 left outer join table2 on conditional_expression …
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"><span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">	t_so_orderline orderLine</span><br><span class="line">	<span class="keyword">left</span> <span class="keyword">outer</span> <span class="keyword">join</span></span><br><span class="line">	t_so_salesorder salesOrder</span><br><span class="line">	<span class="keyword">on</span> orderLine.order_id<span class="operator">=</span>salesOrder.id</span><br><span class="line">) temp</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">outer</span> <span class="keyword">join</span></span><br><span class="line">	t_mem_member userMember</span><br><span class="line"><span class="keyword">on</span> </span><br><span class="line">	temp.member_id<span class="operator">=</span>userMember.id</span><br></pre></td></tr></table></figure>
+<p>为了说明left outer join的功能，来个图（这图画的贼蛋疼），这个图对应的是上面那个demo
+<img src="./1490427934528.png" alt="Alt text">
+<img src="./1490427979075.png" alt="Alt text"></p>
+<h5 id="（7）group-by"><a href="#（7）group-by" class="headerlink" title="（7）group by"></a>（7）group by</h5><p>语法：
+select column-list
+from table_name
+where [conditions]
+group by column1, column2, …, clolumnN
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	member_id</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">	t_so_salesorder</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span></span><br><span class="line">	member_id</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>楼主发现，select后面的列必须出现在group by后面，或者是被包含在聚合函数中，否则会出现如下报错</p>
+<p><img src="./1490439541264.png" alt="Alt text"></p>
+<blockquote>
+<p><strong>聚合函数：</strong>像avg()、sum()、max()等就是聚合函数</p>
+</blockquote>
+<h5 id="（7）alter"><a href="#（7）alter" class="headerlink" title="（7）alter"></a>（7）alter</h5><p>语法：
+添加列
+alter table table_name add column_name datatype;
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> test <span class="keyword">add</span> flag <span class="type">boolean</span>;</span><br></pre></td></tr></table></figure>
+<p>删除列
+alter table table_name drop column column_name;
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> test <span class="keyword">drop</span> <span class="keyword">column</span> birthday;</span><br></pre></td></tr></table></figure>
+<p>更改列数据类型
+alter table table_name alter column column_name type datatype;
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> test <span class="keyword">alter</span> <span class="keyword">column</span> flag type <span class="type">varchar</span>;</span><br></pre></td></tr></table></figure>
+<p>添加/删除not null约束
+alter table table_name alter column_name {set | drop} not null;
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> test <span class="keyword">alter</span> flag <span class="keyword">set</span> <span class="keyword">not</span> <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+<p>添加unique约束
+alter table table_name add constraint my_unique_constraint unique(column1, column2);
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> cars <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> my_unique_constraint <span class="keyword">UNIQUE</span>(id); </span><br></pre></td></tr></table></figure>
+<p>添加primary key约束
+alter table table_name add constraint my_primary_key primary key(column1, column2);
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> cars <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> my_primary_key <span class="keyword">PRIMARY</span> <span class="keyword">KEY</span> (id);</span><br></pre></td></tr></table></figure>
+<p>添加 unique/primary key约束
+（<strong>注</strong>：楼主发现有多种方法可以添加unique约束和primary key约束，这里先不深究）
+alter table table_name add {unique | primary key} using index index_name;
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student <span class="keyword">add</span> <span class="keyword">primary</span> <span class="keyword">key</span> <span class="keyword">using</span> index indexId;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里必需讲一下这种index的生成（即生成索引），举个栗子吧</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--先生成一张student表</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student (id <span class="type">int</span>);</span><br><span class="line"><span class="comment">--给他添加一个index或者unique index</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">unique</span> index indexId <span class="keyword">on</span> student (id);</span><br></pre></td></tr></table></figure>
+<p>create index详情请移步 <a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.6/static/sql-createindex.html">https://www.postgresql.org/docs/9.6/static/sql-createindex.html</a></p>
+</blockquote>
+<p>添加唯一约束
+alter table table_name add constraint the_name_you_want unique(condition);
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> student <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> theNameYouDecide <span class="keyword">UNIQUE</span>(id<span class="operator">&gt;</span><span class="number">0</span>); </span><br></pre></td></tr></table></figure>
+<p>添加check约束
+alter table table_name add constraint the_name_you_want check(co)
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> student <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> theNameYouDecide <span class="keyword">CHECK</span> (flag);</span><br></pre></td></tr></table></figure>
+<p>删除约束
+alter table table_name drop constraint  the_name_of_your_constraint;
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student <span class="keyword">drop</span> <span class="keyword">constraint</span> theNameYouDecide;</span><br></pre></td></tr></table></figure>
+<h5 id="（8）delete"><a href="#（8）delete" class="headerlink" title="（8）delete"></a>（8）delete</h5><p>语法：
+delete from table_name [where condition]
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意：</strong>不带where条件时，会把所有的记录删除</p>
+</blockquote>
+<h5 id="（9）update"><a href="#（9）update" class="headerlink" title="（9）update"></a>（9）update</h5><p>语法：
+update table_name set column1=value1, column2=value2, …, columnN=valueN where [condition]
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> test <span class="keyword">set</span> sleepinterval<span class="operator">=</span><span class="keyword">null</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h5 id="（10）drop"><a href="#（10）drop" class="headerlink" title="（10）drop"></a>（10）drop</h5><p>语法：
+drop table table_name;
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> student;</span><br></pre></td></tr></table></figure>
+<h5 id="（11）update"><a href="#（11）update" class="headerlink" title="（11）update"></a>（11）update</h5><p>语法：
+update table_name set column1=value1, column2=value2, …, columnN=valueN where [condition]
+dmeo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> test <span class="keyword">set</span> flag<span class="operator">=</span><span class="literal">true</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="（12）like"><a href="#（12）like" class="headerlink" title="（12）like"></a>（12）like</h5><p>语法：
+select from table_name where column like ‘xxx%’;
+select from table_name where column like ‘%xxx%’;
+select from table_name where column like ‘<em>xxx’;
+select from table_name where column like ‘_xxx</em>‘;
+dmeo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> name <span class="keyword">like</span> <span class="string">&#x27;_w&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="（13）limit"><a href="#（13）limit" class="headerlink" title="（13）limit"></a>（13）limit</h5><p>语法：
+select column1, column2, …, columnN from table_name limit [no. of row] [offset [row number]]
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test limit <span class="number">2</span> <span class="keyword">offset</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><img src="./1490521253444.png" alt="Alt text"> </p>
+</blockquote>
+<p><img src="./1490521278874.png" alt="Alt text"></p>
+<blockquote>
+<p>demo中sql是表示从第3条开始读（排最前面的是第0条）读取两条记录</p>
+</blockquote>
+<h5 id="（14）order-by"><a href="#（14）order-by" class="headerlink" title="（14）order by"></a>（14）order by</h5><p>语法：
+select column-list from table_name [where condition] [order by column1, column2, …, columnN] [asc | desc]
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">order</span> <span class="keyword">by</span> id;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>默认是升序，也就是asc。</p>
+</blockquote>
+<h5 id="（15）having"><a href="#（15）having" class="headerlink" title="（15）having"></a>（15）having</h5><p>语法：
+select column1, column2, …, columnN from table1, table2, …, tableN [where conditions] group by column1, column2, …, columnN having [conditions] order by column1, column2, …, columnN
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">	flag</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">	test</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span></span><br><span class="line">	flag</span><br><span class="line"><span class="keyword">having</span></span><br><span class="line">	flag<span class="operator">=</span><span class="string">&#x27;false&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>楼主发现，having后面的condition字段必须出现在group by子句中，或者被包含在聚合函数中，而group by后面的condition字段又必须出现在select子句，或者被包含在聚合函数中，so…
+<img src="./1490522390034.png" alt="Alt text"></p>
+</blockquote>
+<h5 id="（16）with"><a href="#（16）with" class="headerlink" title="（16）with"></a>（16）with</h5><p>语法：
+with
+    name_for_summary_data as
+    (
+        select statement
+    );
+    select column-list from name_for_summary_data;
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> temp_table <span class="keyword">as</span></span><br><span class="line">(</span><br><span class="line">	<span class="keyword">select</span> id, name <span class="keyword">from</span> test</span><br><span class="line">)</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> temp_table;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>感觉是用来使用结果集创建的临时表的。</p>
+</blockquote>
+<h5 id="（17）distinct"><a href="#（17）distinct" class="headerlink" title="（17）distinct"></a>（17）distinct</h5><p>语法：
+select distinct column1, column2, …, columnN from table_name [where conditions]
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> flag <span class="keyword">from</span> test;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>distinct是用来去重的。</p>
+</blockquote>
+<h5 id="（18）and-or"><a href="#（18）and-or" class="headerlink" title="（18）and/or"></a>（18）and/or</h5><p>语法：
+select column-list from table_name where condition1 {and | or} condition2
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;lw&#x27;</span> <span class="keyword">or</span> name<span class="operator">=</span><span class="string">&#x27;dqy&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="（19）union"><a href="#（19）union" class="headerlink" title="（19）union"></a>（19）union</h5><p>语法：
+select column-list1 from table_list1 [where conditions] 
+union [all]
+select column-list2 from table_list2 [where conditions] 
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> id <span class="keyword">from</span> test</span><br><span class="line"><span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> id <span class="keyword">from</span> cars;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意：</strong>用union连接的两个select结果集必需事一样的数据类型。union是可以去重的，union all是不去重的。</p>
+</blockquote>
+<h5 id="（20）cross-join"><a href="#（20）cross-join" class="headerlink" title="（20）cross join"></a>（20）cross join</h5><p>语法：
+select column-list from table_name1 cross join table_name2
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">cross</span> <span class="keyword">join</span> cars;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>楼主觉得这种运算相当于是两个矩阵相乘或者说是两个集合的笛卡尔积。</p>
+</blockquote>
+<h5 id="（21）inner-join"><a href="#（21）inner-join" class="headerlink" title="（21）inner join"></a>（21）inner join</h5><p>语法：
+select table-list from table1 inner join table2 on table1.filed=table2.filed
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">inner</span> <span class="keyword">join</span> cars <span class="keyword">on</span> test.id<span class="operator">=</span>cars.id;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个是上面sql的结果</p>
+</blockquote>
+<blockquote>
+<p><img src="./1490525683910.png" alt="Alt text"></p>
+</blockquote>
+<blockquote>
+<p><img src="./1490525655027.png" alt="Alt text"></p>
+</blockquote>
+<blockquote>
+<p><img src="./1490525623085.png" alt="Alt text"></p>
+</blockquote>
+<blockquote>
+<p>楼主觉得像联表查询。</p>
+</blockquote>
+<h5 id="（22）right-outer-join"><a href="#（22）right-outer-join" class="headerlink" title="（22）right outer join"></a>（22）right outer join</h5><p>语法：
+select column-list table1 right outer join table2 on conditional_expressions
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student</span><br><span class="line">(</span><br><span class="line">	s_name <span class="type">varchar</span>(<span class="number">256</span>),</span><br><span class="line">	lesson_id <span class="type">int</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> lesson</span><br><span class="line">(</span><br><span class="line">	id <span class="type">int</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.student</span><br><span class="line">(s_name, lesson_id)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="string">&#x27;lw&#x27;</span>, <span class="number">1</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.student</span><br><span class="line">(s_name, lesson_id)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="string">&#x27;qy&#x27;</span>, <span class="number">1</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.lesson</span><br><span class="line">(id)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> public.lesson</span><br><span class="line">(id)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">2</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> student <span class="keyword">right</span> <span class="keyword">outer</span> <span class="keyword">join</span> lesson <span class="keyword">on</span> student.lesson_id<span class="operator">=</span>lesson.id;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个是demo的结果截图。</p>
+</blockquote>
+<blockquote>
+<p><img src="./1490525494375.png" alt="Alt text"></p>
+</blockquote>
+<blockquote>
+<p>楼主认为就是，right out join 后面接的那张表的数据全保留，左边不满足on后面的conditions的就为空，left out join是左边的全保留，正好相反，可以结合上面的left outer join来看。</p>
+</blockquote>
+<h5 id="（23）full-outer-join"><a href="#（23）full-outer-join" class="headerlink" title="（23）full outer join"></a>（23）full outer join</h5><p>语法：
+select column-list table1 full outer join table2 on conditional_expresssions;
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> student <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> lesson <span class="keyword">on</span> student.lesson_id<span class="operator">=</span>lesson.id;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>数据表还是使用right out join的表</p>
+</blockquote>
+<blockquote>
+<p><img src="./1490525878219.png" alt="Alt text"></p>
+</blockquote>
+<blockquote>
+<p>可以发现，任何一张表的所有数据均会保留。</p>
+</blockquote>
+<h5 id="（24）create-database"><a href="#（24）create-database" class="headerlink" title="（24）create database;"></a>（24）create database;</h5><p>语法：
+create database dbName;
+create database dbName owner rolename;
+demo：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create database jpa;</span><br><span class="line"></span><br><span class="line">create database newdb owner postgres;</span><br></pre></td></tr></table></figure>
+<p>然后在 pgadmin中就可以看到了</p>
+<p><img src="./1491287063261.png" alt="Alt text"></p>
+<h5 id="（25）drop-sequence"><a href="#（25）drop-sequence" class="headerlink" title="（25）drop sequence"></a>（25）drop sequence</h5><p>语法：
+drop sequence [if exists] sequence_name [, …] [cascade | restrict]
+demo：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> sequence person_id_seq;</span><br></pre></td></tr></table></figure>
+<p>就先写这么多，楼主写着玩意写了两天，还不见底，postgresql真是博大精深啊。。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/04/03/POSTGRESQL/">POSTGRESQL</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2017-04-03, 00:00:00</p>
+        <p><span>最后更新:</span>2017-05-28, 12:38:51</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/04/03/POSTGRESQL/" title="POSTGRESQL">https://knightdevelop.github.io/2017/04/03/POSTGRESQL/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://knightdevelop.github.io/2017/04/03/POSTGRESQL/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/04/03/OWASP%20Top%2010/">
+                    OWASP Top 10
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/">
+                    Web如何提高响应速度
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"POSTGRESQL　| Knight's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/04/03/OWASP%20Top%2010/" title="上一篇: OWASP Top 10">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/" title="下一篇: Web如何提高响应速度">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/">Java多线程(0)</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/02/08/hexo%20blog%20%E8%BF%81%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91%E5%B0%8F%E8%AE%B0/">hexo blog 迁移到另一台电脑小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/02/07/h5%20%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%86%85%E7%BD%AE%E6%B5%8F%E8%A7%88%E5%99%A8Safari%E8%B8%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%9D%91(click%E3%80%81audio)/">h5 在微信内置浏览器Safari踩的一些小坑(click、audio)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/10/%E3%80%8A%E5%90%8E%E6%B5%AA%E3%80%8B%E8%A7%82%E5%90%8E%E6%84%9F/">《后浪》观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/14/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(02)/">zookeeper 从入门到放弃(02)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/">zookeeper 从入门到放弃(01)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/12/%E6%9C%AC%E5%9C%B0%E5%90%AF%E5%8A%A8%E5%A4%9A%E4%B8%AA%20zookeeper%20server/">本地启动多个 zookeeper server</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/11/Nul%20%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%A0%E9%99%A4/">Nul 文件的删除</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/11/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(00)/">zookeeper 从入门到放弃(00)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/14/ubuntu%20%E5%BB%BA%E7%AB%99%20-%20tomcat/">ubuntu 建站 - tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/14/%E7%A5%9E%E8%88%9FZ7-KP7S1%20deepin%20%E5%AE%89%E8%A3%85%E9%BB%91%E5%B1%8F/">神舟Z7-KP7S1 deepin 安装黑屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/linux%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/">linux 环境变量设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F-%E5%AE%9E%E6%88%98%E7%AF%87/">设计模式-原型模式-实战篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/06/can%E2%80%99t%20push%20to%20git%20%20use%20https/">can't push to git  use https</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/06/eclipse%20pull%20repository%20by%20ssh%20key/">eclipse pull repository by ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/04/%E6%9C%AC%E5%9C%B0%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E8%B4%A6%E5%8F%B7%E6%8F%90%E4%BA%A4/">本地配置多个github账号，如何使用指定账号提交</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/30/%E5%9C%9F%E8%B1%86%E7%82%96%E7%89%9B%E8%82%89/">土豆炖牛肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/30/%E5%A4%A7%E7%9B%98%E9%B8%A1/">大盘鸡</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/%E8%BE%A3%E6%A4%92%E7%82%92%E8%82%89/">辣椒炒肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/%E8%92%9C%E8%96%B9%E5%9B%9E%E9%94%85%E8%82%89/">蒜薹回锅肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/29/%E6%B5%85%E8%B0%88%20jsoup/">浅谈 jsoup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/BaseSpring/">BaseSpring</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/hexo%20yelee%20local%20search%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8/">hexo yelee local search 不能使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/07/%E8%87%B4%E5%87%86%E5%A4%87%E8%BF%9B%E5%85%A5IT%E8%A1%8C%E4%B8%9A%E5%AD%A6%E5%BC%9F%E5%AD%A6%E5%A6%B9%E4%BB%AC%E7%9A%84%E4%B8%80%E5%B0%81%E4%BF%A1/">致准备进入IT行业学弟学妹们的一封信</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/18/git%20%E6%8F%90%E4%BA%A4%E5%BF%BD%E7%95%A5%E4%B8%80%E4%BA%9B%E6%96%87%E4%BB%B6%E3%80%81%E6%96%87%E4%BB%B6%E5%A4%B9/">git 提交忽略一些文件、文件夹</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/maven%20build%20debug%20%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%20.class%20%E6%96%87%E4%BB%B6/">maven build debug 无法进入 .class 文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/IDEA%20Git%20%E6%8F%90%E4%BA%A4%20403%20Error%20Code/">IDEA Git 提交 403 Error Code</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/28/solr+db/">solr+db</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/22/tomcat8+solr6.5.1/">tomcat8+solr6.5.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/log4j%20debug%20info%20warn%20error/">log4j debug info warn error</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/">java的装箱、拆箱</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/13/JCF/">JCF</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/10/%E6%B5%85%E8%B0%88junit%EF%BC%88%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%89/">浅谈junit（单元测试）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/06/post%20&%20get/">post & get</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/05/maven%20tomcat%20plugin%20%E4%BD%BF%E7%94%A8/">maven tomcat plugin 使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/hibernate%20jpa/">hibernate jpa</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/OWASP%20Top%2010/">OWASP Top 10</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/POSTGRESQL/">POSTGRESQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/">Web如何提高响应速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/hexo&%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/">hexo&马克飞象图片不能正常显示问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/%E6%9C%AC%E5%9C%B0%E6%9C%89%E5%A4%9A%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8hexo%E9%83%A8%E7%BD%B2%E5%88%B0%E7%89%B9%E5%AE%9A%E8%B4%A6%E5%8F%B7/">本地有多个github账号如何使用hexo部署到特定账号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/%E6%B0%B4%E7%85%AE%E7%89%9B%E8%82%89/">水煮牛肉</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2023 Knight
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
