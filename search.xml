@@ -85,28 +85,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java多线程(0)</title>
-    <url>/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/</url>
-    <content><![CDATA[<p>预习一下 Java 多线程的姿势。</p>
-<a id="more"></a>
-
-
-<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p>当没有非守护线程时，JVM进程结束，守护线程停止，相当于给非守护线程陪跑的。</p>
-<p><img src="./1615782266096.png" alt="Alt text"></p>
-<h3 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt"></a>interrupt</h3><p>中断线程，取代 Thread.stop()，线程执行 interrupt 之后，线程的 interrupt 状态会发生改变，如果需要线程停止，需要在线程的 run 方法里面使用 interrupted 状态停止；继承了 Thread 的 class 才能使用 interrupt。</p>
-<p><img src="./1615783549470.png" alt="Alt text"></p>
-<h3 id="Callable、Future、FutureTask"><a href="#Callable、Future、FutureTask" class="headerlink" title="Callable、Future、FutureTask"></a>Callable、Future、FutureTask</h3><p>继承 Thread、实现 Runnable 接口都可以创建线程，但是 Thread 、Runnable 里面的 run 方法都是 void 类型的，没有返回值，继承 FutureTask 实现 Callable、Future 可以使用有返回值的线程。</p>
-<p><img src="./1615785149955.png" alt="Alt text"></p>
-<p><a href="https://github.com/Knight-JNXU/ThreadStudy">参考代码</a></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 修改 静态IP后 出现 name or service not known</title>
     <url>/2024/06/01/Linux%20%E4%BF%AE%E6%94%B9%20%E9%9D%99%E6%80%81IP%E5%90%8E%20%E5%87%BA%E7%8E%B0%20name%20or%20service%20not%20known/</url>
     <content><![CDATA[<p>使用 VMware Workstation 安装 CentOS 7 之后，修改了 /etc/sysconfig/network-scripts/ifcfg-ens33，修改了 虚拟网络编辑器，重启了网络服务，发现不能 ping 通 baidu，一番操作之后，发现是 /etc/resolv.conf 没有修改。</p>
@@ -127,6 +105,28 @@
       </categories>
       <tags>
         <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java多线程(0)</title>
+    <url>/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/</url>
+    <content><![CDATA[<p>预习一下 Java 多线程的姿势。</p>
+<a id="more"></a>
+
+
+<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p>当没有非守护线程时，JVM进程结束，守护线程停止，相当于给非守护线程陪跑的。</p>
+<p><img src="./1615782266096.png" alt="Alt text"></p>
+<h3 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt"></a>interrupt</h3><p>中断线程，取代 Thread.stop()，线程执行 interrupt 之后，线程的 interrupt 状态会发生改变，如果需要线程停止，需要在线程的 run 方法里面使用 interrupted 状态停止；继承了 Thread 的 class 才能使用 interrupt。</p>
+<p><img src="./1615783549470.png" alt="Alt text"></p>
+<h3 id="Callable、Future、FutureTask"><a href="#Callable、Future、FutureTask" class="headerlink" title="Callable、Future、FutureTask"></a>Callable、Future、FutureTask</h3><p>继承 Thread、实现 Runnable 接口都可以创建线程，但是 Thread 、Runnable 里面的 run 方法都是 void 类型的，没有返回值，继承 FutureTask 实现 Callable、Future 可以使用有返回值的线程。</p>
+<p><img src="./1615785149955.png" alt="Alt text"></p>
+<p><a href="https://github.com/Knight-JNXU/ThreadStudy">参考代码</a></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
       </tags>
   </entry>
   <entry>
@@ -605,6 +605,29 @@ demo：</p>
       </tags>
   </entry>
   <entry>
+    <title>h5 在微信内置浏览器Safari踩的一些小坑(click、audio)</title>
+    <url>/2021/02/07/h5%20%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%86%85%E7%BD%AE%E6%B5%8F%E8%A7%88%E5%99%A8Safari%E8%B8%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%9D%91(click%E3%80%81audio)/</url>
+    <content><![CDATA[<p>使用github page做了一个小静态网页，发现 click 时间、audio 在不同浏览器中的使用有细微差异。</p>
+<a id="more"></a>
+
+<h3 id="click"><a href="#click" class="headerlink" title="click"></a>click</h3><p>onclick 事件在微信内置浏览器中是无法正常被监听的，如果引用了 jquery 的话，可以参考如下写法</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>).on(<span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="audio"><a href="#audio" class="headerlink" title="audio"></a>audio</h3><p>现今主流浏览器是无法支持 audio autostart 功能的，楼主只发现在 Edge 浏览器中还支持 autostart 自动播放功能，大多数浏览器（chrome、Safari）是需要用户一个交互事件才能实现 audio 音频的播放；
+微信内置浏览器、Safari还无法实现 audio 的 preload 预加载功能， 需要把 audio 的 load 绑定到一个用户交互事件上，采用手动加载，如</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>).on(<span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;$(<span class="string">&quot;#audio&quot;</span>)[<span class="number">0</span>].load()&#125;);</span><br></pre></td></tr></table></figure>
+<p>先更这么多，以后有新发现再补充。</p>
+<p>参考资料：
+<a href="https://xiaohuazheng.github.io/2017/04/18/audio-player/">HTML audio基础API完全使用指南</a>
+<a href="https://www.zhangxinxu.com/wordpress/2019/07/html-audio-api-guide/">Audio采坑</a></p>
+]]></content>
+      <categories>
+        <category>h5</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>eve-ng 使用 Windows 配置 锐捷防火墙</title>
     <url>/2024/06/01/eve-ng%20%E4%BD%BF%E7%94%A8%20Windows%20%E9%85%8D%E7%BD%AE%20%E9%94%90%E6%8D%B7%E9%98%B2%E7%81%AB%E5%A2%99/</url>
     <content><![CDATA[<p>使用 VMware Workstation 安装 eve-ng 环境，再把 锐捷防火墙和 win7 的 qcow2 镜像放入 /opt/unetlab/addons/qemu 下，在到浏览器中访问 eve 创建 lab 搭建网络结构。</p>
@@ -664,29 +687,6 @@ demo：</p>
       <tags>
         <tag>其他</tag>
         <tag>github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>h5 在微信内置浏览器Safari踩的一些小坑(click、audio)</title>
-    <url>/2021/02/07/h5%20%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%86%85%E7%BD%AE%E6%B5%8F%E8%A7%88%E5%99%A8Safari%E8%B8%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%9D%91(click%E3%80%81audio)/</url>
-    <content><![CDATA[<p>使用github page做了一个小静态网页，发现 click 时间、audio 在不同浏览器中的使用有细微差异。</p>
-<a id="more"></a>
-
-<h3 id="click"><a href="#click" class="headerlink" title="click"></a>click</h3><p>onclick 事件在微信内置浏览器中是无法正常被监听的，如果引用了 jquery 的话，可以参考如下写法</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>).on(<span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="audio"><a href="#audio" class="headerlink" title="audio"></a>audio</h3><p>现今主流浏览器是无法支持 audio autostart 功能的，楼主只发现在 Edge 浏览器中还支持 autostart 自动播放功能，大多数浏览器（chrome、Safari）是需要用户一个交互事件才能实现 audio 音频的播放；
-微信内置浏览器、Safari还无法实现 audio 的 preload 预加载功能， 需要把 audio 的 load 绑定到一个用户交互事件上，采用手动加载，如</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>).on(<span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;$(<span class="string">&quot;#audio&quot;</span>)[<span class="number">0</span>].load()&#125;);</span><br></pre></td></tr></table></figure>
-<p>先更这么多，以后有新发现再补充。</p>
-<p>参考资料：
-<a href="https://xiaohuazheng.github.io/2017/04/18/audio-player/">HTML audio基础API完全使用指南</a>
-<a href="https://www.zhangxinxu.com/wordpress/2019/07/html-audio-api-guide/">Audio采坑</a></p>
-]]></content>
-      <categories>
-        <category>h5</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
       </tags>
   </entry>
   <entry>
@@ -750,32 +750,6 @@ demo：</p>
       </tags>
   </entry>
   <entry>
-    <title>hexo yelee local search 不能使用</title>
-    <url>/2017/07/22/hexo%20yelee%20local%20search%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>前几天楼主发现自家的博客的搜索功能不能用，在看了看文档和别人的 hexo 博客后，解决了这个问题，仅此记录。</p>
-<a id="more"></a>
-
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>在安装了 npm 的情况下运行</p>
-<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-<p>安装 hexo-generator-search</p>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>配置<strong>博客根目录</strong>下的 _config.yml</p>
-<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="function">url: <span class="title">http</span>://<span class="title">yoursite.com</span></span></span><br></pre></td></tr></table></figure>
-<p>楼主的是这个：</p>
-<p><img src="./1500698623090.png" alt="Alt text"></p>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>配置 <strong>yelee 主题</strong>下的  _config.yml</p>
-<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="function">search: </span></span><br><span class="line"><span class="function">  <span class="title">on</span>: <span class="title">true</span></span></span><br><span class="line"><span class="function">  <span class="title">onload</span>: <span class="title">true</span></span></span><br></pre></td></tr></table></figure>
-<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s -p <span class="number">5000</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>大功告成！</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo&amp;马克飞象图片不能正常显示问题</title>
     <url>/2017/04/03/hexo&amp;%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>楼主发现马克飞象写的文章虽然可以markdown导出，但是如果文章中有插图的话，却是生成一个.zip的压缩文件，如果直接把这个压缩文件解压缩放到 source_posts 目录下，使用 hexo s 可以发布，但是图片不能正常显示。</p>
@@ -806,6 +780,32 @@ demo：</p>
 <img src="./1491200934249.png" alt="Alt text">
 大功告成</li>
 </ul>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo yelee local search 不能使用</title>
+    <url>/2017/07/22/hexo%20yelee%20local%20search%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>前几天楼主发现自家的博客的搜索功能不能用，在看了看文档和别人的 hexo 博客后，解决了这个问题，仅此记录。</p>
+<a id="more"></a>
+
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>在安装了 npm 的情况下运行</p>
+<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+<p>安装 hexo-generator-search</p>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>配置<strong>博客根目录</strong>下的 _config.yml</p>
+<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="function">url: <span class="title">http</span>://<span class="title">yoursite.com</span></span></span><br></pre></td></tr></table></figure>
+<p>楼主的是这个：</p>
+<p><img src="./1500698623090.png" alt="Alt text"></p>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>配置 <strong>yelee 主题</strong>下的  _config.yml</p>
+<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="function">search: </span></span><br><span class="line"><span class="function">  <span class="title">on</span>: <span class="title">true</span></span></span><br><span class="line"><span class="function">  <span class="title">onload</span>: <span class="title">true</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s -p <span class="number">5000</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>大功告成！</p>
 ]]></content>
       <categories>
         <category>开发</category>
@@ -1100,6 +1100,67 @@ p!=q;
       </tags>
   </entry>
   <entry>
+    <title>tomcat8+solr6.5.1</title>
+    <url>/2017/05/22/tomcat8+solr6.5.1/</url>
+    <content><![CDATA[<h4 id="Step-1：下载solr6-5-1、tomcat8解压缩"><a href="#Step-1：下载solr6-5-1、tomcat8解压缩" class="headerlink" title="Step 1：下载solr6.5.1、tomcat8解压缩"></a>Step 1：下载solr6.5.1、tomcat8解压缩</h4><h4 id="Step-2：在tomcat8-webapps-下创建-solr-web应用"><a href="#Step-2：在tomcat8-webapps-下创建-solr-web应用" class="headerlink" title="Step 2：在tomcat8\webapps 下创建 solr web应用"></a>Step 2：在tomcat8\webapps 下创建 solr web应用</h4><ul>
+<li>在 tomcat8\webapps 中创建 solr 文件夹</li>
+</ul>
+<a id="more"></a>
+
+<p><img src="./1495463582551.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\solr-webapp\webapp 中的所有文件复制到 tomcat8\webapps\solr 中</li>
+</ul>
+<p><img src="./1495463475692.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\lib 中除了含有 jetty 的 jar  包复制到 tomcat8\webapps\solr\libs 中</li>
+</ul>
+<p><img src="./1495463719069.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\lib\ext 中的所有 jar 包复制到 tomcat8\webapps\solr\lib</li>
+</ul>
+<p><img src="./1495463821276.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\solr 中的文件复制到任意路径 (solrhomeurl) 的 solrhome 文件夹中（我这里是 E:\software\develop\Java\solrhome）</li>
+</ul>
+<p><img src="./1495463901831.png" alt="Alt text"></p>
+<p><img src="./1495463972209.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\resources 中的 log4j.properties 复制到 tomcat8\webapps\solr\WEB-INF\classes</li>
+</ul>
+<p><strong>注意：classes文件夹需要新建</strong></p>
+<p><img src="./1495464103397.png" alt="Alt text"></p>
+<p><img src="./1495464129438.png" alt="Alt text"></p>
+<h4 id="Step-3：修改配置"><a href="#Step-3：修改配置" class="headerlink" title="Step 3：修改配置"></a>Step 3：修改配置</h4><ul>
+<li>修改 tomcat8\webapps\solr\WEB-INF\web.xml，加上<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;env-entry&gt;</span><br><span class="line">  &lt;env-entry-name&gt;solr/home&lt;/env-entry-name&gt;</span><br><span class="line">  &lt;env-entry-value&gt;E:/software/develop/Java/solrhome&lt;/env-entry-value&gt;</span><br><span class="line">  &lt;env-entry-type&gt;java.lang.String&lt;/env-entry-type&gt;</span><br><span class="line">&lt;/env-entry&gt;</span><br></pre></td></tr></table></figure>
+<img src="./1495464285473.png" alt="Alt text"></li>
+</ul>
+<p><img src="./1495464407098.png" alt="Alt text"></p>
+<ul>
+<li>修改 solr 的 log 路径，即修改 tomcat8\bin\catalina.bat 文件</li>
+</ul>
+<p><img src="./1495464487519.png" alt="Alt text"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">set JAVA_OPTS=<span class="string">&quot;-Dsolr.log.dir=E:/software/develop/tomcats/apache-tomcat-8.5.11-solr/webapps/solr/logs&quot;</span></span><br></pre></td></tr></table></figure>
+<p><img src="./1495464561276.png" alt="Alt text"></p>
+<ul>
+<li>注释掉拦截代码，修改 tomcat8\webapps\solr\WEB-INF\web.xml，注释到 security-constraint 那两段</li>
+</ul>
+<p><img src="./1495464742688.png" alt="Alt text"></p>
+<h4 id="Step-3：启动-tomcat"><a href="#Step-3：启动-tomcat" class="headerlink" title="Step 3：启动 tomcat"></a>Step 3：启动 tomcat</h4><ul>
+<li>访问 <a href="http://localhost:8081/solr/index.html#/">http://localhost:8081/solr/index.html#/</a> </li>
+</ul>
+<p><strong>注意：端口号看tomcat配置</strong></p>
+<p><img src="./1495464866532.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>solr</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>solr+db</title>
     <url>/2017/05/28/solr+db/</url>
     <content><![CDATA[<p>solr 可以从数据库中取出数据建立 index，这样就可以通过 solr 查询数据库中的数据了。
@@ -1162,67 +1223,6 @@ p!=q;
       </categories>
       <tags>
         <tag>数据库</tag>
-        <tag>solr</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>tomcat8+solr6.5.1</title>
-    <url>/2017/05/22/tomcat8+solr6.5.1/</url>
-    <content><![CDATA[<h4 id="Step-1：下载solr6-5-1、tomcat8解压缩"><a href="#Step-1：下载solr6-5-1、tomcat8解压缩" class="headerlink" title="Step 1：下载solr6.5.1、tomcat8解压缩"></a>Step 1：下载solr6.5.1、tomcat8解压缩</h4><h4 id="Step-2：在tomcat8-webapps-下创建-solr-web应用"><a href="#Step-2：在tomcat8-webapps-下创建-solr-web应用" class="headerlink" title="Step 2：在tomcat8\webapps 下创建 solr web应用"></a>Step 2：在tomcat8\webapps 下创建 solr web应用</h4><ul>
-<li>在 tomcat8\webapps 中创建 solr 文件夹</li>
-</ul>
-<a id="more"></a>
-
-<p><img src="./1495463582551.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\solr-webapp\webapp 中的所有文件复制到 tomcat8\webapps\solr 中</li>
-</ul>
-<p><img src="./1495463475692.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\lib 中除了含有 jetty 的 jar  包复制到 tomcat8\webapps\solr\libs 中</li>
-</ul>
-<p><img src="./1495463719069.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\lib\ext 中的所有 jar 包复制到 tomcat8\webapps\solr\lib</li>
-</ul>
-<p><img src="./1495463821276.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\solr 中的文件复制到任意路径 (solrhomeurl) 的 solrhome 文件夹中（我这里是 E:\software\develop\Java\solrhome）</li>
-</ul>
-<p><img src="./1495463901831.png" alt="Alt text"></p>
-<p><img src="./1495463972209.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\resources 中的 log4j.properties 复制到 tomcat8\webapps\solr\WEB-INF\classes</li>
-</ul>
-<p><strong>注意：classes文件夹需要新建</strong></p>
-<p><img src="./1495464103397.png" alt="Alt text"></p>
-<p><img src="./1495464129438.png" alt="Alt text"></p>
-<h4 id="Step-3：修改配置"><a href="#Step-3：修改配置" class="headerlink" title="Step 3：修改配置"></a>Step 3：修改配置</h4><ul>
-<li>修改 tomcat8\webapps\solr\WEB-INF\web.xml，加上<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;env-entry&gt;</span><br><span class="line">  &lt;env-entry-name&gt;solr/home&lt;/env-entry-name&gt;</span><br><span class="line">  &lt;env-entry-value&gt;E:/software/develop/Java/solrhome&lt;/env-entry-value&gt;</span><br><span class="line">  &lt;env-entry-type&gt;java.lang.String&lt;/env-entry-type&gt;</span><br><span class="line">&lt;/env-entry&gt;</span><br></pre></td></tr></table></figure>
-<img src="./1495464285473.png" alt="Alt text"></li>
-</ul>
-<p><img src="./1495464407098.png" alt="Alt text"></p>
-<ul>
-<li>修改 solr 的 log 路径，即修改 tomcat8\bin\catalina.bat 文件</li>
-</ul>
-<p><img src="./1495464487519.png" alt="Alt text"></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">set JAVA_OPTS=<span class="string">&quot;-Dsolr.log.dir=E:/software/develop/tomcats/apache-tomcat-8.5.11-solr/webapps/solr/logs&quot;</span></span><br></pre></td></tr></table></figure>
-<p><img src="./1495464561276.png" alt="Alt text"></p>
-<ul>
-<li>注释掉拦截代码，修改 tomcat8\webapps\solr\WEB-INF\web.xml，注释到 security-constraint 那两段</li>
-</ul>
-<p><img src="./1495464742688.png" alt="Alt text"></p>
-<h4 id="Step-3：启动-tomcat"><a href="#Step-3：启动-tomcat" class="headerlink" title="Step 3：启动 tomcat"></a>Step 3：启动 tomcat</h4><ul>
-<li>访问 <a href="http://localhost:8081/solr/index.html#/">http://localhost:8081/solr/index.html#/</a> </li>
-</ul>
-<p><strong>注意：端口号看tomcat配置</strong></p>
-<p><img src="./1495464866532.png" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
         <tag>solr</tag>
       </tags>
   </entry>
@@ -1537,40 +1537,9 @@ p!=q;
       </tags>
   </entry>
   <entry>
-    <title>土豆炖牛肉</title>
-    <url>/2017/09/30/%E5%9C%9F%E8%B1%86%E7%82%96%E7%89%9B%E8%82%89/</url>
-    <content><![CDATA[<p>好久没写博客了，得好好补补。</p>
-<a id="more"></a>
-
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>配料：牛肉、土豆、胡萝卜、八角、大葱、姜、生抽、老抽、花生油、盐、醋</p>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>牛肉洗净，切成小块；适量姜切片；适量八角洗净。</p>
-<p><img src="./1506768137981.png" alt="Alt text"></p>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>在锅中加入冷水，把上述准备好的 牛肉、姜、八角、少量盐  放入锅中大火煮沸，水沸腾后 2~3 分钟捞起（去掉白沫）。</p>
-<p><img src="./IMG_20170916_110745.jpg" alt="Alt text"></p>
-<p><img src="./IMG_20170916_111007.jpg" alt="Alt text"></p>
-<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>土豆、胡萝卜 洗净、削皮，切成小块；大葱洗净切成小段；切一小段姜，切碎。</p>
-<p><img src="./IMG_20170916_110806.jpg" alt="Alt text"></p>
-<p><img src="./IMG_20170916_111331.jpg" alt="Alt text"></p>
-<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>热油，依次加入 胡萝卜、土豆、大葱 翻炒至2层熟。</p>
-<p><img src="./IMG_20170916_112232.jpg" alt="Alt text"></p>
-<h4 id="Step-6："><a href="#Step-6：" class="headerlink" title="Step 6："></a>Step 6：</h4><p>锅中放入油，烧热，放入捞起的牛肉；翻炒片刻，加入生抽、老抽、姜末、盐炒一小会。</p>
-<p><img src="./IMG_20170916_112657.jpg" alt="Alt text"></p>
-<h4 id="Step-7："><a href="#Step-7：" class="headerlink" title="Step 7："></a>Step 7：</h4><p>炒到牛肉变色之后，导入适量的水（能完全淹没牛肉即可），盖上锅盖使用小火煮10分钟左右，时间可以根据牛肉的量自行调整。</p>
-<p><img src="./IMG_20170916_121636.jpg" alt="Alt text"></p>
-<h4 id="Step-8："><a href="#Step-8：" class="headerlink" title="Step 8："></a>Step 8：</h4><p>往锅中加入炒过的 胡萝卜、土豆、大葱，加入一定量的水淹没；滴入<strong>一滴醋</strong>（楼主不太喜欢吃酸的，所以放的少，可以根据口味自行调整；据说煮牛肉的时候加一点点醋可以让牛肉更容易煮烂，并且口感更鲜美），再盖上锅盖用小火煮20分钟左右；待土豆煮到7-8层熟，加入适量的盐，使用大火收水。</p>
-<p><img src="./IMG_20170916_122039.jpg" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>烹饪</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hadoop单机/伪分布式部署</title>
     <url>/2024/06/14/%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<p>使用 VMware Workstation 安装 eve-ng 环境，再把 锐捷防火墙和 win7 的 qcow2 镜像放入 /opt/unetlab/addons/qemu 下，在到浏览器中访问 eve 创建 lab 搭建网络结构。</p>
+    <content><![CDATA[<p>使用 VMware Workstation 安装 1台centos 7，并在上面实现 hadoop 的单机部署。</p>
 <a id="more"></a>
 
 <h4 id="配置静态-IP"><a href="#配置静态-IP" class="headerlink" title="配置静态 IP"></a>配置静态 IP</h4><p>vim /etc/sysconfig/network-scripts/ifcfg-ens33</p>
@@ -1638,6 +1607,37 @@ chmod 600 ~/.ssh/id_rsa</p>
       </categories>
       <tags>
         <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>土豆炖牛肉</title>
+    <url>/2017/09/30/%E5%9C%9F%E8%B1%86%E7%82%96%E7%89%9B%E8%82%89/</url>
+    <content><![CDATA[<p>好久没写博客了，得好好补补。</p>
+<a id="more"></a>
+
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>配料：牛肉、土豆、胡萝卜、八角、大葱、姜、生抽、老抽、花生油、盐、醋</p>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>牛肉洗净，切成小块；适量姜切片；适量八角洗净。</p>
+<p><img src="./1506768137981.png" alt="Alt text"></p>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>在锅中加入冷水，把上述准备好的 牛肉、姜、八角、少量盐  放入锅中大火煮沸，水沸腾后 2~3 分钟捞起（去掉白沫）。</p>
+<p><img src="./IMG_20170916_110745.jpg" alt="Alt text"></p>
+<p><img src="./IMG_20170916_111007.jpg" alt="Alt text"></p>
+<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>土豆、胡萝卜 洗净、削皮，切成小块；大葱洗净切成小段；切一小段姜，切碎。</p>
+<p><img src="./IMG_20170916_110806.jpg" alt="Alt text"></p>
+<p><img src="./IMG_20170916_111331.jpg" alt="Alt text"></p>
+<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>热油，依次加入 胡萝卜、土豆、大葱 翻炒至2层熟。</p>
+<p><img src="./IMG_20170916_112232.jpg" alt="Alt text"></p>
+<h4 id="Step-6："><a href="#Step-6：" class="headerlink" title="Step 6："></a>Step 6：</h4><p>锅中放入油，烧热，放入捞起的牛肉；翻炒片刻，加入生抽、老抽、姜末、盐炒一小会。</p>
+<p><img src="./IMG_20170916_112657.jpg" alt="Alt text"></p>
+<h4 id="Step-7："><a href="#Step-7：" class="headerlink" title="Step 7："></a>Step 7：</h4><p>炒到牛肉变色之后，导入适量的水（能完全淹没牛肉即可），盖上锅盖使用小火煮10分钟左右，时间可以根据牛肉的量自行调整。</p>
+<p><img src="./IMG_20170916_121636.jpg" alt="Alt text"></p>
+<h4 id="Step-8："><a href="#Step-8：" class="headerlink" title="Step 8："></a>Step 8：</h4><p>往锅中加入炒过的 胡萝卜、土豆、大葱，加入一定量的水淹没；滴入<strong>一滴醋</strong>（楼主不太喜欢吃酸的，所以放的少，可以根据口味自行调整；据说煮牛肉的时候加一点点醋可以让牛肉更容易煮烂，并且口感更鲜美），再盖上锅盖用小火煮20分钟左右；待土豆煮到7-8层熟，加入适量的盐，使用大火收水。</p>
+<p><img src="./IMG_20170916_122039.jpg" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>烹饪</tag>
       </tags>
   </entry>
   <entry>
@@ -1742,7 +1742,7 @@ repo: name1:name1/yourRepository
 <p>git url 的获取</p>
 <p><img src="./1515081366509.png" alt="Alt text"></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add demos git@github.com:<span class="string">&quot;one of your ssh config host&quot;</span>/xxx.git</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>把 <a href="mailto:&#x67;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;">&#x67;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
+<p><strong>注意：</strong>把 <a href="mailto:&#x67;&#105;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#x6d;">&#x67;&#105;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#x6d;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
 <p><img src="./1515081415724.png" alt="Alt text"></p>
 <h4 id="Step-4：常规的提交操作"><a href="#Step-4：常规的提交操作" class="headerlink" title="Step 4：常规的提交操作"></a>Step 4：常规的提交操作</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add <span class="string">&quot;folder or file, split by space&quot;</span></span><br><span class="line">git commit -m <span class="string">&quot;your commit message&quot;</span></span><br><span class="line">git branch <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git checkout <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git push --set-upstream <span class="string">&quot;your repository&quot;</span> <span class="string">&quot;your branch&quot;</span></span><br></pre></td></tr></table></figure>
 <p><img src="./1515081462725.png" alt="Alt text"></p>
