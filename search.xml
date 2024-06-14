@@ -558,6 +558,31 @@ demo：</p>
       </tags>
   </entry>
   <entry>
+    <title>can&#39;t push to git  use https</title>
+    <url>/2018/01/06/can%E2%80%99t%20push%20to%20git%20%20use%20https/</url>
+    <content><![CDATA[<p>今天楼主使用 ssh key 拉取仓库后，发现只能 commit 不能 push，特此记录。exception ：can’t push to git://github.com/xxx/xxx.git use <a href="https://github.com/xxx/xxx.git">https://github.com/xxx/xxx.git</a></p>
+<a id="more"></a>
+
+<h4 id="Step-1：get-current-remote"><a href="#Step-1：get-current-remote" class="headerlink" title="Step 1：get current remote"></a>Step 1：get current remote</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote</span><br></pre></td></tr></table></figure>
+<p><img src="./1515238644390.png" alt="Alt text"></p>
+<h4 id="Step-2：reset-remote-url"><a href="#Step-2：reset-remote-url" class="headerlink" title="Step 2：reset remote url"></a>Step 2：reset remote url</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote set-url <span class="string">&quot;your remote&quot;</span> git://github.com/<span class="string">&quot;your .ssh config host &quot;</span>/demos.git</span><br></pre></td></tr></table></figure>
+<p><img src="./1515238839549.png" alt="Alt text"></p>
+<p>这里咱们比较一下，是要对 url 做一定修改的</p>
+<p><img src="./1515238901188.png" alt="Alt text"></p>
+<p><img src="./1515238920292.png" alt="Alt text"></p>
+<p><img src="./1515239011085.png" alt="Alt text"></p>
+<h4 id="Step-3：push"><a href="#Step-3：push" class="headerlink" title="Step 3：push"></a>Step 3：push</h4><p>由于楼主前面已经 commit 过了，所以这里直接 push</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push</span><br></pre></td></tr></table></figure>
+<p><img src="./1515239102273.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>eclipse pull repository by ssh key</title>
     <url>/2018/01/06/eclipse%20pull%20repository%20by%20ssh%20key/</url>
     <content><![CDATA[<p>eclipse 使用 ssh 方式拉取 github 仓库。</p>
@@ -619,31 +644,6 @@ demo：</p>
       </categories>
       <tags>
         <tag>其他</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>can&#39;t push to git  use https</title>
-    <url>/2018/01/06/can%E2%80%99t%20push%20to%20git%20%20use%20https/</url>
-    <content><![CDATA[<p>今天楼主使用 ssh key 拉取仓库后，发现只能 commit 不能 push，特此记录。exception ：can’t push to git://github.com/xxx/xxx.git use <a href="https://github.com/xxx/xxx.git">https://github.com/xxx/xxx.git</a></p>
-<a id="more"></a>
-
-<h4 id="Step-1：get-current-remote"><a href="#Step-1：get-current-remote" class="headerlink" title="Step 1：get current remote"></a>Step 1：get current remote</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote</span><br></pre></td></tr></table></figure>
-<p><img src="./1515238644390.png" alt="Alt text"></p>
-<h4 id="Step-2：reset-remote-url"><a href="#Step-2：reset-remote-url" class="headerlink" title="Step 2：reset remote url"></a>Step 2：reset remote url</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote set-url <span class="string">&quot;your remote&quot;</span> git://github.com/<span class="string">&quot;your .ssh config host &quot;</span>/demos.git</span><br></pre></td></tr></table></figure>
-<p><img src="./1515238839549.png" alt="Alt text"></p>
-<p>这里咱们比较一下，是要对 url 做一定修改的</p>
-<p><img src="./1515238901188.png" alt="Alt text"></p>
-<p><img src="./1515238920292.png" alt="Alt text"></p>
-<p><img src="./1515239011085.png" alt="Alt text"></p>
-<h4 id="Step-3：push"><a href="#Step-3：push" class="headerlink" title="Step 3：push"></a>Step 3：push</h4><p>由于楼主前面已经 commit 过了，所以这里直接 push</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push</span><br></pre></td></tr></table></figure>
-<p><img src="./1515239102273.png" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>github</tag>
       </tags>
   </entry>
   <entry>
@@ -776,6 +776,46 @@ demo：</p>
       </tags>
   </entry>
   <entry>
+    <title>hexo&amp;马克飞象图片不能正常显示问题</title>
+    <url>/2017/04/03/hexo&amp;%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>楼主发现马克飞象写的文章虽然可以markdown导出，但是如果文章中有插图的话，却是生成一个.zip的压缩文件，如果直接把这个压缩文件解压缩放到 source_posts 目录下，使用 hexo s 可以发布，但是图片不能正常显示。</p>
+<p>楼主忙活了大半天，找到了一个 hexo 插件<a href="https://github.com/CodeFalling/hexo-asset-image"><strong>hexo-asset-image</strong></a>，这个东西的使用方法如下：</p>
+<a id="more"></a>
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><ul>
+<li>安装hexo-asset-image，只需要在命令行中输入下列命令，就可以安装好。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4></li>
+<li>修改hexo配置文件<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">url: https:<span class="comment">//github.com  </span></span><br><span class="line"></span><br><span class="line">post_asset_folder: <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对于这个 url 参数：
+这个参数会用来定位图片的路径，可以影响 md 生成 html 的图片路径
+如果你博客不是部署到github仓库的master branch下，会有所区别，这个逻辑有点复杂，楼主这里就不啰嗦了，如果不清楚可以自行改变这个值，然后看 hexo 发布网页中图片路径，或者看 hexo-asset-image 的源码
+楼主使用的是master branch，所以这样写就好了，楼主博客的github 地址是 <a href="https://github.com/KnightDevelop/knightdevelop.github.io">https://github.com/KnightDevelop/knightdevelop.github.io</a></p>
+</blockquote>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4></li>
+<li>马克飞象导出markdown
+<img src="./1491200548325.png" alt="Alt text"></li>
+<li>导出的markdown解压缩，解压缩之后大概是这样的
+<img src="./1491200654357.png" alt="Alt text"></li>
+<li>然后把这个文件夹里的 .md 文件剪切到到 source_posts；把这个文件夹扔到 source_posts 下，注意文件夹名称和刚才剪切的 .md文件 保持一致
+<img src="./1491200816484.png" alt="Alt text"><h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4></li>
+<li>hexo clean</li>
+<li>hexo g</li>
+<li>hexo s -p 5000</li>
+<li>浏览器访问 <a href="http://localhost:5000/">http://localhost:5000/</a></li>
+<li>图片显示正常
+<img src="./1491200934249.png" alt="Alt text">
+大功告成</li>
+</ul>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hibernate jpa</title>
     <url>/2017/04/04/hibernate%20jpa/</url>
     <content><![CDATA[<p>楼主认为，hibernate 的 jpa 是使用 Class 和 table 的映射关系，在数据库中创建 table 的一种功能。</p>
@@ -847,46 +887,6 @@ hibernate update 语句是否包含此字段，默认为true</li>
       <tags>
         <tag>java</tag>
         <tag>hibernate</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo&amp;马克飞象图片不能正常显示问题</title>
-    <url>/2017/04/03/hexo&amp;%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>楼主发现马克飞象写的文章虽然可以markdown导出，但是如果文章中有插图的话，却是生成一个.zip的压缩文件，如果直接把这个压缩文件解压缩放到 source_posts 目录下，使用 hexo s 可以发布，但是图片不能正常显示。</p>
-<p>楼主忙活了大半天，找到了一个 hexo 插件<a href="https://github.com/CodeFalling/hexo-asset-image"><strong>hexo-asset-image</strong></a>，这个东西的使用方法如下：</p>
-<a id="more"></a>
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><ul>
-<li>安装hexo-asset-image，只需要在命令行中输入下列命令，就可以安装好。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4></li>
-<li>修改hexo配置文件<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">url: https:<span class="comment">//github.com  </span></span><br><span class="line"></span><br><span class="line">post_asset_folder: <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>对于这个 url 参数：
-这个参数会用来定位图片的路径，可以影响 md 生成 html 的图片路径
-如果你博客不是部署到github仓库的master branch下，会有所区别，这个逻辑有点复杂，楼主这里就不啰嗦了，如果不清楚可以自行改变这个值，然后看 hexo 发布网页中图片路径，或者看 hexo-asset-image 的源码
-楼主使用的是master branch，所以这样写就好了，楼主博客的github 地址是 <a href="https://github.com/KnightDevelop/knightdevelop.github.io">https://github.com/KnightDevelop/knightdevelop.github.io</a></p>
-</blockquote>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4></li>
-<li>马克飞象导出markdown
-<img src="./1491200548325.png" alt="Alt text"></li>
-<li>导出的markdown解压缩，解压缩之后大概是这样的
-<img src="./1491200654357.png" alt="Alt text"></li>
-<li>然后把这个文件夹里的 .md 文件剪切到到 source_posts；把这个文件夹扔到 source_posts 下，注意文件夹名称和刚才剪切的 .md文件 保持一致
-<img src="./1491200816484.png" alt="Alt text"><h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4></li>
-<li>hexo clean</li>
-<li>hexo g</li>
-<li>hexo s -p 5000</li>
-<li>浏览器访问 <a href="http://localhost:5000/">http://localhost:5000/</a></li>
-<li>图片显示正常
-<img src="./1491200934249.png" alt="Alt text">
-大功告成</li>
-</ul>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1000,35 +1000,6 @@ p!=q;
       </tags>
   </entry>
   <entry>
-    <title>maven tomcat plugin 使用</title>
-    <url>/2017/04/05/maven%20tomcat%20plugin%20%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>使用 maven 的 tomcat plugin 插件运行 webapp 不需要配置 tomcat server，直接使用 maven build 就可以运行。</p>
-<a id="more"></a>
-<h4 id="Step-1-创建一个基于-maven-的webapp"><a href="#Step-1-创建一个基于-maven-的webapp" class="headerlink" title="Step 1: 创建一个基于 maven 的webapp"></a>Step 1: 创建一个基于 maven 的webapp</h4><p>file -&gt; new -&gt; maven project -&gt; input group id &amp; artifact id </p>
-<p><img src="./1491400558891.png" alt="Alt text">
-<img src="./1491400593758.png" alt="Alt text"></p>
-<h4 id="Step-2-add-tomcat-plugins-in-pom-xml"><a href="#Step-2-add-tomcat-plugins-in-pom-xml" class="headerlink" title="Step 2 : add tomcat plugins in pom.xml"></a>Step 2 : add tomcat plugins in pom.xml</h4><figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">  &lt;finalName&gt;the name your want&lt;/finalName&gt;</span><br><span class="line">  &lt;plugins&gt;</span><br><span class="line">	&lt;plugin&gt;</span><br><span class="line">    	&lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;</span><br><span class="line">    	&lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">    	&lt;version&gt;2.2&lt;/version&gt;</span><br><span class="line">    	&lt;configuration&gt;</span><br><span class="line">	   	&lt;path&gt;/&lt;/path&gt;</span><br><span class="line">	  	&lt;/configuration&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">&lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure>
-<p>选中 project -&gt; 右键 -&gt; maven -&gt; update project…</p>
-<h4 id="Step-3-maven-clean-amp-maven-install"><a href="#Step-3-maven-clean-amp-maven-install" class="headerlink" title="Step 3 : maven clean &amp; maven install"></a>Step 3 : maven clean &amp; maven install</h4><p>选中 project -&gt; 右键 -&gt; maven clean -&gt; maven install</p>
-<p><img src="./1491400733115.png" alt="Alt text"></p>
-<h4 id="Step-4-maven-build"><a href="#Step-4-maven-build" class="headerlink" title="Step 4 : maven build"></a>Step 4 : maven build</h4><p>点击 debug 标志上的三角形 -&gt; debug configurations… -&gt; 点击 workspace -&gt; select your workspace -&gt; input tomcat7:run in goals -&gt; apply -&gt; debug</p>
-<p><img src="./1491400843256.png" alt="Alt text">
-<img src="./1491400935546.png" alt="Alt text"></p>
-<h4 id="Step-5-visit-your-webapp"><a href="#Step-5-visit-your-webapp" class="headerlink" title="Step 5 : visit your webapp"></a>Step 5 : visit your webapp</h4><p><img src="./1491401082499.png" alt="Alt text"></p>
-<p>如果没有抛任何异常，表明 webapp 成功在 maven tomcat plugin 上启动了
-，访问相应的 url 就行了</p>
-<p><img src="./1491401173279.png" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>eclipse</tag>
-        <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>maven build debug 无法进入 .class 文件</title>
     <url>/2017/06/07/maven%20build%20debug%20%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%20.class%20%E6%96%87%E4%BB%B6/</url>
     <content><![CDATA[<p>今天楼主在做开发的时候，发现使用 maven build 运行的 project 无法再 debug 模式下进入断点，在同事的帮助下弄好了，特此记录！</p>
@@ -1060,6 +1031,35 @@ p!=q;
       <tags>
         <tag>java</tag>
         <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>maven tomcat plugin 使用</title>
+    <url>/2017/04/05/maven%20tomcat%20plugin%20%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>使用 maven 的 tomcat plugin 插件运行 webapp 不需要配置 tomcat server，直接使用 maven build 就可以运行。</p>
+<a id="more"></a>
+<h4 id="Step-1-创建一个基于-maven-的webapp"><a href="#Step-1-创建一个基于-maven-的webapp" class="headerlink" title="Step 1: 创建一个基于 maven 的webapp"></a>Step 1: 创建一个基于 maven 的webapp</h4><p>file -&gt; new -&gt; maven project -&gt; input group id &amp; artifact id </p>
+<p><img src="./1491400558891.png" alt="Alt text">
+<img src="./1491400593758.png" alt="Alt text"></p>
+<h4 id="Step-2-add-tomcat-plugins-in-pom-xml"><a href="#Step-2-add-tomcat-plugins-in-pom-xml" class="headerlink" title="Step 2 : add tomcat plugins in pom.xml"></a>Step 2 : add tomcat plugins in pom.xml</h4><figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">  &lt;finalName&gt;the name your want&lt;/finalName&gt;</span><br><span class="line">  &lt;plugins&gt;</span><br><span class="line">	&lt;plugin&gt;</span><br><span class="line">    	&lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;</span><br><span class="line">    	&lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">    	&lt;version&gt;2.2&lt;/version&gt;</span><br><span class="line">    	&lt;configuration&gt;</span><br><span class="line">	   	&lt;path&gt;/&lt;/path&gt;</span><br><span class="line">	  	&lt;/configuration&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">&lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure>
+<p>选中 project -&gt; 右键 -&gt; maven -&gt; update project…</p>
+<h4 id="Step-3-maven-clean-amp-maven-install"><a href="#Step-3-maven-clean-amp-maven-install" class="headerlink" title="Step 3 : maven clean &amp; maven install"></a>Step 3 : maven clean &amp; maven install</h4><p>选中 project -&gt; 右键 -&gt; maven clean -&gt; maven install</p>
+<p><img src="./1491400733115.png" alt="Alt text"></p>
+<h4 id="Step-4-maven-build"><a href="#Step-4-maven-build" class="headerlink" title="Step 4 : maven build"></a>Step 4 : maven build</h4><p>点击 debug 标志上的三角形 -&gt; debug configurations… -&gt; 点击 workspace -&gt; select your workspace -&gt; input tomcat7:run in goals -&gt; apply -&gt; debug</p>
+<p><img src="./1491400843256.png" alt="Alt text">
+<img src="./1491400935546.png" alt="Alt text"></p>
+<h4 id="Step-5-visit-your-webapp"><a href="#Step-5-visit-your-webapp" class="headerlink" title="Step 5 : visit your webapp"></a>Step 5 : visit your webapp</h4><p><img src="./1491401082499.png" alt="Alt text"></p>
+<p>如果没有抛任何异常，表明 webapp 成功在 maven tomcat plugin 上启动了
+，访问相应的 url 就行了</p>
+<p><img src="./1491401173279.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>eclipse</tag>
+        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -1568,6 +1568,79 @@ p!=q;
       </tags>
   </entry>
   <entry>
+    <title>Hadoop单机/伪分布式部署</title>
+    <url>/2024/06/14/%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<p>使用 VMware Workstation 安装 eve-ng 环境，再把 锐捷防火墙和 win7 的 qcow2 镜像放入 /opt/unetlab/addons/qemu 下，在到浏览器中访问 eve 创建 lab 搭建网络结构。</p>
+<a id="more"></a>
+
+<h4 id="配置静态-IP"><a href="#配置静态-IP" class="headerlink" title="配置静态 IP"></a>配置静态 IP</h4><p>vim /etc/sysconfig/network-scripts/ifcfg-ens33</p>
+<p><img src="./1718381886504.png" alt="Alt text"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">TYPE&#x3D;&quot;Ethernet&quot;</span><br><span class="line">PROXY_METHOD&#x3D;&quot;none&quot;</span><br><span class="line">BROWSER_ONLY&#x3D;&quot;no&quot;</span><br><span class="line">BOOTPROTO&#x3D;&quot;static&quot;</span><br><span class="line">DEFROUTE&#x3D;&quot;yes&quot;</span><br><span class="line">IPV4_FAILURE_FATAL&#x3D;&quot;no&quot;</span><br><span class="line">IPV6INIT&#x3D;&quot;yes&quot;</span><br><span class="line">IPV6_AUTOCONF&#x3D;&quot;yes&quot;</span><br><span class="line">IPV6_DEFROUTE&#x3D;&quot;yes&quot;</span><br><span class="line">IPV6_FAILURE_FATAL&#x3D;&quot;no&quot;</span><br><span class="line">IPV6_ADDR_GEN_MODE&#x3D;&quot;stable-privacy&quot;</span><br><span class="line">NAME&#x3D;&quot;ens33&quot;</span><br><span class="line">UUID&#x3D;&quot;cafa4500-048b-41a3-a880-0ea13ff55b07&quot;</span><br><span class="line">DEVICE&#x3D;&quot;ens33&quot;</span><br><span class="line">ONBOOT&#x3D;&quot;yes&quot;</span><br><span class="line">IPADDR&#x3D;192.168.64.111</span><br><span class="line">NETMASK&#x3D;255.255.255.0</span><br><span class="line">GATEWAY&#x3D;192.168.64.2</span><br><span class="line">DNS1&#x3D;192.168.64.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>sudo vim /etc/hostname</p>
+<p><img src="./1718382005616.png" alt="Alt text"></p>
+<p>sudo vim /etc/hosts</p>
+<p><img src="./1718389310952.png" alt="Alt text"></p>
+<h4 id="创建-hadoop-用户"><a href="#创建-hadoop-用户" class="headerlink" title="创建 hadoop 用户"></a>创建 hadoop 用户</h4><p>创建并设置密码</p>
+<p><img src="./1718388205334.png" alt="Alt text"></p>
+<p>vim /etc/sudoers</p>
+<p><img src="./1718388380722.png" alt="Alt text"></p>
+<h4 id="上传安装包"><a href="#上传安装包" class="headerlink" title="上传安装包"></a>上传安装包</h4><p>在 centos 根目录下创建 devops 目录
+mkdir /devops</p>
+<p>上传 Hadoop jar 包和 jdk jar 包</p>
+<p><img src="./1718382458292.png" alt="Alt text"></p>
+<h4 id="配置-java-环境"><a href="#配置-java-环境" class="headerlink" title="配置 java 环境"></a>配置 java 环境</h4><p>解压 jdk 包</p>
+<p>tar zxvf jdk-8u212-linux-x64.tar.g</p>
+<p><img src="./1718382589201.png" alt="Alt text"></p>
+<p>创建 my_env.sh 环境变量脚本</p>
+<p>vim /etc/profile.d/my_env.sh</p>
+<p>内容如下</p>
+<p><img src="./1718386153106.png" alt="Alt text"></p>
+<p>使新配置的环境变量生效 </p>
+<p>source /etc/profile</p>
+<p><img src="./1718386197783.png" alt="Alt text"></p>
+<h4 id="配置-Hadoop-环境"><a href="#配置-Hadoop-环境" class="headerlink" title="配置 Hadoop 环境"></a>配置 Hadoop 环境</h4><p>解压 Hadoop 包</p>
+<p>tar -zxvf hadoop-3.1.3.tar.gz</p>
+<p>编辑环境变量</p>
+<p>vim /etc/profile.d/my_env.sh</p>
+<p><img src="./1718386618212.png" alt="Alt text"></p>
+<p>使新配置的环境变量生效</p>
+<p>source /etc/profile</p>
+<p><img src="./1718386678514.png" alt="Alt text"></p>
+<h4 id="配置-Hadoop-配置文件"><a href="#配置-Hadoop-配置文件" class="headerlink" title="配置 Hadoop 配置文件"></a>配置 Hadoop 配置文件</h4><p>vim /devops/hadoop-3.1.3/etc/hadoop/core-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- 指定NameNode的地址 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hdfs:&#x2F;&#x2F;hadoop111:9820&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定hadoop数据的存储目录 --&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.tmp.dir&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;&#x2F;devops&#x2F;hadoop-3.1.3&#x2F;data&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置HDFS网页登录使用的静态用户为hadoop --&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.http.staticuser.user&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;hadoop&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置该hadoop用户(superUser)允许通过代理访问的主机节点 --&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.proxyuser.atguigu.hosts&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置该hadoop用户(superUser)允许通过代理用户所属组 --&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.proxyuser.atguigu.groups&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置该hadoop用户(superUser)允许通过代理的用户--&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.proxyuser.atguigu.groups&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>vim /devops/hadoop-3.1.3/etc/hadoop/hdfs-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- nn web端访问地址--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.http-address&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hadoop111:9870&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 2nn web端访问地址--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.secondary.http-address&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hadoop111:9868&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- NameNode存储其元数据的本地文件系统路径--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">	&lt;name&gt;dfs.namenode.name.dir&lt;&#x2F;name&gt;</span><br><span class="line">	&lt;value&gt;file:&#x2F;&#x2F;$&#123;hadoop.tmp.dir&#125;&#x2F;dfs&#x2F;name&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- datanode数据存储目录--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">	&lt;name&gt;dfs.datanode.data.dir&lt;&#x2F;name&gt;</span><br><span class="line">	&lt;value&gt;file:&#x2F;&#x2F;$&#123;hadoop.tmp.dir&#125;&#x2F;dfs&#x2F;data&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- HDFS中文件的数据块副本数量--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;1&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>vim /devops/hadoop-3.1.3/etc/hadoop/yarn-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- 指定MR走shuffle --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定ResourceManager的地址--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.resourcemanager.hostname&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hadoop111&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 环境变量的继承 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.env-whitelist&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- yarn容器允许分配的最大最小内存 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.scheduler.minimum-allocation-mb&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;512&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.scheduler.maximum-allocation-mb&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;4096&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- yarn容器允许管理的物理内存大小 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;4096&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 关闭yarn对物理内存和虚拟内存的限制检查 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.pmem-check-enabled&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;false&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;false&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>vim /devops/hadoop-3.1.3/etc/hadoop/mapred-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- 指定MapReduce程序运行在Yarn上 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;mapreduce.framework.name&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;yarn&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>初始化NameNode的数据目录</p>
+<p>hdfs namenode -format</p>
+<p>由于前面一直使用root操作，所以 hadoop 安装目录的所有权不对，这里变更 hadoop 安装目录的所有权</p>
+<p>sudo chown -R hadoop:hadoop hadoop-3.1.3</p>
+<h4 id="设置-SSH-免密访问本地"><a href="#设置-SSH-免密访问本地" class="headerlink" title="设置 SSH 免密访问本地"></a>设置 SSH 免密访问本地</h4><p>su hadoop
+注意下面这条命令连按两次回车
+ssh-keygen
+cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+chmod 700 ~/.ssh 
+chmod 600 ~/.ssh/id_rsa</p>
+<h4 id="启动和关闭-Hadoop"><a href="#启动和关闭-Hadoop" class="headerlink" title="启动和关闭 Hadoop"></a>启动和关闭 Hadoop</h4><p>由于前面配置了 /devops/hadoop-3.1.3/sbin 的环境变量，这里可以直接使用 start-all.sh 启动</p>
+<p><img src="./1718393286251.png" alt="Alt text"></p>
+<p><img src="./1718395765964.png" alt="Alt text"></p>
+<p><img src="./1718395779537.png" alt="Alt text"></p>
+<p><img src="./1718395797681.png" alt="Alt text"></p>
+<p>使用 stop-all.sh 关闭 hadoop 服务</p>
+<p><img src="./1718395847480.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>Hadoop</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>大盘鸡</title>
     <url>/2017/09/30/%E5%A4%A7%E7%9B%98%E9%B8%A1/</url>
     <content><![CDATA[<p>炎炎夏日，来个大盘鸡一定不错（滑稽.jpg）</p>
@@ -1669,7 +1742,7 @@ repo: name1:name1/yourRepository
 <p>git url 的获取</p>
 <p><img src="./1515081366509.png" alt="Alt text"></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add demos git@github.com:<span class="string">&quot;one of your ssh config host&quot;</span>/xxx.git</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>把 <a href="mailto:&#103;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#99;&#x6f;&#x6d;">&#103;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#99;&#x6f;&#x6d;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
+<p><strong>注意：</strong>把 <a href="mailto:&#x67;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;">&#x67;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
 <p><img src="./1515081415724.png" alt="Alt text"></p>
 <h4 id="Step-4：常规的提交操作"><a href="#Step-4：常规的提交操作" class="headerlink" title="Step 4：常规的提交操作"></a>Step 4：常规的提交操作</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add <span class="string">&quot;folder or file, split by space&quot;</span></span><br><span class="line">git commit -m <span class="string">&quot;your commit message&quot;</span></span><br><span class="line">git branch <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git checkout <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git push --set-upstream <span class="string">&quot;your repository&quot;</span> <span class="string">&quot;your branch&quot;</span></span><br></pre></td></tr></table></figure>
 <p><img src="./1515081462725.png" alt="Alt text"></p>
@@ -1779,6 +1852,25 @@ repo: name1:name1/yourRepository
       </tags>
   </entry>
   <entry>
+    <title>浅谈 jsoup</title>
+    <url>/2017/07/29/%E6%B5%85%E8%B0%88%20jsoup/</url>
+    <content><![CDATA[<p>最近遇到一个需要，是要提取 speedo 商品的商品描述，无奈这个字段是一段 html 的 string，咨询架构师之后，决定使用 jsoup 做 html 内容提取，特此记录。<a id="more"></a></p>
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>maven 导入 jsoup</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">version.jsoup</span>&gt;</span>1.7.3<span class="tag">&lt;/<span class="name">version.jsoup</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jsoup<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsoup<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;version.jsoup&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>使用 select 取值</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getInnerHtmlValueByClassNameAngTagName</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    String fileStr = readFileJava8(<span class="string">&quot;D:/htmlContent.txt&quot;</span>);</span><br><span class="line">    Document document = Jsoup.parse(fileStr, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">    <span class="comment">// 获取 父节点class值为 description-text 的 h2 元素</span></span><br><span class="line">    Elements elements = document.select(<span class="string">&quot;.description-text h2&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line"></span><br><span class="line">    elements = document.select(<span class="string">&quot;.text-a p&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line"></span><br><span class="line">    elements = document.select(<span class="string">&quot;.text-a span&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>jsoup 详解请移步 <a href="http://www.open-open.com/jsoup/parsing-a-document.htm">http://www.open-open.com/jsoup/parsing-a-document.htm</a></p>
+<p>project github url ： <a href="https://github.com/Knight-JNXU/OpenSourcePackage/tree/OpenSourcePackageUsage">https://github.com/Knight-JNXU/OpenSourcePackage/tree/OpenSourcePackageUsage</a></p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jsoup</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>神舟Z7-KP7S1 deepin 安装黑屏</title>
     <url>/2018/07/14/%E7%A5%9E%E8%88%9FZ7-KP7S1%20deepin%20%E5%AE%89%E8%A3%85%E9%BB%91%E5%B1%8F/</url>
     <content><![CDATA[<p>由于楼主萌生的装X心态，居然有一种装 windows+linux 双系统的强烈欲望，linux 选用的 deepin-15.6-amd64。linux 生态不好使真的，尤其是 deepin 这种主要是国内受众的 linux 系统，免不了一顿折腾T T。特此记录，引以为鉴。</p>
@@ -1809,25 +1901,6 @@ repo: name1:name1/yourRepository
       </categories>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>浅谈 jsoup</title>
-    <url>/2017/07/29/%E6%B5%85%E8%B0%88%20jsoup/</url>
-    <content><![CDATA[<p>最近遇到一个需要，是要提取 speedo 商品的商品描述，无奈这个字段是一段 html 的 string，咨询架构师之后，决定使用 jsoup 做 html 内容提取，特此记录。<a id="more"></a></p>
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>maven 导入 jsoup</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">version.jsoup</span>&gt;</span>1.7.3<span class="tag">&lt;/<span class="name">version.jsoup</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jsoup<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsoup<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;version.jsoup&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>使用 select 取值</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getInnerHtmlValueByClassNameAngTagName</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    String fileStr = readFileJava8(<span class="string">&quot;D:/htmlContent.txt&quot;</span>);</span><br><span class="line">    Document document = Jsoup.parse(fileStr, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">    <span class="comment">// 获取 父节点class值为 description-text 的 h2 元素</span></span><br><span class="line">    Elements elements = document.select(<span class="string">&quot;.description-text h2&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line"></span><br><span class="line">    elements = document.select(<span class="string">&quot;.text-a p&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line"></span><br><span class="line">    elements = document.select(<span class="string">&quot;.text-a span&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>jsoup 详解请移步 <a href="http://www.open-open.com/jsoup/parsing-a-document.htm">http://www.open-open.com/jsoup/parsing-a-document.htm</a></p>
-<p>project github url ： <a href="https://github.com/Knight-JNXU/OpenSourcePackage/tree/OpenSourcePackageUsage">https://github.com/Knight-JNXU/OpenSourcePackage/tree/OpenSourcePackageUsage</a></p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jsoup</tag>
       </tags>
   </entry>
   <entry>
