@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>BaseSpring</title>
+    <url>/2017/07/22/BaseSpring/</url>
+    <content><![CDATA[<p>楼主以前每次撸一个 web project 都需要把 spring 以及相关的框架（像 tiles 、 mybatis、hibernate）都配置一遍，<a id="more"></a>虽然说可以提高写代码的熟练度，但是有时候的确是不想在这上面浪费时间，所以楼主撸了一个 BaseSpring，以后需要快速搭建 spring web 的时候就直接把这个 project pull 下来，删除 .gitignore 文件，去掉不需要的组件就行了。</p>
+<p>github url：需要自取
+<a href="https://github.com/Knight-JNXU/SpringStudy/tree/BaseSpring">https://github.com/Knight-JNXU/SpringStudy/tree/BaseSpring</a></p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>srping</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hadoop 高可用集群部署</title>
     <url>/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<p>使用 VMware Workstation + centos 实现 hadoop 的高可用集群部署。</p>
@@ -130,21 +145,6 @@ start-all.sh </p>
       </tags>
   </entry>
   <entry>
-    <title>BaseSpring</title>
-    <url>/2017/07/22/BaseSpring/</url>
-    <content><![CDATA[<p>楼主以前每次撸一个 web project 都需要把 spring 以及相关的框架（像 tiles 、 mybatis、hibernate）都配置一遍，<a id="more"></a>虽然说可以提高写代码的熟练度，但是有时候的确是不想在这上面浪费时间，所以楼主撸了一个 BaseSpring，以后需要快速搭建 spring web 的时候就直接把这个 project pull 下来，删除 .gitignore 文件，去掉不需要的组件就行了。</p>
-<p>github url：需要自取
-<a href="https://github.com/Knight-JNXU/SpringStudy/tree/BaseSpring">https://github.com/Knight-JNXU/SpringStudy/tree/BaseSpring</a></p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>srping</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>IDEA Git 提交 403 Error Code</title>
     <url>/2017/06/05/IDEA%20Git%20%E6%8F%90%E4%BA%A4%20403%20Error%20Code/</url>
     <content><![CDATA[<p>今天楼主使用 idea 的 git 插件往 github 提交代码的时候出现了如下报错</p>
@@ -174,28 +174,6 @@ start-all.sh </p>
       </categories>
       <tags>
         <tag>其他</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java多线程(0)</title>
-    <url>/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/</url>
-    <content><![CDATA[<p>预习一下 Java 多线程的姿势。</p>
-<a id="more"></a>
-
-
-<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p>当没有非守护线程时，JVM进程结束，守护线程停止，相当于给非守护线程陪跑的。</p>
-<p><img src="./1615782266096.png" alt="Alt text"></p>
-<h3 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt"></a>interrupt</h3><p>中断线程，取代 Thread.stop()，线程执行 interrupt 之后，线程的 interrupt 状态会发生改变，如果需要线程停止，需要在线程的 run 方法里面使用 interrupted 状态停止；继承了 Thread 的 class 才能使用 interrupt。</p>
-<p><img src="./1615783549470.png" alt="Alt text"></p>
-<h3 id="Callable、Future、FutureTask"><a href="#Callable、Future、FutureTask" class="headerlink" title="Callable、Future、FutureTask"></a>Callable、Future、FutureTask</h3><p>继承 Thread、实现 Runnable 接口都可以创建线程，但是 Thread 、Runnable 里面的 run 方法都是 void 类型的，没有返回值，继承 FutureTask 实现 Callable、Future 可以使用有返回值的线程。</p>
-<p><img src="./1615785149955.png" alt="Alt text"></p>
-<p><a href="https://github.com/Knight-JNXU/ThreadStudy">参考代码</a></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
       </tags>
   </entry>
   <entry>
@@ -233,6 +211,28 @@ start-all.sh </p>
       <tags>
         <tag>java</tag>
         <tag>基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java多线程(0)</title>
+    <url>/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/</url>
+    <content><![CDATA[<p>预习一下 Java 多线程的姿势。</p>
+<a id="more"></a>
+
+
+<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p>当没有非守护线程时，JVM进程结束，守护线程停止，相当于给非守护线程陪跑的。</p>
+<p><img src="./1615782266096.png" alt="Alt text"></p>
+<h3 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt"></a>interrupt</h3><p>中断线程，取代 Thread.stop()，线程执行 interrupt 之后，线程的 interrupt 状态会发生改变，如果需要线程停止，需要在线程的 run 方法里面使用 interrupted 状态停止；继承了 Thread 的 class 才能使用 interrupt。</p>
+<p><img src="./1615783549470.png" alt="Alt text"></p>
+<h3 id="Callable、Future、FutureTask"><a href="#Callable、Future、FutureTask" class="headerlink" title="Callable、Future、FutureTask"></a>Callable、Future、FutureTask</h3><p>继承 Thread、实现 Runnable 接口都可以创建线程，但是 Thread 、Runnable 里面的 run 方法都是 void 类型的，没有返回值，继承 FutureTask 实现 Callable、Future 可以使用有返回值的线程。</p>
+<p><img src="./1615785149955.png" alt="Alt text"></p>
+<p><a href="https://github.com/Knight-JNXU/ThreadStudy">参考代码</a></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
       </tags>
   </entry>
   <entry>
@@ -319,6 +319,27 @@ trace：可以获取网站前端缓存服务器、进行XSS攻击、在启用htt
       </tags>
   </entry>
   <entry>
+    <title>Nul 文件的删除</title>
+    <url>/2020/02/11/Nul%20%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%A0%E9%99%A4/</url>
+    <content><![CDATA[<p>今天，在移动文件的过程中，产生了一个 Nul，无法删除、无法移动。</p>
+<a id="more"></a>
+
+<p>Nul 文件可能是 文件损坏导致的，也有可能是磁盘出现了坏道导致的，看了一下 CrystalDiskInfo，显示我的硬盘健康状态是 100% 良好，估计可能是文件损坏了（不重要）。</p>
+<p>由于 Nul 是 windows 里面的保留字，如果直接删除，会提示 “ms-dos功能无效” ，请教了一下 谷妈，生成了一个 bat 文件，把 Nul 文件拖进去删掉了，谨此记录。</p>
+<p><img src="./1581417470421.png" alt="Alt text"></p>
+<p>**bat file content **</p>
+<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="built_in">DEL</span>/F /A /Q \\?\%<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">RD</span> /S /Q \\?\%<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>参考资料：<a href="https://blog.csdn.net/gerryzhu/article/details/8573901">显示无法删除nul,参数不正确 的解决之道</a></p>
+]]></content>
+      <categories>
+        <category>系统</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Web如何提高响应速度</title>
     <url>/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/</url>
     <content><![CDATA[<p>web性能优化中有句话叫“前端为八、后端为二”，在前端进行优化往往能够起到立竿见影的效果。</p>
@@ -344,27 +365,6 @@ trace：可以获取网站前端缓存服务器、进行XSS攻击、在启用htt
       <tags>
         <tag>其他</tag>
         <tag>进阶</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nul 文件的删除</title>
-    <url>/2020/02/11/Nul%20%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%A0%E9%99%A4/</url>
-    <content><![CDATA[<p>今天，在移动文件的过程中，产生了一个 Nul，无法删除、无法移动。</p>
-<a id="more"></a>
-
-<p>Nul 文件可能是 文件损坏导致的，也有可能是磁盘出现了坏道导致的，看了一下 CrystalDiskInfo，显示我的硬盘健康状态是 100% 良好，估计可能是文件损坏了（不重要）。</p>
-<p>由于 Nul 是 windows 里面的保留字，如果直接删除，会提示 “ms-dos功能无效” ，请教了一下 谷妈，生成了一个 bat 文件，把 Nul 文件拖进去删掉了，谨此记录。</p>
-<p><img src="./1581417470421.png" alt="Alt text"></p>
-<p>**bat file content **</p>
-<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="built_in">DEL</span>/F /A /Q \\?\%<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">RD</span> /S /Q \\?\%<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<p>参考资料：<a href="https://blog.csdn.net/gerryzhu/article/details/8573901">显示无法删除nul,参数不正确 的解决之道</a></p>
-]]></content>
-      <categories>
-        <category>系统</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
       </tags>
   </entry>
   <entry>
@@ -879,6 +879,46 @@ demo：</p>
       </tags>
   </entry>
   <entry>
+    <title>hexo&amp;马克飞象图片不能正常显示问题</title>
+    <url>/2017/04/03/hexo&amp;%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>楼主发现马克飞象写的文章虽然可以markdown导出，但是如果文章中有插图的话，却是生成一个.zip的压缩文件，如果直接把这个压缩文件解压缩放到 source_posts 目录下，使用 hexo s 可以发布，但是图片不能正常显示。</p>
+<p>楼主忙活了大半天，找到了一个 hexo 插件<a href="https://github.com/CodeFalling/hexo-asset-image"><strong>hexo-asset-image</strong></a>，这个东西的使用方法如下：</p>
+<a id="more"></a>
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><ul>
+<li>安装hexo-asset-image，只需要在命令行中输入下列命令，就可以安装好。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4></li>
+<li>修改hexo配置文件<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">url: https:<span class="comment">//github.com  </span></span><br><span class="line"></span><br><span class="line">post_asset_folder: <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对于这个 url 参数：
+这个参数会用来定位图片的路径，可以影响 md 生成 html 的图片路径
+如果你博客不是部署到github仓库的master branch下，会有所区别，这个逻辑有点复杂，楼主这里就不啰嗦了，如果不清楚可以自行改变这个值，然后看 hexo 发布网页中图片路径，或者看 hexo-asset-image 的源码
+楼主使用的是master branch，所以这样写就好了，楼主博客的github 地址是 <a href="https://github.com/KnightDevelop/knightdevelop.github.io">https://github.com/KnightDevelop/knightdevelop.github.io</a></p>
+</blockquote>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4></li>
+<li>马克飞象导出markdown
+<img src="./1491200548325.png" alt="Alt text"></li>
+<li>导出的markdown解压缩，解压缩之后大概是这样的
+<img src="./1491200654357.png" alt="Alt text"></li>
+<li>然后把这个文件夹里的 .md 文件剪切到到 source_posts；把这个文件夹扔到 source_posts 下，注意文件夹名称和刚才剪切的 .md文件 保持一致
+<img src="./1491200816484.png" alt="Alt text"><h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4></li>
+<li>hexo clean</li>
+<li>hexo g</li>
+<li>hexo s -p 5000</li>
+<li>浏览器访问 <a href="http://localhost:5000/">http://localhost:5000/</a></li>
+<li>图片显示正常
+<img src="./1491200934249.png" alt="Alt text">
+大功告成</li>
+</ul>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo yelee local search 不能使用</title>
     <url>/2017/07/22/hexo%20yelee%20local%20search%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>前几天楼主发现自家的博客的搜索功能不能用，在看了看文档和别人的 hexo 博客后，解决了这个问题，仅此记录。</p>
@@ -976,46 +1016,6 @@ hibernate update 语句是否包含此字段，默认为true</li>
       <tags>
         <tag>java</tag>
         <tag>hibernate</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo&amp;马克飞象图片不能正常显示问题</title>
-    <url>/2017/04/03/hexo&amp;%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>楼主发现马克飞象写的文章虽然可以markdown导出，但是如果文章中有插图的话，却是生成一个.zip的压缩文件，如果直接把这个压缩文件解压缩放到 source_posts 目录下，使用 hexo s 可以发布，但是图片不能正常显示。</p>
-<p>楼主忙活了大半天，找到了一个 hexo 插件<a href="https://github.com/CodeFalling/hexo-asset-image"><strong>hexo-asset-image</strong></a>，这个东西的使用方法如下：</p>
-<a id="more"></a>
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><ul>
-<li>安装hexo-asset-image，只需要在命令行中输入下列命令，就可以安装好。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4></li>
-<li>修改hexo配置文件<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">url: https:<span class="comment">//github.com  </span></span><br><span class="line"></span><br><span class="line">post_asset_folder: <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>对于这个 url 参数：
-这个参数会用来定位图片的路径，可以影响 md 生成 html 的图片路径
-如果你博客不是部署到github仓库的master branch下，会有所区别，这个逻辑有点复杂，楼主这里就不啰嗦了，如果不清楚可以自行改变这个值，然后看 hexo 发布网页中图片路径，或者看 hexo-asset-image 的源码
-楼主使用的是master branch，所以这样写就好了，楼主博客的github 地址是 <a href="https://github.com/KnightDevelop/knightdevelop.github.io">https://github.com/KnightDevelop/knightdevelop.github.io</a></p>
-</blockquote>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4></li>
-<li>马克飞象导出markdown
-<img src="./1491200548325.png" alt="Alt text"></li>
-<li>导出的markdown解压缩，解压缩之后大概是这样的
-<img src="./1491200654357.png" alt="Alt text"></li>
-<li>然后把这个文件夹里的 .md 文件剪切到到 source_posts；把这个文件夹扔到 source_posts 下，注意文件夹名称和刚才剪切的 .md文件 保持一致
-<img src="./1491200816484.png" alt="Alt text"><h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4></li>
-<li>hexo clean</li>
-<li>hexo g</li>
-<li>hexo s -p 5000</li>
-<li>浏览器访问 <a href="http://localhost:5000/">http://localhost:5000/</a></li>
-<li>图片显示正常
-<img src="./1491200934249.png" alt="Alt text">
-大功告成</li>
-</ul>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1158,8 +1158,8 @@ p!=q;
         <category>开发</category>
       </categories>
       <tags>
-        <tag>其他</tag>
         <tag>java</tag>
+        <tag>其他</tag>
       </tags>
   </entry>
   <entry>
@@ -1666,6 +1666,37 @@ p!=q;
       </tags>
   </entry>
   <entry>
+    <title>土豆炖牛肉</title>
+    <url>/2017/09/30/%E5%9C%9F%E8%B1%86%E7%82%96%E7%89%9B%E8%82%89/</url>
+    <content><![CDATA[<p>好久没写博客了，得好好补补。</p>
+<a id="more"></a>
+
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>配料：牛肉、土豆、胡萝卜、八角、大葱、姜、生抽、老抽、花生油、盐、醋</p>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>牛肉洗净，切成小块；适量姜切片；适量八角洗净。</p>
+<p><img src="./1506768137981.png" alt="Alt text"></p>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>在锅中加入冷水，把上述准备好的 牛肉、姜、八角、少量盐  放入锅中大火煮沸，水沸腾后 2~3 分钟捞起（去掉白沫）。</p>
+<p><img src="./IMG_20170916_110745.jpg" alt="Alt text"></p>
+<p><img src="./IMG_20170916_111007.jpg" alt="Alt text"></p>
+<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>土豆、胡萝卜 洗净、削皮，切成小块；大葱洗净切成小段；切一小段姜，切碎。</p>
+<p><img src="./IMG_20170916_110806.jpg" alt="Alt text"></p>
+<p><img src="./IMG_20170916_111331.jpg" alt="Alt text"></p>
+<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>热油，依次加入 胡萝卜、土豆、大葱 翻炒至2层熟。</p>
+<p><img src="./IMG_20170916_112232.jpg" alt="Alt text"></p>
+<h4 id="Step-6："><a href="#Step-6：" class="headerlink" title="Step 6："></a>Step 6：</h4><p>锅中放入油，烧热，放入捞起的牛肉；翻炒片刻，加入生抽、老抽、姜末、盐炒一小会。</p>
+<p><img src="./IMG_20170916_112657.jpg" alt="Alt text"></p>
+<h4 id="Step-7："><a href="#Step-7：" class="headerlink" title="Step 7："></a>Step 7：</h4><p>炒到牛肉变色之后，导入适量的水（能完全淹没牛肉即可），盖上锅盖使用小火煮10分钟左右，时间可以根据牛肉的量自行调整。</p>
+<p><img src="./IMG_20170916_121636.jpg" alt="Alt text"></p>
+<h4 id="Step-8："><a href="#Step-8：" class="headerlink" title="Step 8："></a>Step 8：</h4><p>往锅中加入炒过的 胡萝卜、土豆、大葱，加入一定量的水淹没；滴入<strong>一滴醋</strong>（楼主不太喜欢吃酸的，所以放的少，可以根据口味自行调整；据说煮牛肉的时候加一点点醋可以让牛肉更容易煮烂，并且口感更鲜美），再盖上锅盖用小火煮20分钟左右；待土豆煮到7-8层熟，加入适量的盐，使用大火收水。</p>
+<p><img src="./IMG_20170916_122039.jpg" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>烹饪</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hadoop单机/伪分布式部署</title>
     <url>/2024/06/14/%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<p>使用 VMware Workstation 安装 1台centos 7，并在上面实现 hadoop 的单机部署。</p>
@@ -1705,7 +1736,7 @@ mkdir /devops</p>
 <p>source /etc/profile</p>
 <p><img src="./1718386678514.png" alt="Alt text"></p>
 <h4 id="配置-Hadoop-配置文件"><a href="#配置-Hadoop-配置文件" class="headerlink" title="配置 Hadoop 配置文件"></a>配置 Hadoop 配置文件</h4><p>vim /devops/hadoop-3.1.3/etc/hadoop/core-site.xml</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- 指定NameNode的地址 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hdfs:&#x2F;&#x2F;hadoop111:9820&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定hadoop数据的存储目录 --&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.tmp.dir&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;&#x2F;devops&#x2F;hadoop-3.1.3&#x2F;data&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置HDFS网页登录使用的静态用户为hadoop --&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.http.staticuser.user&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;hadoop&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置该hadoop用户(superUser)允许通过代理访问的主机节点 --&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.proxyuser.atguigu.hosts&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置该hadoop用户(superUser)允许通过代理用户所属组 --&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.proxyuser.atguigu.groups&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置该hadoop用户(superUser)允许通过代理的用户--&gt;</span><br><span class="line">		&lt;property&gt;</span><br><span class="line">			&lt;name&gt;hadoop.proxyuser.atguigu.groups&lt;&#x2F;name&gt;</span><br><span class="line">			&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 指定NameNode的地址 --&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;</span><br><span class="line">                &lt;value&gt;hdfs:&#x2F;&#x2F;hadoop111:9820&lt;&#x2F;value&gt;</span><br><span class="line">        &lt;&#x2F;property&gt;</span><br><span class="line">        &lt;!-- 指定hadoop数据的存储目录 --&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hadoop.tmp.dir&lt;&#x2F;name&gt;</span><br><span class="line">                &lt;value&gt;&#x2F;devops&#x2F;hadoop-3.1.3&#x2F;data&lt;&#x2F;value&gt;</span><br><span class="line">        &lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 配置HDFS网页登录使用的静态用户为hadoop --&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hadoop.http.staticuser.user&lt;&#x2F;name&gt;</span><br><span class="line">                &lt;value&gt;hadoop&lt;&#x2F;value&gt;</span><br><span class="line">        &lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 配置该hadoop用户(superUser)允许通过代理访问的主机节点 --&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hadoop.proxyuser.hadoop.hosts&lt;&#x2F;name&gt;</span><br><span class="line">                &lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">        &lt;&#x2F;property&gt;</span><br><span class="line">        &lt;!-- 配置该hadoop用户(superUser)允许通过代理用户所属组 --&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;&#x2F;name&gt;</span><br><span class="line">                &lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">        &lt;&#x2F;property&gt;</span><br><span class="line">        &lt;!-- 配置该hadoop用户(superUser)允许通过代理的用户--&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;&#x2F;name&gt;</span><br><span class="line">                &lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">        &lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
 <p>vim /devops/hadoop-3.1.3/etc/hadoop/hdfs-site.xml</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- nn web端访问地址--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.http-address&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hadoop111:9870&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 2nn web端访问地址--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.secondary.http-address&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hadoop111:9868&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- NameNode存储其元数据的本地文件系统路径--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">	&lt;name&gt;dfs.namenode.name.dir&lt;&#x2F;name&gt;</span><br><span class="line">	&lt;value&gt;file:&#x2F;&#x2F;$&#123;hadoop.tmp.dir&#125;&#x2F;dfs&#x2F;name&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- datanode数据存储目录--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">	&lt;name&gt;dfs.datanode.data.dir&lt;&#x2F;name&gt;</span><br><span class="line">	&lt;value&gt;file:&#x2F;&#x2F;$&#123;hadoop.tmp.dir&#125;&#x2F;dfs&#x2F;data&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- HDFS中文件的数据块副本数量--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;1&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
 <p>vim /devops/hadoop-3.1.3/etc/hadoop/yarn-site.xml</p>
@@ -1736,37 +1767,6 @@ chmod 600 ~/.ssh/id_rsa</p>
       </categories>
       <tags>
         <tag>其他</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>土豆炖牛肉</title>
-    <url>/2017/09/30/%E5%9C%9F%E8%B1%86%E7%82%96%E7%89%9B%E8%82%89/</url>
-    <content><![CDATA[<p>好久没写博客了，得好好补补。</p>
-<a id="more"></a>
-
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>配料：牛肉、土豆、胡萝卜、八角、大葱、姜、生抽、老抽、花生油、盐、醋</p>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>牛肉洗净，切成小块；适量姜切片；适量八角洗净。</p>
-<p><img src="./1506768137981.png" alt="Alt text"></p>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>在锅中加入冷水，把上述准备好的 牛肉、姜、八角、少量盐  放入锅中大火煮沸，水沸腾后 2~3 分钟捞起（去掉白沫）。</p>
-<p><img src="./IMG_20170916_110745.jpg" alt="Alt text"></p>
-<p><img src="./IMG_20170916_111007.jpg" alt="Alt text"></p>
-<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>土豆、胡萝卜 洗净、削皮，切成小块；大葱洗净切成小段；切一小段姜，切碎。</p>
-<p><img src="./IMG_20170916_110806.jpg" alt="Alt text"></p>
-<p><img src="./IMG_20170916_111331.jpg" alt="Alt text"></p>
-<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>热油，依次加入 胡萝卜、土豆、大葱 翻炒至2层熟。</p>
-<p><img src="./IMG_20170916_112232.jpg" alt="Alt text"></p>
-<h4 id="Step-6："><a href="#Step-6：" class="headerlink" title="Step 6："></a>Step 6：</h4><p>锅中放入油，烧热，放入捞起的牛肉；翻炒片刻，加入生抽、老抽、姜末、盐炒一小会。</p>
-<p><img src="./IMG_20170916_112657.jpg" alt="Alt text"></p>
-<h4 id="Step-7："><a href="#Step-7：" class="headerlink" title="Step 7："></a>Step 7：</h4><p>炒到牛肉变色之后，导入适量的水（能完全淹没牛肉即可），盖上锅盖使用小火煮10分钟左右，时间可以根据牛肉的量自行调整。</p>
-<p><img src="./IMG_20170916_121636.jpg" alt="Alt text"></p>
-<h4 id="Step-8："><a href="#Step-8：" class="headerlink" title="Step 8："></a>Step 8：</h4><p>往锅中加入炒过的 胡萝卜、土豆、大葱，加入一定量的水淹没；滴入<strong>一滴醋</strong>（楼主不太喜欢吃酸的，所以放的少，可以根据口味自行调整；据说煮牛肉的时候加一点点醋可以让牛肉更容易煮烂，并且口感更鲜美），再盖上锅盖用小火煮20分钟左右；待土豆煮到7-8层熟，加入适量的盐，使用大火收水。</p>
-<p><img src="./IMG_20170916_122039.jpg" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>烹饪</tag>
       </tags>
   </entry>
   <entry>
@@ -1871,7 +1871,7 @@ repo: name1:name1/yourRepository
 <p>git url 的获取</p>
 <p><img src="./1515081366509.png" alt="Alt text"></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add demos git@github.com:<span class="string">&quot;one of your ssh config host&quot;</span>/xxx.git</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>把 <a href="mailto:&#x67;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#117;&#98;&#46;&#x63;&#x6f;&#109;">&#x67;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#117;&#98;&#46;&#x63;&#x6f;&#109;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
+<p><strong>注意：</strong>把 <a href="mailto:&#x67;&#105;&#116;&#64;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;">&#x67;&#105;&#116;&#64;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
 <p><img src="./1515081415724.png" alt="Alt text"></p>
 <h4 id="Step-4：常规的提交操作"><a href="#Step-4：常规的提交操作" class="headerlink" title="Step 4：常规的提交操作"></a>Step 4：常规的提交操作</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add <span class="string">&quot;folder or file, split by space&quot;</span></span><br><span class="line">git commit -m <span class="string">&quot;your commit message&quot;</span></span><br><span class="line">git branch <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git checkout <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git push --set-upstream <span class="string">&quot;your repository&quot;</span> <span class="string">&quot;your branch&quot;</span></span><br></pre></td></tr></table></figure>
 <p><img src="./1515081462725.png" alt="Alt text"></p>
@@ -2033,6 +2033,32 @@ repo: name1:name1/yourRepository
       </tags>
   </entry>
   <entry>
+    <title>蒜薹回锅肉</title>
+    <url>/2017/07/30/%E8%92%9C%E8%96%B9%E5%9B%9E%E9%94%85%E8%82%89/</url>
+    <content><![CDATA[<p>记得有次分享会的时候，楼主说要多练厨艺的，今天做了个比较复杂的菜（虽说以前也做过，但是没有记录），特此记录！<a id="more"></a></p>
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>准备 五花肉、姜、蒜、葱、干辣椒、食盐、蒜薹、辣椒罐头、蒜薹、豆瓣酱、八角、生抽、鸡精</p>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>五花肉切小，姜、蒜、葱 切末</p>
+<p><img src="./1501416567915.png" alt="Alt text"></p>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>把切好的 五花肉、姜、蒜、葱 和 干辣椒、八角、盐、水 放入容器中煮 20 分钟，把五花肉稍微煮熟一些就行。</p>
+<p><img src="./1501416717271.png" alt="Alt text"></p>
+<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>蒜薹切成小段，放入盐水中浸泡 10 分钟左右。</p>
+<p><img src="./1501416784370.png" alt="Alt text"></p>
+<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>把煮好的五花肉捞起、切片，滤出一部分汤汁。</p>
+<p><img src="./1501416858240.png" alt="Alt text"></p>
+<h4 id="Step-6："><a href="#Step-6：" class="headerlink" title="Step 6："></a>Step 6：</h4><p>往锅中加入油清炒蒜薹至3层熟，捞起。</p>
+<p><img src="./1501416916511.png" alt="Alt text"></p>
+<h4 id="Step-7："><a href="#Step-7：" class="headerlink" title="Step 7："></a>Step 7：</h4><p>往锅中加入油，油热之后加入 豆瓣酱、辣椒罐头、姜，炒一小会 加入切好片的五花肉，边炒边加入生抽、煮肉的汤汁、3层熟的蒜薹、盐。</p>
+<p><img src="./1501417367047.png" alt="Alt text"></p>
+<p>大功告成！</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>烹饪</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>致准备进入IT行业学弟学妹们的一封信</title>
     <url>/2017/07/07/%E8%87%B4%E5%87%86%E5%A4%87%E8%BF%9B%E5%85%A5IT%E8%A1%8C%E4%B8%9A%E5%AD%A6%E5%BC%9F%E5%AD%A6%E5%A6%B9%E4%BB%AC%E7%9A%84%E4%B8%80%E5%B0%81%E4%BF%A1/</url>
     <content><![CDATA[<p>又是一年报考季，相信其中对IT行业充满兴趣的童鞋大有人在，作为一个在IT项目打杂半年、在IT公司打杂1年的学长，在此分享对IT行业以及如何进入IT行业的一些粗浅的看法和建议。</p>
@@ -2117,32 +2143,6 @@ repo: name1:name1/yourRepository
       <tags>
         <tag>java</tag>
         <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>蒜薹回锅肉</title>
-    <url>/2017/07/30/%E8%92%9C%E8%96%B9%E5%9B%9E%E9%94%85%E8%82%89/</url>
-    <content><![CDATA[<p>记得有次分享会的时候，楼主说要多练厨艺的，今天做了个比较复杂的菜（虽说以前也做过，但是没有记录），特此记录！<a id="more"></a></p>
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>准备 五花肉、姜、蒜、葱、干辣椒、食盐、蒜薹、辣椒罐头、蒜薹、豆瓣酱、八角、生抽、鸡精</p>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>五花肉切小，姜、蒜、葱 切末</p>
-<p><img src="./1501416567915.png" alt="Alt text"></p>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>把切好的 五花肉、姜、蒜、葱 和 干辣椒、八角、盐、水 放入容器中煮 20 分钟，把五花肉稍微煮熟一些就行。</p>
-<p><img src="./1501416717271.png" alt="Alt text"></p>
-<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>蒜薹切成小段，放入盐水中浸泡 10 分钟左右。</p>
-<p><img src="./1501416784370.png" alt="Alt text"></p>
-<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>把煮好的五花肉捞起、切片，滤出一部分汤汁。</p>
-<p><img src="./1501416858240.png" alt="Alt text"></p>
-<h4 id="Step-6："><a href="#Step-6：" class="headerlink" title="Step 6："></a>Step 6：</h4><p>往锅中加入油清炒蒜薹至3层熟，捞起。</p>
-<p><img src="./1501416916511.png" alt="Alt text"></p>
-<h4 id="Step-7："><a href="#Step-7：" class="headerlink" title="Step 7："></a>Step 7：</h4><p>往锅中加入油，油热之后加入 豆瓣酱、辣椒罐头、姜，炒一小会 加入切好片的五花肉，边炒边加入生抽、煮肉的汤汁、3层熟的蒜薹、盐。</p>
-<p><img src="./1501417367047.png" alt="Alt text"></p>
-<p>大功告成！</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>烹饪</tag>
       </tags>
   </entry>
   <entry>
