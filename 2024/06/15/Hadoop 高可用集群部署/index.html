@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Knight" />
+
+
+
+<meta name="description" content="使用 VMware Workstation + centos 实现 hadoop 的高可用集群部署。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop 高可用集群部署">
+<meta property="og:url" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="Knight&#39;s Blog">
+<meta property="og:description" content="使用 VMware Workstation + centos 实现 hadoop 的高可用集群部署。">
+<meta property="og:locale">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718428891583.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718428918795.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718431884428.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718456007172.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718456021364.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718456042789.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718456055885.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718456184522.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718456199236.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718464965552.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718464978165.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718464991437.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718465001342.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718465071087.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718465032032.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718465124105.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718465131464.png">
+<meta property="og:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718465139826.png">
+<meta property="article:published_time" content="2024-06-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-15T15:27:16.000Z">
+<meta property="article:author" content="Knight">
+<meta property="article:tag" content="其他">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1718428891583.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Knight&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/V7.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Hadoop 高可用集群部署 | Knight&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/V7.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/tags/java/">java</a></li>
+                        
+                            <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
+                        
+                            <li><a href="/tags/%E7%83%B9%E9%A5%AA/">烹饪</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/" title="GitHub"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/" rel="tag">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/" rel="tag">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsoup/" rel="tag">jsoup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/junit/" rel="tag">junit</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j/" rel="tag">log4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/" rel="tag">solr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/srping/" rel="tag">srping</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%83%B9%E9%A5%AA/" rel="tag">烹饪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E9%98%B6/" rel="tag">进阶</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">email： Knight-JXNU@outlook.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/V7.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags/java/">java</a></li>
+                
+                    <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
+                
+                    <li><a href="/tags/%E7%83%B9%E9%A5%AA/">烹饪</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/" title="GitHub"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Hadoop 高可用集群部署" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/" class="article-date">
+      <time datetime="2024-06-14T16:00:00.000Z" itemprop="datePublished">2024-06-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hadoop 高可用集群部署
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>使用 VMware Workstation + centos 实现 hadoop 的高可用集群部署。</p>
+<a id="more"></a>
+
+<h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><table>
+<thead>
+<tr>
+<th align="center">hadoop112</th>
+<th align="center">hadoop113</th>
+<th align="center">hadoop114</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">NameNode</td>
+<td align="center">NameNode</td>
+<td align="center">NameNode</td>
+</tr>
+<tr>
+<td align="center">ZKFC</td>
+<td align="center">ZKFC</td>
+<td align="center">ZKFC</td>
+</tr>
+<tr>
+<td align="center">JournalNode</td>
+<td align="center">JournalNode</td>
+<td align="center">JournalNode</td>
+</tr>
+<tr>
+<td align="center">ZK</td>
+<td align="center">ZK</td>
+<td align="center">ZK</td>
+</tr>
+<tr>
+<td align="center">ResourceManager</td>
+<td align="center">ResourceManager</td>
+<td align="center">ResourceManager</td>
+</tr>
+<tr>
+<td align="center">NodeManager</td>
+<td align="center">NodeManager</td>
+<td align="center">NodeManager</td>
+</tr>
+</tbody></table>
+<h4 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h4><p>这里我直接克隆伪分布式的 hadoop111，参照之前的博客再部署一遍也行</p>
+<p>修改静态IP</p>
+<p>vim /etc/sysconfig/network-scripts/ifcfg-ens33 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">TYPE&#x3D;&quot;Ethernet&quot;</span><br><span class="line">PROXY_METHOD&#x3D;&quot;none&quot;</span><br><span class="line">BROWSER_ONLY&#x3D;&quot;no&quot;</span><br><span class="line">BOOTPROTO&#x3D;&quot;static&quot;</span><br><span class="line">DEFROUTE&#x3D;&quot;yes&quot;</span><br><span class="line">IPV4_FAILURE_FATAL&#x3D;&quot;no&quot;</span><br><span class="line">IPV6INIT&#x3D;&quot;yes&quot;</span><br><span class="line">IPV6_AUTOCONF&#x3D;&quot;yes&quot;</span><br><span class="line">IPV6_DEFROUTE&#x3D;&quot;yes&quot;</span><br><span class="line">IPV6_FAILURE_FATAL&#x3D;&quot;no&quot;</span><br><span class="line">IPV6_ADDR_GEN_MODE&#x3D;&quot;stable-privacy&quot;</span><br><span class="line">NAME&#x3D;&quot;ens33&quot;</span><br><span class="line">UUID&#x3D;&quot;cafa4500-048b-41a3-a880-0ea13ff55b07&quot;</span><br><span class="line">DEVICE&#x3D;&quot;ens33&quot;</span><br><span class="line">ONBOOT&#x3D;&quot;yes&quot;</span><br><span class="line">IPADDR&#x3D;192.168.64.112</span><br><span class="line">NETMASK&#x3D;255.255.255.0</span><br><span class="line">GATEWAY&#x3D;192.168.64.2</span><br><span class="line">DNS1&#x3D;192.168.64.2</span><br></pre></td></tr></table></figure>
+<p><img src="./1718428891583.png" alt="Alt text"></p>
+<p>vim /etc/hostname</p>
+<p><img src="./1718428918795.png" alt="Alt text"></p>
+<p>vim /etc/hosts</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">192.168.64.111 hadoop111</span><br><span class="line">192.168.64.112 hadoop112</span><br><span class="line">192.168.64.113 hadoop113</span><br><span class="line">192.168.64.114 hadoop114</span><br></pre></td></tr></table></figure>
+<h4 id="安装-zookeeper"><a href="#安装-zookeeper" class="headerlink" title="安装 zookeeper"></a>安装 zookeeper</h4><p>使用 scp 把 apache-zookeeper-3.5.7-bin.tar.gz 传入 devops</p>
+<p>tar -zxvf apache-zookeeper-3.5.7-bin.tar.gz
+cd /devops/apache-zookeeper-3.5.7-bin
+mkdir -p zkData
+cd /devops/apache-zookeeper-3.5.7-bin/conf
+cp zoo_sample.cfg zoo.cfg
+vim zoo.cfg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dataDir&#x3D;&#x2F;devops&#x2F;apache-zookeeper-3.5.7-bin&#x2F;zkData</span><br><span class="line"></span><br><span class="line">#######################cluster##########################</span><br><span class="line">server.2&#x3D;hadoop112:2888:3888</span><br><span class="line">server.3&#x3D;hadoop113:2888:3888</span><br><span class="line">server.4&#x3D;hadoop114:2888:3888</span><br></pre></td></tr></table></figure>
+<p>cd /devops/apache-zookeeper-3.5.7-bin/zkData
+touch myid
+注：由于我当前处于 hadoop112 服务器，所以 myid 里面写入2，如果是 hadoop113、hadoop114则对应地写入3、4
+vim myid</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></figure>
+<p>sudo vim /etc/profile.d/my_env.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export ZOOKEEPER_HOME&#x3D;&#x2F;devops&#x2F;apache-zookeeper-3.5.7-bin</span><br><span class="line">export PATH&#x3D;$ZOOKEEPER_HOME&#x2F;bin:$PATH</span><br></pre></td></tr></table></figure>
+<p>source /etc/profile</p>
+<h4 id="hadoop-配置"><a href="#hadoop-配置" class="headerlink" title="hadoop 配置"></a>hadoop 配置</h4><p>sudo chown -R hadoop:hadoop /devops</p>
+<p>vim /devops/hadoop-3.1.3/etc/hadoop/core-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- 把多个NameNode的地址组装成一个集群mycluster --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">	  &lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;</span><br><span class="line">	  &lt;value&gt;hdfs:&#x2F;&#x2F;mycluster&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 指定hadoop数据的存储目录 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.tmp.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;&#x2F;devops&#x2F;hadoop-3.1.3&#x2F;data&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置HDFS网页登录使用的静态用户为hadoop --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.http.staticuser.user&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置该hadoop(superUser)允许通过代理访问的主机节点 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.proxyuser.hadoop.hosts&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置该hadoop(superUser)允许通过代理用户所属组 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置该hadoop(superUser)允许通过代理的用户--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">	    &lt;name&gt;ha.zookeeper.quorum&lt;&#x2F;name&gt;</span><br><span class="line">	    &lt;value&gt;hadoop112:2181,hadoop113:2181,hadoop114:2181&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>vim /devops/hadoop-3.1.3/etc/hadoop/hdfs-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- NameNode数据存储目录 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.name.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;file:&#x2F;&#x2F;$&#123;hadoop.tmp.dir&#125;&#x2F;name&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- DataNode数据存储目录 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.datanode.data.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;file:&#x2F;&#x2F;$&#123;hadoop.tmp.dir&#125;&#x2F;data&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- JournalNode数据存储目录 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.journalnode.edits.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;$&#123;hadoop.tmp.dir&#125;&#x2F;jn&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 完全分布式集群名称 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.nameservices&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;mycluster&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 集群中NameNode节点都有哪些 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.ha.namenodes.mycluster&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;nn1,nn2,nn3&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- NameNode的RPC通信地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.rpc-address.mycluster.nn1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:8020&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.rpc-address.mycluster.nn2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8020&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.rpc-address.mycluster.nn3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8020&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- NameNode的http通信地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.http-address.mycluster.nn1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:9870&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.http-address.mycluster.nn2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:9870&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.http-address.mycluster.nn3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:9870&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定NameNode元数据在JournalNode上的存放位置 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.shared.edits.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;qjournal:&#x2F;&#x2F;hadoop112:8485;hadoop113:8485;hadoop114:8485&#x2F;mycluster&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 访问代理类：client用于确定哪个NameNode为Active --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.client.failover.proxy.provider.mycluster&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置隔离机制，即同一时刻只能有一台服务器对外响应 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.ha.fencing.methods&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;sshfence&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 使用隔离机制时需要ssh秘钥登录--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.ha.fencing.ssh.private-key-files&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;&#x2F;home&#x2F;hadoop&#x2F;.ssh&#x2F;id_rsa&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 启用nn故障自动转移 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.ha.automatic-failover.enabled&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>vim /devops/hadoop-3.1.3/etc/hadoop/yarn-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- 指定MR走shuffle --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 环境变量的继承 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.env-whitelist&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- yarn容器允许分配的最大最小内存 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.scheduler.minimum-allocation-mb&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;512&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.scheduler.maximum-allocation-mb&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;4096&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- yarn容器允许管理的物理内存大小 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;4096&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 关闭yarn对物理内存和虚拟内存的限制检查 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.pmem-check-enabled&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;false&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;false&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 开启日志聚集功能 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.log-aggregation-enable&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 设置日志聚集服务器地址 --&gt;</span><br><span class="line">	&lt;property&gt;  </span><br><span class="line">		&lt;name&gt;yarn.log.server.url&lt;&#x2F;name&gt;  </span><br><span class="line">		&lt;value&gt;http:&#x2F;&#x2F;hadoop112:19888&#x2F;jobhistory&#x2F;logs&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 设置日志保留时间为7天 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.log-aggregation.retain-seconds&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;604800&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 启用resourcemanager ha --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.ha.enabled&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"> </span><br><span class="line">	&lt;!-- 声明三台resourcemanager的地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.cluster-id&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;cluster-yarn1&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!--指定resourcemanager的逻辑列表--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.ha.rm-ids&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;rm1,rm2,rm3&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!-- &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; rm1的配置 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; --&gt;</span><br><span class="line">	&lt;!-- 指定rm1的主机名 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.hostname.rm1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定rm1的web端地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.webapp.address.rm1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:8088&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定rm1的内部通信地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.address.rm1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:8032&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定AM向rm1申请资源的地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.scheduler.address.rm1&lt;&#x2F;name&gt;  </span><br><span class="line">		&lt;value&gt;hadoop112:8030&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定供NM连接的地址 --&gt;  </span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.resource-tracker.address.rm1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:8031&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!-- &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; rm2的配置 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; --&gt;</span><br><span class="line">	&lt;!-- 指定rm2的主机名 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.hostname.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.webapp.address.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8088&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.address.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8032&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.scheduler.address.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8030&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.resource-tracker.address.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8031&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!-- &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; rm3的配置 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; --&gt;</span><br><span class="line">	&lt;!-- 指定rm3的主机名 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.hostname.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.webapp.address.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8088&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.address.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8032&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.scheduler.address.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8030&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.resource-tracker.address.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8031&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"> </span><br><span class="line">	&lt;!-- 指定zookeeper集群的地址 --&gt; </span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.zk-address&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:2181,hadoop113:2181,hadoop114:2181&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 启用自动恢复 --&gt; </span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.recovery.enabled&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"> </span><br><span class="line">	&lt;!-- 指定resourcemanager的状态信息存储在zookeeper集群 --&gt; </span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.store.class&lt;&#x2F;name&gt;     </span><br><span class="line">		&lt;value&gt;org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>sudo vim /etc/hosts</p>
+<p><img src="./1718431884428.png" alt="Alt text"></p>
+<h4 id="克隆-hadoop112"><a href="#克隆-hadoop112" class="headerlink" title="克隆 hadoop112"></a>克隆 hadoop112</h4><p>创建 hadoop112 的完整克隆 hadoop113、hadoop114，并配置其 ip 、 hostname</p>
+<p><img src="./1718456007172.png" alt="Alt text"></p>
+<p><img src="./1718456021364.png" alt="Alt text"></p>
+<p><img src="./1718456042789.png" alt="Alt text"></p>
+<p><img src="./1718456055885.png" alt="Alt text"></p>
+<p>配置各自 zookeeper 的 myid</p>
+<p><img src="./1718456184522.png" alt="Alt text"></p>
+<p><img src="./1718456199236.png" alt="Alt text"></p>
+<p>在 hadoop112、hadoop113、hadoop114 上执行</p>
+<p>ssh-copy-id hadoop112
+ssh-copy-id hadoop113
+ssh-copy-id hadoop114</p>
+<h4 id="不使用克隆-hadoop112"><a href="#不使用克隆-hadoop112" class="headerlink" title="不使用克隆 hadoop112"></a>不使用克隆 hadoop112</h4><p>可以创建新的 centos 系统挑战自己，注意使用 scp 传输相应的各文件和配置</p>
+<p>scp 例子</p>
+<p>scp -r /devops/apache-zookeeper-3.5.7-bin  hadoop@hadoop113:/devops
+scp -r /devops/apache-zookeeper-3.5.7-bin  hadoop@hadoop114:/devops</p>
+<h4 id="启动-hadoop-高可用集群"><a href="#启动-hadoop-高可用集群" class="headerlink" title="启动 hadoop 高可用集群"></a>启动 hadoop 高可用集群</h4><p>在 hadoop112、hadoop113、hadoop114 上执行
+zkServer.sh start</p>
+<p>在 hadoop112、hadoop113、hadoop114 上执行
+cd /devops/hadoop-3.1.3
+rm -rf data/ logs/
+hdfs –daemon start journalnode</p>
+<p>在 hadoop112上执行
+hdfs namenode -format
+hdfs –daemon start namenode</p>
+<p>在 hadoop113、hadoop114上执行
+hdfs namenode -bootstrapStandby</p>
+<p>在 hadoop112上执行
+stop-all.sh
+hdfs zkfc -formatZK</p>
+<p>再启动
+start-all.sh </p>
+<p><img src="./1718464965552.png" alt="Alt text"></p>
+<p><img src="./1718464978165.png" alt="Alt text"></p>
+<p><img src="./1718464991437.png" alt="Alt text"></p>
+<p><img src="./1718465001342.png" alt="Alt text"></p>
+<p>注意配置本地的 hosts 文件，才能使用 hadoop112、hadoop113、hadoop114 域名访问 web</p>
+<p><img src="./1718465071087.png" alt="Alt text"></p>
+<p><img src="./1718465032032.png" alt="Alt text"></p>
+<p><img src="./1718465124105.png" alt="Alt text"></p>
+<p><img src="./1718465131464.png" alt="Alt text"></p>
+<p><img src="./1718465139826.png" alt="Alt text"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/">Hadoop 高可用集群部署</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2024-06-15, 00:00:00</p>
+        <p><span>最后更新:</span>2024-06-15, 23:27:16</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/" title="Hadoop 高可用集群部署">https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://knightdevelop.github.io/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2024/06/14/%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/">
+                    Hadoop单机/伪分布式部署
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Hadoop 高可用集群部署　| Knight's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2024/06/14/%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/" title="下一篇: Hadoop单机/伪分布式部署">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/">Hadoop 高可用集群部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/06/14/%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/">Hadoop单机/伪分布式部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/06/01/Linux%20%E4%BF%AE%E6%94%B9%20%E9%9D%99%E6%80%81IP%E5%90%8E%20%E5%87%BA%E7%8E%B0%20name%20or%20service%20not%20known/">Linux 修改 静态IP后 出现 name or service not known</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/06/01/eve-ng%20%E4%BD%BF%E7%94%A8%20Windows%20%E9%85%8D%E7%BD%AE%20%E9%94%90%E6%8D%B7%E9%98%B2%E7%81%AB%E5%A2%99/">eve-ng 使用 Windows 配置 锐捷防火墙</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/">Java多线程(0)</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/02/08/hexo%20blog%20%E8%BF%81%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91%E5%B0%8F%E8%AE%B0/">hexo blog 迁移到另一台电脑小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/02/07/h5%20%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%86%85%E7%BD%AE%E6%B5%8F%E8%A7%88%E5%99%A8Safari%E8%B8%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%9D%91(click%E3%80%81audio)/">h5 在微信内置浏览器Safari踩的一些小坑(click、audio)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/10/%E3%80%8A%E5%90%8E%E6%B5%AA%E3%80%8B%E8%A7%82%E5%90%8E%E6%84%9F/">《后浪》观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/14/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(02)/">zookeeper 从入门到放弃(02)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/12/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(01)/">zookeeper 从入门到放弃(01)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/12/%E6%9C%AC%E5%9C%B0%E5%90%AF%E5%8A%A8%E5%A4%9A%E4%B8%AA%20zookeeper%20server/">本地启动多个 zookeeper server</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/11/Nul%20%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%A0%E9%99%A4/">Nul 文件的删除</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/11/zookeeper%20%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83(00)/">zookeeper 从入门到放弃(00)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/14/ubuntu%20%E5%BB%BA%E7%AB%99%20-%20tomcat/">ubuntu 建站 - tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/14/%E7%A5%9E%E8%88%9FZ7-KP7S1%20deepin%20%E5%AE%89%E8%A3%85%E9%BB%91%E5%B1%8F/">神舟Z7-KP7S1 deepin 安装黑屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/linux%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/">linux 环境变量设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F-%E5%AE%9E%E6%88%98%E7%AF%87/">设计模式-原型模式-实战篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/06/can%E2%80%99t%20push%20to%20git%20%20use%20https/">can't push to git  use https</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/06/eclipse%20pull%20repository%20by%20ssh%20key/">eclipse pull repository by ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/04/%E6%9C%AC%E5%9C%B0%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E8%B4%A6%E5%8F%B7%E6%8F%90%E4%BA%A4/">本地配置多个github账号，如何使用指定账号提交</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/30/%E5%9C%9F%E8%B1%86%E7%82%96%E7%89%9B%E8%82%89/">土豆炖牛肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/30/%E5%A4%A7%E7%9B%98%E9%B8%A1/">大盘鸡</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/%E8%BE%A3%E6%A4%92%E7%82%92%E8%82%89/">辣椒炒肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/%E8%92%9C%E8%96%B9%E5%9B%9E%E9%94%85%E8%82%89/">蒜薹回锅肉</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/29/%E6%B5%85%E8%B0%88%20jsoup/">浅谈 jsoup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/BaseSpring/">BaseSpring</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/hexo%20yelee%20local%20search%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8/">hexo yelee local search 不能使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/07/%E8%87%B4%E5%87%86%E5%A4%87%E8%BF%9B%E5%85%A5IT%E8%A1%8C%E4%B8%9A%E5%AD%A6%E5%BC%9F%E5%AD%A6%E5%A6%B9%E4%BB%AC%E7%9A%84%E4%B8%80%E5%B0%81%E4%BF%A1/">致准备进入IT行业学弟学妹们的一封信</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/18/git%20%E6%8F%90%E4%BA%A4%E5%BF%BD%E7%95%A5%E4%B8%80%E4%BA%9B%E6%96%87%E4%BB%B6%E3%80%81%E6%96%87%E4%BB%B6%E5%A4%B9/">git 提交忽略一些文件、文件夹</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/maven%20build%20debug%20%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%20.class%20%E6%96%87%E4%BB%B6/">maven build debug 无法进入 .class 文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/IDEA%20Git%20%E6%8F%90%E4%BA%A4%20403%20Error%20Code/">IDEA Git 提交 403 Error Code</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/28/solr+db/">solr+db</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/22/tomcat8+solr6.5.1/">tomcat8+solr6.5.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/java%E7%9A%84%E8%A3%85%E7%AE%B1%E3%80%81%E6%8B%86%E7%AE%B1/">java的装箱、拆箱</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/log4j%20debug%20info%20warn%20error/">log4j debug info warn error</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/13/JCF/">JCF</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/10/%E6%B5%85%E8%B0%88junit%EF%BC%88%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%89/">浅谈junit（单元测试）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/06/post%20&%20get/">post & get</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/05/maven%20tomcat%20plugin%20%E4%BD%BF%E7%94%A8/">maven tomcat plugin 使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/hibernate%20jpa/">hibernate jpa</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/OWASP%20Top%2010/">OWASP Top 10</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/">Web如何提高响应速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/POSTGRESQL/">POSTGRESQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/hexo&%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/">hexo&马克飞象图片不能正常显示问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/%E6%9C%AC%E5%9C%B0%E6%9C%89%E5%A4%9A%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8hexo%E9%83%A8%E7%BD%B2%E5%88%B0%E7%89%B9%E5%AE%9A%E8%B4%A6%E5%8F%B7/">本地有多个github账号如何使用hexo部署到特定账号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/%E6%B0%B4%E7%85%AE%E7%89%9B%E8%82%89/">水煮牛肉</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2024 Knight
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

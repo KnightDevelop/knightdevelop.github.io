@@ -1,6 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hadoop 高可用集群部署</title>
+    <url>/2024/06/15/Hadoop%20%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<p>使用 VMware Workstation + centos 实现 hadoop 的高可用集群部署。</p>
+<a id="more"></a>
+
+<h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><table>
+<thead>
+<tr>
+<th align="center">hadoop112</th>
+<th align="center">hadoop113</th>
+<th align="center">hadoop114</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">NameNode</td>
+<td align="center">NameNode</td>
+<td align="center">NameNode</td>
+</tr>
+<tr>
+<td align="center">ZKFC</td>
+<td align="center">ZKFC</td>
+<td align="center">ZKFC</td>
+</tr>
+<tr>
+<td align="center">JournalNode</td>
+<td align="center">JournalNode</td>
+<td align="center">JournalNode</td>
+</tr>
+<tr>
+<td align="center">ZK</td>
+<td align="center">ZK</td>
+<td align="center">ZK</td>
+</tr>
+<tr>
+<td align="center">ResourceManager</td>
+<td align="center">ResourceManager</td>
+<td align="center">ResourceManager</td>
+</tr>
+<tr>
+<td align="center">NodeManager</td>
+<td align="center">NodeManager</td>
+<td align="center">NodeManager</td>
+</tr>
+</tbody></table>
+<h4 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h4><p>这里我直接克隆伪分布式的 hadoop111，参照之前的博客再部署一遍也行</p>
+<p>修改静态IP</p>
+<p>vim /etc/sysconfig/network-scripts/ifcfg-ens33 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TYPE&#x3D;&quot;Ethernet&quot;</span><br><span class="line">PROXY_METHOD&#x3D;&quot;none&quot;</span><br><span class="line">BROWSER_ONLY&#x3D;&quot;no&quot;</span><br><span class="line">BOOTPROTO&#x3D;&quot;static&quot;</span><br><span class="line">DEFROUTE&#x3D;&quot;yes&quot;</span><br><span class="line">IPV4_FAILURE_FATAL&#x3D;&quot;no&quot;</span><br><span class="line">IPV6INIT&#x3D;&quot;yes&quot;</span><br><span class="line">IPV6_AUTOCONF&#x3D;&quot;yes&quot;</span><br><span class="line">IPV6_DEFROUTE&#x3D;&quot;yes&quot;</span><br><span class="line">IPV6_FAILURE_FATAL&#x3D;&quot;no&quot;</span><br><span class="line">IPV6_ADDR_GEN_MODE&#x3D;&quot;stable-privacy&quot;</span><br><span class="line">NAME&#x3D;&quot;ens33&quot;</span><br><span class="line">UUID&#x3D;&quot;cafa4500-048b-41a3-a880-0ea13ff55b07&quot;</span><br><span class="line">DEVICE&#x3D;&quot;ens33&quot;</span><br><span class="line">ONBOOT&#x3D;&quot;yes&quot;</span><br><span class="line">IPADDR&#x3D;192.168.64.112</span><br><span class="line">NETMASK&#x3D;255.255.255.0</span><br><span class="line">GATEWAY&#x3D;192.168.64.2</span><br><span class="line">DNS1&#x3D;192.168.64.2</span><br></pre></td></tr></table></figure>
+<p><img src="./1718428891583.png" alt="Alt text"></p>
+<p>vim /etc/hostname</p>
+<p><img src="./1718428918795.png" alt="Alt text"></p>
+<p>vim /etc/hosts</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">192.168.64.111 hadoop111</span><br><span class="line">192.168.64.112 hadoop112</span><br><span class="line">192.168.64.113 hadoop113</span><br><span class="line">192.168.64.114 hadoop114</span><br></pre></td></tr></table></figure>
+<h4 id="安装-zookeeper"><a href="#安装-zookeeper" class="headerlink" title="安装 zookeeper"></a>安装 zookeeper</h4><p>使用 scp 把 apache-zookeeper-3.5.7-bin.tar.gz 传入 devops</p>
+<p>tar -zxvf apache-zookeeper-3.5.7-bin.tar.gz
+cd /devops/apache-zookeeper-3.5.7-bin
+mkdir -p zkData
+cd /devops/apache-zookeeper-3.5.7-bin/conf
+cp zoo_sample.cfg zoo.cfg
+vim zoo.cfg</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dataDir&#x3D;&#x2F;devops&#x2F;apache-zookeeper-3.5.7-bin&#x2F;zkData</span><br><span class="line"></span><br><span class="line">#######################cluster##########################</span><br><span class="line">server.2&#x3D;hadoop112:2888:3888</span><br><span class="line">server.3&#x3D;hadoop113:2888:3888</span><br><span class="line">server.4&#x3D;hadoop114:2888:3888</span><br></pre></td></tr></table></figure>
+<p>cd /devops/apache-zookeeper-3.5.7-bin/zkData
+touch myid
+注：由于我当前处于 hadoop112 服务器，所以 myid 里面写入2，如果是 hadoop113、hadoop114则对应地写入3、4
+vim myid</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></figure>
+<p>sudo vim /etc/profile.d/my_env.sh</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export ZOOKEEPER_HOME&#x3D;&#x2F;devops&#x2F;apache-zookeeper-3.5.7-bin</span><br><span class="line">export PATH&#x3D;$ZOOKEEPER_HOME&#x2F;bin:$PATH</span><br></pre></td></tr></table></figure>
+<p>source /etc/profile</p>
+<h4 id="hadoop-配置"><a href="#hadoop-配置" class="headerlink" title="hadoop 配置"></a>hadoop 配置</h4><p>sudo chown -R hadoop:hadoop /devops</p>
+<p>vim /devops/hadoop-3.1.3/etc/hadoop/core-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- 把多个NameNode的地址组装成一个集群mycluster --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">	  &lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;</span><br><span class="line">	  &lt;value&gt;hdfs:&#x2F;&#x2F;mycluster&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 指定hadoop数据的存储目录 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.tmp.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;&#x2F;devops&#x2F;hadoop-3.1.3&#x2F;data&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置HDFS网页登录使用的静态用户为hadoop --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.http.staticuser.user&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置该hadoop(superUser)允许通过代理访问的主机节点 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.proxyuser.hadoop.hosts&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置该hadoop(superUser)允许通过代理用户所属组 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置该hadoop(superUser)允许通过代理的用户--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;*&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">	    &lt;name&gt;ha.zookeeper.quorum&lt;&#x2F;name&gt;</span><br><span class="line">	    &lt;value&gt;hadoop112:2181,hadoop113:2181,hadoop114:2181&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>vim /devops/hadoop-3.1.3/etc/hadoop/hdfs-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- NameNode数据存储目录 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.name.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;file:&#x2F;&#x2F;$&#123;hadoop.tmp.dir&#125;&#x2F;name&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- DataNode数据存储目录 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.datanode.data.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;file:&#x2F;&#x2F;$&#123;hadoop.tmp.dir&#125;&#x2F;data&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- JournalNode数据存储目录 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.journalnode.edits.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;$&#123;hadoop.tmp.dir&#125;&#x2F;jn&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 完全分布式集群名称 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.nameservices&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;mycluster&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 集群中NameNode节点都有哪些 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.ha.namenodes.mycluster&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;nn1,nn2,nn3&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- NameNode的RPC通信地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.rpc-address.mycluster.nn1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:8020&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.rpc-address.mycluster.nn2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8020&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.rpc-address.mycluster.nn3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8020&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- NameNode的http通信地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.http-address.mycluster.nn1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:9870&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.http-address.mycluster.nn2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:9870&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.http-address.mycluster.nn3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:9870&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定NameNode元数据在JournalNode上的存放位置 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.namenode.shared.edits.dir&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;qjournal:&#x2F;&#x2F;hadoop112:8485;hadoop113:8485;hadoop114:8485&#x2F;mycluster&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 访问代理类：client用于确定哪个NameNode为Active --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.client.failover.proxy.provider.mycluster&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 配置隔离机制，即同一时刻只能有一台服务器对外响应 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.ha.fencing.methods&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;sshfence&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 使用隔离机制时需要ssh秘钥登录--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.ha.fencing.ssh.private-key-files&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;&#x2F;home&#x2F;hadoop&#x2F;.ssh&#x2F;id_rsa&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 启用nn故障自动转移 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;dfs.ha.automatic-failover.enabled&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>vim /devops/hadoop-3.1.3/etc/hadoop/yarn-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- 指定MR走shuffle --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 环境变量的继承 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.env-whitelist&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- yarn容器允许分配的最大最小内存 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.scheduler.minimum-allocation-mb&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;512&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.scheduler.maximum-allocation-mb&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;4096&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- yarn容器允许管理的物理内存大小 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;4096&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 关闭yarn对物理内存和虚拟内存的限制检查 --&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.pmem-check-enabled&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;false&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;false&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 开启日志聚集功能 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.log-aggregation-enable&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 设置日志聚集服务器地址 --&gt;</span><br><span class="line">	&lt;property&gt;  </span><br><span class="line">		&lt;name&gt;yarn.log.server.url&lt;&#x2F;name&gt;  </span><br><span class="line">		&lt;value&gt;http:&#x2F;&#x2F;hadoop112:19888&#x2F;jobhistory&#x2F;logs&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 设置日志保留时间为7天 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.log-aggregation.retain-seconds&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;604800&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 启用resourcemanager ha --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.ha.enabled&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"> </span><br><span class="line">	&lt;!-- 声明三台resourcemanager的地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.cluster-id&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;cluster-yarn1&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!--指定resourcemanager的逻辑列表--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.ha.rm-ids&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;rm1,rm2,rm3&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!-- &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; rm1的配置 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; --&gt;</span><br><span class="line">	&lt;!-- 指定rm1的主机名 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.hostname.rm1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定rm1的web端地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.webapp.address.rm1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:8088&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定rm1的内部通信地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.address.rm1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:8032&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定AM向rm1申请资源的地址 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.scheduler.address.rm1&lt;&#x2F;name&gt;  </span><br><span class="line">		&lt;value&gt;hadoop112:8030&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;!-- 指定供NM连接的地址 --&gt;  </span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.resource-tracker.address.rm1&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:8031&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!-- &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; rm2的配置 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; --&gt;</span><br><span class="line">	&lt;!-- 指定rm2的主机名 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.hostname.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.webapp.address.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8088&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.address.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8032&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.scheduler.address.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8030&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.resource-tracker.address.rm2&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop113:8031&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!-- &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; rm3的配置 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; --&gt;</span><br><span class="line">	&lt;!-- 指定rm3的主机名 --&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.hostname.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.webapp.address.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8088&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.address.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8032&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.scheduler.address.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8030&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.resource-tracker.address.rm3&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop114:8031&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"> </span><br><span class="line">	&lt;!-- 指定zookeeper集群的地址 --&gt; </span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.zk-address&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;hadoop112:2181,hadoop113:2181,hadoop114:2181&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 启用自动恢复 --&gt; </span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.recovery.enabled&lt;&#x2F;name&gt;</span><br><span class="line">		&lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line"> </span><br><span class="line">	&lt;!-- 指定resourcemanager的状态信息存储在zookeeper集群 --&gt; </span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;yarn.resourcemanager.store.class&lt;&#x2F;name&gt;     </span><br><span class="line">		&lt;value&gt;org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore&lt;&#x2F;value&gt;</span><br><span class="line">	&lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>sudo vim /etc/hosts</p>
+<p><img src="./1718431884428.png" alt="Alt text"></p>
+<h4 id="克隆-hadoop112"><a href="#克隆-hadoop112" class="headerlink" title="克隆 hadoop112"></a>克隆 hadoop112</h4><p>创建 hadoop112 的完整克隆 hadoop113、hadoop114，并配置其 ip 、 hostname</p>
+<p><img src="./1718456007172.png" alt="Alt text"></p>
+<p><img src="./1718456021364.png" alt="Alt text"></p>
+<p><img src="./1718456042789.png" alt="Alt text"></p>
+<p><img src="./1718456055885.png" alt="Alt text"></p>
+<p>配置各自 zookeeper 的 myid</p>
+<p><img src="./1718456184522.png" alt="Alt text"></p>
+<p><img src="./1718456199236.png" alt="Alt text"></p>
+<p>在 hadoop112、hadoop113、hadoop114 上执行</p>
+<p>ssh-copy-id hadoop112
+ssh-copy-id hadoop113
+ssh-copy-id hadoop114</p>
+<h4 id="不使用克隆-hadoop112"><a href="#不使用克隆-hadoop112" class="headerlink" title="不使用克隆 hadoop112"></a>不使用克隆 hadoop112</h4><p>可以创建新的 centos 系统挑战自己，注意使用 scp 传输相应的各文件和配置</p>
+<p>scp 例子</p>
+<p>scp -r /devops/apache-zookeeper-3.5.7-bin  hadoop@hadoop113:/devops
+scp -r /devops/apache-zookeeper-3.5.7-bin  hadoop@hadoop114:/devops</p>
+<h4 id="启动-hadoop-高可用集群"><a href="#启动-hadoop-高可用集群" class="headerlink" title="启动 hadoop 高可用集群"></a>启动 hadoop 高可用集群</h4><p>在 hadoop112、hadoop113、hadoop114 上执行
+zkServer.sh start</p>
+<p>在 hadoop112、hadoop113、hadoop114 上执行
+cd /devops/hadoop-3.1.3
+rm -rf data/ logs/
+hdfs –daemon start journalnode</p>
+<p>在 hadoop112上执行
+hdfs namenode -format
+hdfs –daemon start namenode</p>
+<p>在 hadoop113、hadoop114上执行
+hdfs namenode -bootstrapStandby</p>
+<p>在 hadoop112上执行
+stop-all.sh
+hdfs zkfc -formatZK</p>
+<p>再启动
+start-all.sh </p>
+<p><img src="./1718464965552.png" alt="Alt text"></p>
+<p><img src="./1718464978165.png" alt="Alt text"></p>
+<p><img src="./1718464991437.png" alt="Alt text"></p>
+<p><img src="./1718465001342.png" alt="Alt text"></p>
+<p>注意配置本地的 hosts 文件，才能使用 hadoop112、hadoop113、hadoop114 域名访问 web</p>
+<p><img src="./1718465071087.png" alt="Alt text"></p>
+<p><img src="./1718465032032.png" alt="Alt text"></p>
+<p><img src="./1718465124105.png" alt="Alt text"></p>
+<p><img src="./1718465131464.png" alt="Alt text"></p>
+<p><img src="./1718465139826.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>Hadoop</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>BaseSpring</title>
     <url>/2017/07/22/BaseSpring/</url>
     <content><![CDATA[<p>楼主以前每次撸一个 web project 都需要把 spring 以及相关的框架（像 tiles 、 mybatis、hibernate）都配置一遍，<a id="more"></a>虽然说可以提高写代码的熟练度，但是有时候的确是不想在这上面浪费时间，所以楼主撸了一个 BaseSpring，以后需要快速搭建 spring web 的时候就直接把这个 project pull 下来，删除 .gitignore 文件，去掉不需要的组件就行了。</p>
@@ -45,6 +174,28 @@
       </categories>
       <tags>
         <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java多线程(0)</title>
+    <url>/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/</url>
+    <content><![CDATA[<p>预习一下 Java 多线程的姿势。</p>
+<a id="more"></a>
+
+
+<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p>当没有非守护线程时，JVM进程结束，守护线程停止，相当于给非守护线程陪跑的。</p>
+<p><img src="./1615782266096.png" alt="Alt text"></p>
+<h3 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt"></a>interrupt</h3><p>中断线程，取代 Thread.stop()，线程执行 interrupt 之后，线程的 interrupt 状态会发生改变，如果需要线程停止，需要在线程的 run 方法里面使用 interrupted 状态停止；继承了 Thread 的 class 才能使用 interrupt。</p>
+<p><img src="./1615783549470.png" alt="Alt text"></p>
+<h3 id="Callable、Future、FutureTask"><a href="#Callable、Future、FutureTask" class="headerlink" title="Callable、Future、FutureTask"></a>Callable、Future、FutureTask</h3><p>继承 Thread、实现 Runnable 接口都可以创建线程，但是 Thread 、Runnable 里面的 run 方法都是 void 类型的，没有返回值，继承 FutureTask 实现 Callable、Future 可以使用有返回值的线程。</p>
+<p><img src="./1615785149955.png" alt="Alt text"></p>
+<p><a href="https://github.com/Knight-JNXU/ThreadStudy">参考代码</a></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
       </tags>
   </entry>
   <entry>
@@ -108,49 +259,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java多线程(0)</title>
-    <url>/2021/03/15/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(0)/</url>
-    <content><![CDATA[<p>预习一下 Java 多线程的姿势。</p>
-<a id="more"></a>
-
-
-<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p>当没有非守护线程时，JVM进程结束，守护线程停止，相当于给非守护线程陪跑的。</p>
-<p><img src="./1615782266096.png" alt="Alt text"></p>
-<h3 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt"></a>interrupt</h3><p>中断线程，取代 Thread.stop()，线程执行 interrupt 之后，线程的 interrupt 状态会发生改变，如果需要线程停止，需要在线程的 run 方法里面使用 interrupted 状态停止；继承了 Thread 的 class 才能使用 interrupt。</p>
-<p><img src="./1615783549470.png" alt="Alt text"></p>
-<h3 id="Callable、Future、FutureTask"><a href="#Callable、Future、FutureTask" class="headerlink" title="Callable、Future、FutureTask"></a>Callable、Future、FutureTask</h3><p>继承 Thread、实现 Runnable 接口都可以创建线程，但是 Thread 、Runnable 里面的 run 方法都是 void 类型的，没有返回值，继承 FutureTask 实现 Callable、Future 可以使用有返回值的线程。</p>
-<p><img src="./1615785149955.png" alt="Alt text"></p>
-<p><a href="https://github.com/Knight-JNXU/ThreadStudy">参考代码</a></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nul 文件的删除</title>
-    <url>/2020/02/11/Nul%20%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%A0%E9%99%A4/</url>
-    <content><![CDATA[<p>今天，在移动文件的过程中，产生了一个 Nul，无法删除、无法移动。</p>
-<a id="more"></a>
-
-<p>Nul 文件可能是 文件损坏导致的，也有可能是磁盘出现了坏道导致的，看了一下 CrystalDiskInfo，显示我的硬盘健康状态是 100% 良好，估计可能是文件损坏了（不重要）。</p>
-<p>由于 Nul 是 windows 里面的保留字，如果直接删除，会提示 “ms-dos功能无效” ，请教了一下 谷妈，生成了一个 bat 文件，把 Nul 文件拖进去删掉了，谨此记录。</p>
-<p><img src="./1581417470421.png" alt="Alt text"></p>
-<p>**bat file content **</p>
-<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="built_in">DEL</span>/F /A /Q \\?\%<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">RD</span> /S /Q \\?\%<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<p>参考资料：<a href="https://blog.csdn.net/gerryzhu/article/details/8573901">显示无法删除nul,参数不正确 的解决之道</a></p>
-]]></content>
-      <categories>
-        <category>系统</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>OWASP Top 10</title>
     <url>/2017/04/03/OWASP%20Top%2010/</url>
     <content><![CDATA[<h4 id="1-SQL注入"><a href="#1-SQL注入" class="headerlink" title="1. SQL注入"></a>1. SQL注入</h4><ul>
@@ -208,6 +316,55 @@ trace：可以获取网站前端缓存服务器、进行XSS攻击、在启用htt
       <tags>
         <tag>其他</tag>
         <tag>进阶</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Web如何提高响应速度</title>
+    <url>/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/</url>
+    <content><![CDATA[<p>web性能优化中有句话叫“前端为八、后端为二”，在前端进行优化往往能够起到立竿见影的效果。</p>
+<h4 id="1-尽量减少前端的http请求"><a href="#1-尽量减少前端的http请求" class="headerlink" title="1. 尽量减少前端的http请求"></a>1. 尽量减少前端的http请求</h4><ul>
+<li>合并CSS文件、JS文件，就是把多个CSS文件合成一个CSS文件，多个JS文件合成一个JS文件，去除里面的空格、换行等等。</li>
+<li>把多张图片合成一张大图片，CSS Sprites利用CSS background相关元素进行背景图绝对定位，就可以从这张大图片中取出需要的部分。<a id="more"></a>
+<h4 id="2-使用静态页面"><a href="#2-使用静态页面" class="headerlink" title="2. 使用静态页面"></a>2. 使用静态页面</h4></li>
+<li>将不常更新的页面内容静态化。<h4 id="3-CDN加速"><a href="#3-CDN加速" class="headerlink" title="3. CDN加速"></a>3. CDN加速</h4></li>
+<li>cdn加速是通过一个服务器集群对网站内容建立缓存和镜像，并且通过对网页静态资源的压缩来加快网站的最终访问速度。<h4 id="4-把JS脚本的加载放在页面加载的后面"><a href="#4-把JS脚本的加载放在页面加载的后面" class="headerlink" title="4. 把JS脚本的加载放在页面加载的后面"></a>4. 把JS脚本的加载放在页面加载的后面</h4></li>
+<li>避免JS加载卡顿时，对页面加载产生影响。<h4 id="5-使用NOSQL"><a href="#5-使用NOSQL" class="headerlink" title="5. 使用NOSQL"></a>5. 使用NOSQL</h4></li>
+<li>使用nosql提高应用服务器与数据库的数据库交互，从而提高web响应速度。<h4 id="6-使用分布式"><a href="#6-使用分布式" class="headerlink" title="6. 使用分布式"></a>6. 使用分布式</h4></li>
+<li>比如说把原来一个服务器做的任务分发到两个服务器，建立专门图片服务器。<blockquote>
+<p>分布式和集群的区别：集群是同一个业务部署在多台机器上，提高系统可用性。分布式是不同的业务模块拆分到不同的机器上，解决高并发的问题。打个比方，一个饭店，为了提高上菜效率，如果是雇佣多个厨师，就是集群，如果是把切菜、洗菜等工作分给不同的人做的话，就是分布式。集群主要的优点是增强服务器的容灾性。</p>
+</blockquote>
+<h4 id="7-使用缓存"><a href="#7-使用缓存" class="headerlink" title="7. 使用缓存"></a>7. 使用缓存</h4></li>
+<li>服务器缓存、浏览器缓存等。<h4 id="8-升级硬件"><a href="#8-升级硬件" class="headerlink" title="8. 升级硬件"></a>8. 升级硬件</h4></li>
+<li>升级硬件，提高服务器运算速度和网络传输速度。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+        <tag>进阶</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nul 文件的删除</title>
+    <url>/2020/02/11/Nul%20%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%A0%E9%99%A4/</url>
+    <content><![CDATA[<p>今天，在移动文件的过程中，产生了一个 Nul，无法删除、无法移动。</p>
+<a id="more"></a>
+
+<p>Nul 文件可能是 文件损坏导致的，也有可能是磁盘出现了坏道导致的，看了一下 CrystalDiskInfo，显示我的硬盘健康状态是 100% 良好，估计可能是文件损坏了（不重要）。</p>
+<p>由于 Nul 是 windows 里面的保留字，如果直接删除，会提示 “ms-dos功能无效” ，请教了一下 谷妈，生成了一个 bat 文件，把 Nul 文件拖进去删掉了，谨此记录。</p>
+<p><img src="./1581417470421.png" alt="Alt text"></p>
+<p>**bat file content **</p>
+<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="built_in">DEL</span>/F /A /Q \\?\%<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">RD</span> /S /Q \\?\%<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>参考资料：<a href="https://blog.csdn.net/gerryzhu/article/details/8573901">显示无法删除nul,参数不正确 的解决之道</a></p>
+]]></content>
+      <categories>
+        <category>系统</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
       </tags>
   </entry>
   <entry>
@@ -530,34 +687,6 @@ demo：</p>
       </tags>
   </entry>
   <entry>
-    <title>Web如何提高响应速度</title>
-    <url>/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/</url>
-    <content><![CDATA[<p>web性能优化中有句话叫“前端为八、后端为二”，在前端进行优化往往能够起到立竿见影的效果。</p>
-<h4 id="1-尽量减少前端的http请求"><a href="#1-尽量减少前端的http请求" class="headerlink" title="1. 尽量减少前端的http请求"></a>1. 尽量减少前端的http请求</h4><ul>
-<li>合并CSS文件、JS文件，就是把多个CSS文件合成一个CSS文件，多个JS文件合成一个JS文件，去除里面的空格、换行等等。</li>
-<li>把多张图片合成一张大图片，CSS Sprites利用CSS background相关元素进行背景图绝对定位，就可以从这张大图片中取出需要的部分。<a id="more"></a>
-<h4 id="2-使用静态页面"><a href="#2-使用静态页面" class="headerlink" title="2. 使用静态页面"></a>2. 使用静态页面</h4></li>
-<li>将不常更新的页面内容静态化。<h4 id="3-CDN加速"><a href="#3-CDN加速" class="headerlink" title="3. CDN加速"></a>3. CDN加速</h4></li>
-<li>cdn加速是通过一个服务器集群对网站内容建立缓存和镜像，并且通过对网页静态资源的压缩来加快网站的最终访问速度。<h4 id="4-把JS脚本的加载放在页面加载的后面"><a href="#4-把JS脚本的加载放在页面加载的后面" class="headerlink" title="4. 把JS脚本的加载放在页面加载的后面"></a>4. 把JS脚本的加载放在页面加载的后面</h4></li>
-<li>避免JS加载卡顿时，对页面加载产生影响。<h4 id="5-使用NOSQL"><a href="#5-使用NOSQL" class="headerlink" title="5. 使用NOSQL"></a>5. 使用NOSQL</h4></li>
-<li>使用nosql提高应用服务器与数据库的数据库交互，从而提高web响应速度。<h4 id="6-使用分布式"><a href="#6-使用分布式" class="headerlink" title="6. 使用分布式"></a>6. 使用分布式</h4></li>
-<li>比如说把原来一个服务器做的任务分发到两个服务器，建立专门图片服务器。<blockquote>
-<p>分布式和集群的区别：集群是同一个业务部署在多台机器上，提高系统可用性。分布式是不同的业务模块拆分到不同的机器上，解决高并发的问题。打个比方，一个饭店，为了提高上菜效率，如果是雇佣多个厨师，就是集群，如果是把切菜、洗菜等工作分给不同的人做的话，就是分布式。集群主要的优点是增强服务器的容灾性。</p>
-</blockquote>
-<h4 id="7-使用缓存"><a href="#7-使用缓存" class="headerlink" title="7. 使用缓存"></a>7. 使用缓存</h4></li>
-<li>服务器缓存、浏览器缓存等。<h4 id="8-升级硬件"><a href="#8-升级硬件" class="headerlink" title="8. 升级硬件"></a>8. 升级硬件</h4></li>
-<li>升级硬件，提高服务器运算速度和网络传输速度。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-        <tag>进阶</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>can&#39;t push to git  use https</title>
     <url>/2018/01/06/can%E2%80%99t%20push%20to%20git%20%20use%20https/</url>
     <content><![CDATA[<p>今天楼主使用 ssh key 拉取仓库后，发现只能 commit 不能 push，特此记录。exception ：can’t push to git://github.com/xxx/xxx.git use <a href="https://github.com/xxx/xxx.git">https://github.com/xxx/xxx.git</a></p>
@@ -602,29 +731,6 @@ demo：</p>
       <tags>
         <tag>github</tag>
         <tag>eclipse</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>h5 在微信内置浏览器Safari踩的一些小坑(click、audio)</title>
-    <url>/2021/02/07/h5%20%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%86%85%E7%BD%AE%E6%B5%8F%E8%A7%88%E5%99%A8Safari%E8%B8%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%9D%91(click%E3%80%81audio)/</url>
-    <content><![CDATA[<p>使用github page做了一个小静态网页，发现 click 时间、audio 在不同浏览器中的使用有细微差异。</p>
-<a id="more"></a>
-
-<h3 id="click"><a href="#click" class="headerlink" title="click"></a>click</h3><p>onclick 事件在微信内置浏览器中是无法正常被监听的，如果引用了 jquery 的话，可以参考如下写法</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>).on(<span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="audio"><a href="#audio" class="headerlink" title="audio"></a>audio</h3><p>现今主流浏览器是无法支持 audio autostart 功能的，楼主只发现在 Edge 浏览器中还支持 autostart 自动播放功能，大多数浏览器（chrome、Safari）是需要用户一个交互事件才能实现 audio 音频的播放；
-微信内置浏览器、Safari还无法实现 audio 的 preload 预加载功能， 需要把 audio 的 load 绑定到一个用户交互事件上，采用手动加载，如</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>).on(<span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;$(<span class="string">&quot;#audio&quot;</span>)[<span class="number">0</span>].load()&#125;);</span><br></pre></td></tr></table></figure>
-<p>先更这么多，以后有新发现再补充。</p>
-<p>参考资料：
-<a href="https://xiaohuazheng.github.io/2017/04/18/audio-player/">HTML audio基础API完全使用指南</a>
-<a href="https://www.zhangxinxu.com/wordpress/2019/07/html-audio-api-guide/">Audio采坑</a></p>
-]]></content>
-      <categories>
-        <category>h5</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
       </tags>
   </entry>
   <entry>
@@ -690,6 +796,29 @@ demo：</p>
       </tags>
   </entry>
   <entry>
+    <title>h5 在微信内置浏览器Safari踩的一些小坑(click、audio)</title>
+    <url>/2021/02/07/h5%20%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%86%85%E7%BD%AE%E6%B5%8F%E8%A7%88%E5%99%A8Safari%E8%B8%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%9D%91(click%E3%80%81audio)/</url>
+    <content><![CDATA[<p>使用github page做了一个小静态网页，发现 click 时间、audio 在不同浏览器中的使用有细微差异。</p>
+<a id="more"></a>
+
+<h3 id="click"><a href="#click" class="headerlink" title="click"></a>click</h3><p>onclick 事件在微信内置浏览器中是无法正常被监听的，如果引用了 jquery 的话，可以参考如下写法</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>).on(<span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="audio"><a href="#audio" class="headerlink" title="audio"></a>audio</h3><p>现今主流浏览器是无法支持 audio autostart 功能的，楼主只发现在 Edge 浏览器中还支持 autostart 自动播放功能，大多数浏览器（chrome、Safari）是需要用户一个交互事件才能实现 audio 音频的播放；
+微信内置浏览器、Safari还无法实现 audio 的 preload 预加载功能， 需要把 audio 的 load 绑定到一个用户交互事件上，采用手动加载，如</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>).on(<span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;$(<span class="string">&quot;#audio&quot;</span>)[<span class="number">0</span>].load()&#125;);</span><br></pre></td></tr></table></figure>
+<p>先更这么多，以后有新发现再补充。</p>
+<p>参考资料：
+<a href="https://xiaohuazheng.github.io/2017/04/18/audio-player/">HTML audio基础API完全使用指南</a>
+<a href="https://www.zhangxinxu.com/wordpress/2019/07/html-audio-api-guide/">Audio采坑</a></p>
+]]></content>
+      <categories>
+        <category>h5</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo blog 迁移到另一台电脑小记</title>
     <url>/2021/02/08/hexo%20blog%20%E8%BF%81%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91%E5%B0%8F%E8%AE%B0/</url>
     <content><![CDATA[<p>最开始那套 hexo 是部署笔记本上的，台式机上一直没有部署，由于发 blog 不方便，顺便迁移一下</p>
@@ -747,46 +876,6 @@ demo：</p>
       </categories>
       <tags>
         <tag>开发</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo&amp;马克飞象图片不能正常显示问题</title>
-    <url>/2017/04/03/hexo&amp;%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>楼主发现马克飞象写的文章虽然可以markdown导出，但是如果文章中有插图的话，却是生成一个.zip的压缩文件，如果直接把这个压缩文件解压缩放到 source_posts 目录下，使用 hexo s 可以发布，但是图片不能正常显示。</p>
-<p>楼主忙活了大半天，找到了一个 hexo 插件<a href="https://github.com/CodeFalling/hexo-asset-image"><strong>hexo-asset-image</strong></a>，这个东西的使用方法如下：</p>
-<a id="more"></a>
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><ul>
-<li>安装hexo-asset-image，只需要在命令行中输入下列命令，就可以安装好。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4></li>
-<li>修改hexo配置文件<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">url: https:<span class="comment">//github.com  </span></span><br><span class="line"></span><br><span class="line">post_asset_folder: <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>对于这个 url 参数：
-这个参数会用来定位图片的路径，可以影响 md 生成 html 的图片路径
-如果你博客不是部署到github仓库的master branch下，会有所区别，这个逻辑有点复杂，楼主这里就不啰嗦了，如果不清楚可以自行改变这个值，然后看 hexo 发布网页中图片路径，或者看 hexo-asset-image 的源码
-楼主使用的是master branch，所以这样写就好了，楼主博客的github 地址是 <a href="https://github.com/KnightDevelop/knightdevelop.github.io">https://github.com/KnightDevelop/knightdevelop.github.io</a></p>
-</blockquote>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4></li>
-<li>马克飞象导出markdown
-<img src="./1491200548325.png" alt="Alt text"></li>
-<li>导出的markdown解压缩，解压缩之后大概是这样的
-<img src="./1491200654357.png" alt="Alt text"></li>
-<li>然后把这个文件夹里的 .md 文件剪切到到 source_posts；把这个文件夹扔到 source_posts 下，注意文件夹名称和刚才剪切的 .md文件 保持一致
-<img src="./1491200816484.png" alt="Alt text"><h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4></li>
-<li>hexo clean</li>
-<li>hexo g</li>
-<li>hexo s -p 5000</li>
-<li>浏览器访问 <a href="http://localhost:5000/">http://localhost:5000/</a></li>
-<li>图片显示正常
-<img src="./1491200934249.png" alt="Alt text">
-大功告成</li>
-</ul>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -887,6 +976,46 @@ hibernate update 语句是否包含此字段，默认为true</li>
       <tags>
         <tag>java</tag>
         <tag>hibernate</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo&amp;马克飞象图片不能正常显示问题</title>
+    <url>/2017/04/03/hexo&amp;%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1%E5%9B%BE%E7%89%87%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>楼主发现马克飞象写的文章虽然可以markdown导出，但是如果文章中有插图的话，却是生成一个.zip的压缩文件，如果直接把这个压缩文件解压缩放到 source_posts 目录下，使用 hexo s 可以发布，但是图片不能正常显示。</p>
+<p>楼主忙活了大半天，找到了一个 hexo 插件<a href="https://github.com/CodeFalling/hexo-asset-image"><strong>hexo-asset-image</strong></a>，这个东西的使用方法如下：</p>
+<a id="more"></a>
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><ul>
+<li>安装hexo-asset-image，只需要在命令行中输入下列命令，就可以安装好。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4></li>
+<li>修改hexo配置文件<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">url: https:<span class="comment">//github.com  </span></span><br><span class="line"></span><br><span class="line">post_asset_folder: <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对于这个 url 参数：
+这个参数会用来定位图片的路径，可以影响 md 生成 html 的图片路径
+如果你博客不是部署到github仓库的master branch下，会有所区别，这个逻辑有点复杂，楼主这里就不啰嗦了，如果不清楚可以自行改变这个值，然后看 hexo 发布网页中图片路径，或者看 hexo-asset-image 的源码
+楼主使用的是master branch，所以这样写就好了，楼主博客的github 地址是 <a href="https://github.com/KnightDevelop/knightdevelop.github.io">https://github.com/KnightDevelop/knightdevelop.github.io</a></p>
+</blockquote>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4></li>
+<li>马克飞象导出markdown
+<img src="./1491200548325.png" alt="Alt text"></li>
+<li>导出的markdown解压缩，解压缩之后大概是这样的
+<img src="./1491200654357.png" alt="Alt text"></li>
+<li>然后把这个文件夹里的 .md 文件剪切到到 source_posts；把这个文件夹扔到 source_posts 下，注意文件夹名称和刚才剪切的 .md文件 保持一致
+<img src="./1491200816484.png" alt="Alt text"><h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4></li>
+<li>hexo clean</li>
+<li>hexo g</li>
+<li>hexo s -p 5000</li>
+<li>浏览器访问 <a href="http://localhost:5000/">http://localhost:5000/</a></li>
+<li>图片显示正常
+<img src="./1491200934249.png" alt="Alt text">
+大功告成</li>
+</ul>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1029,8 +1158,8 @@ p!=q;
         <category>开发</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>其他</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -1100,67 +1229,6 @@ p!=q;
       </tags>
   </entry>
   <entry>
-    <title>tomcat8+solr6.5.1</title>
-    <url>/2017/05/22/tomcat8+solr6.5.1/</url>
-    <content><![CDATA[<h4 id="Step-1：下载solr6-5-1、tomcat8解压缩"><a href="#Step-1：下载solr6-5-1、tomcat8解压缩" class="headerlink" title="Step 1：下载solr6.5.1、tomcat8解压缩"></a>Step 1：下载solr6.5.1、tomcat8解压缩</h4><h4 id="Step-2：在tomcat8-webapps-下创建-solr-web应用"><a href="#Step-2：在tomcat8-webapps-下创建-solr-web应用" class="headerlink" title="Step 2：在tomcat8\webapps 下创建 solr web应用"></a>Step 2：在tomcat8\webapps 下创建 solr web应用</h4><ul>
-<li>在 tomcat8\webapps 中创建 solr 文件夹</li>
-</ul>
-<a id="more"></a>
-
-<p><img src="./1495463582551.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\solr-webapp\webapp 中的所有文件复制到 tomcat8\webapps\solr 中</li>
-</ul>
-<p><img src="./1495463475692.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\lib 中除了含有 jetty 的 jar  包复制到 tomcat8\webapps\solr\libs 中</li>
-</ul>
-<p><img src="./1495463719069.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\lib\ext 中的所有 jar 包复制到 tomcat8\webapps\solr\lib</li>
-</ul>
-<p><img src="./1495463821276.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\solr 中的文件复制到任意路径 (solrhomeurl) 的 solrhome 文件夹中（我这里是 E:\software\develop\Java\solrhome）</li>
-</ul>
-<p><img src="./1495463901831.png" alt="Alt text"></p>
-<p><img src="./1495463972209.png" alt="Alt text"></p>
-<ul>
-<li>把 solr-6.5.1\server\resources 中的 log4j.properties 复制到 tomcat8\webapps\solr\WEB-INF\classes</li>
-</ul>
-<p><strong>注意：classes文件夹需要新建</strong></p>
-<p><img src="./1495464103397.png" alt="Alt text"></p>
-<p><img src="./1495464129438.png" alt="Alt text"></p>
-<h4 id="Step-3：修改配置"><a href="#Step-3：修改配置" class="headerlink" title="Step 3：修改配置"></a>Step 3：修改配置</h4><ul>
-<li>修改 tomcat8\webapps\solr\WEB-INF\web.xml，加上<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;env-entry&gt;</span><br><span class="line">  &lt;env-entry-name&gt;solr/home&lt;/env-entry-name&gt;</span><br><span class="line">  &lt;env-entry-value&gt;E:/software/develop/Java/solrhome&lt;/env-entry-value&gt;</span><br><span class="line">  &lt;env-entry-type&gt;java.lang.String&lt;/env-entry-type&gt;</span><br><span class="line">&lt;/env-entry&gt;</span><br></pre></td></tr></table></figure>
-<img src="./1495464285473.png" alt="Alt text"></li>
-</ul>
-<p><img src="./1495464407098.png" alt="Alt text"></p>
-<ul>
-<li>修改 solr 的 log 路径，即修改 tomcat8\bin\catalina.bat 文件</li>
-</ul>
-<p><img src="./1495464487519.png" alt="Alt text"></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">set JAVA_OPTS=<span class="string">&quot;-Dsolr.log.dir=E:/software/develop/tomcats/apache-tomcat-8.5.11-solr/webapps/solr/logs&quot;</span></span><br></pre></td></tr></table></figure>
-<p><img src="./1495464561276.png" alt="Alt text"></p>
-<ul>
-<li>注释掉拦截代码，修改 tomcat8\webapps\solr\WEB-INF\web.xml，注释到 security-constraint 那两段</li>
-</ul>
-<p><img src="./1495464742688.png" alt="Alt text"></p>
-<h4 id="Step-3：启动-tomcat"><a href="#Step-3：启动-tomcat" class="headerlink" title="Step 3：启动 tomcat"></a>Step 3：启动 tomcat</h4><ul>
-<li>访问 <a href="http://localhost:8081/solr/index.html#/">http://localhost:8081/solr/index.html#/</a> </li>
-</ul>
-<p><strong>注意：端口号看tomcat配置</strong></p>
-<p><img src="./1495464866532.png" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>solr</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>solr+db</title>
     <url>/2017/05/28/solr+db/</url>
     <content><![CDATA[<p>solr 可以从数据库中取出数据建立 index，这样就可以通过 solr 查询数据库中的数据了。
@@ -1223,6 +1291,67 @@ p!=q;
       </categories>
       <tags>
         <tag>数据库</tag>
+        <tag>solr</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>tomcat8+solr6.5.1</title>
+    <url>/2017/05/22/tomcat8+solr6.5.1/</url>
+    <content><![CDATA[<h4 id="Step-1：下载solr6-5-1、tomcat8解压缩"><a href="#Step-1：下载solr6-5-1、tomcat8解压缩" class="headerlink" title="Step 1：下载solr6.5.1、tomcat8解压缩"></a>Step 1：下载solr6.5.1、tomcat8解压缩</h4><h4 id="Step-2：在tomcat8-webapps-下创建-solr-web应用"><a href="#Step-2：在tomcat8-webapps-下创建-solr-web应用" class="headerlink" title="Step 2：在tomcat8\webapps 下创建 solr web应用"></a>Step 2：在tomcat8\webapps 下创建 solr web应用</h4><ul>
+<li>在 tomcat8\webapps 中创建 solr 文件夹</li>
+</ul>
+<a id="more"></a>
+
+<p><img src="./1495463582551.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\solr-webapp\webapp 中的所有文件复制到 tomcat8\webapps\solr 中</li>
+</ul>
+<p><img src="./1495463475692.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\lib 中除了含有 jetty 的 jar  包复制到 tomcat8\webapps\solr\libs 中</li>
+</ul>
+<p><img src="./1495463719069.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\lib\ext 中的所有 jar 包复制到 tomcat8\webapps\solr\lib</li>
+</ul>
+<p><img src="./1495463821276.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\solr 中的文件复制到任意路径 (solrhomeurl) 的 solrhome 文件夹中（我这里是 E:\software\develop\Java\solrhome）</li>
+</ul>
+<p><img src="./1495463901831.png" alt="Alt text"></p>
+<p><img src="./1495463972209.png" alt="Alt text"></p>
+<ul>
+<li>把 solr-6.5.1\server\resources 中的 log4j.properties 复制到 tomcat8\webapps\solr\WEB-INF\classes</li>
+</ul>
+<p><strong>注意：classes文件夹需要新建</strong></p>
+<p><img src="./1495464103397.png" alt="Alt text"></p>
+<p><img src="./1495464129438.png" alt="Alt text"></p>
+<h4 id="Step-3：修改配置"><a href="#Step-3：修改配置" class="headerlink" title="Step 3：修改配置"></a>Step 3：修改配置</h4><ul>
+<li>修改 tomcat8\webapps\solr\WEB-INF\web.xml，加上<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;env-entry&gt;</span><br><span class="line">  &lt;env-entry-name&gt;solr/home&lt;/env-entry-name&gt;</span><br><span class="line">  &lt;env-entry-value&gt;E:/software/develop/Java/solrhome&lt;/env-entry-value&gt;</span><br><span class="line">  &lt;env-entry-type&gt;java.lang.String&lt;/env-entry-type&gt;</span><br><span class="line">&lt;/env-entry&gt;</span><br></pre></td></tr></table></figure>
+<img src="./1495464285473.png" alt="Alt text"></li>
+</ul>
+<p><img src="./1495464407098.png" alt="Alt text"></p>
+<ul>
+<li>修改 solr 的 log 路径，即修改 tomcat8\bin\catalina.bat 文件</li>
+</ul>
+<p><img src="./1495464487519.png" alt="Alt text"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">set JAVA_OPTS=<span class="string">&quot;-Dsolr.log.dir=E:/software/develop/tomcats/apache-tomcat-8.5.11-solr/webapps/solr/logs&quot;</span></span><br></pre></td></tr></table></figure>
+<p><img src="./1495464561276.png" alt="Alt text"></p>
+<ul>
+<li>注释掉拦截代码，修改 tomcat8\webapps\solr\WEB-INF\web.xml，注释到 security-constraint 那两段</li>
+</ul>
+<p><img src="./1495464742688.png" alt="Alt text"></p>
+<h4 id="Step-3：启动-tomcat"><a href="#Step-3：启动-tomcat" class="headerlink" title="Step 3：启动 tomcat"></a>Step 3：启动 tomcat</h4><ul>
+<li>访问 <a href="http://localhost:8081/solr/index.html#/">http://localhost:8081/solr/index.html#/</a> </li>
+</ul>
+<p><strong>注意：端口号看tomcat配置</strong></p>
+<p><img src="./1495464866532.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
         <tag>solr</tag>
       </tags>
   </entry>
@@ -1742,7 +1871,7 @@ repo: name1:name1/yourRepository
 <p>git url 的获取</p>
 <p><img src="./1515081366509.png" alt="Alt text"></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add demos git@github.com:<span class="string">&quot;one of your ssh config host&quot;</span>/xxx.git</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>把 <a href="mailto:&#x67;&#105;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#x6d;">&#x67;&#105;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#x6d;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
+<p><strong>注意：</strong>把 <a href="mailto:&#x67;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#117;&#98;&#46;&#x63;&#x6f;&#109;">&#x67;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#117;&#98;&#46;&#x63;&#x6f;&#109;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
 <p><img src="./1515081415724.png" alt="Alt text"></p>
 <h4 id="Step-4：常规的提交操作"><a href="#Step-4：常规的提交操作" class="headerlink" title="Step 4：常规的提交操作"></a>Step 4：常规的提交操作</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add <span class="string">&quot;folder or file, split by space&quot;</span></span><br><span class="line">git commit -m <span class="string">&quot;your commit message&quot;</span></span><br><span class="line">git branch <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git checkout <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git push --set-upstream <span class="string">&quot;your repository&quot;</span> <span class="string">&quot;your branch&quot;</span></span><br></pre></td></tr></table></figure>
 <p><img src="./1515081462725.png" alt="Alt text"></p>
@@ -1785,6 +1914,25 @@ repo: name1:name1/yourRepository
       </categories>
       <tags>
         <tag>烹饪</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浅谈 jsoup</title>
+    <url>/2017/07/29/%E6%B5%85%E8%B0%88%20jsoup/</url>
+    <content><![CDATA[<p>最近遇到一个需要，是要提取 speedo 商品的商品描述，无奈这个字段是一段 html 的 string，咨询架构师之后，决定使用 jsoup 做 html 内容提取，特此记录。<a id="more"></a></p>
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>maven 导入 jsoup</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">version.jsoup</span>&gt;</span>1.7.3<span class="tag">&lt;/<span class="name">version.jsoup</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jsoup<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsoup<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;version.jsoup&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>使用 select 取值</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getInnerHtmlValueByClassNameAngTagName</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    String fileStr = readFileJava8(<span class="string">&quot;D:/htmlContent.txt&quot;</span>);</span><br><span class="line">    Document document = Jsoup.parse(fileStr, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">    <span class="comment">// 获取 父节点class值为 description-text 的 h2 元素</span></span><br><span class="line">    Elements elements = document.select(<span class="string">&quot;.description-text h2&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line"></span><br><span class="line">    elements = document.select(<span class="string">&quot;.text-a p&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line"></span><br><span class="line">    elements = document.select(<span class="string">&quot;.text-a span&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>jsoup 详解请移步 <a href="http://www.open-open.com/jsoup/parsing-a-document.htm">http://www.open-open.com/jsoup/parsing-a-document.htm</a></p>
+<p>project github url ： <a href="https://github.com/Knight-JNXU/OpenSourcePackage/tree/OpenSourcePackageUsage">https://github.com/Knight-JNXU/OpenSourcePackage/tree/OpenSourcePackageUsage</a></p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jsoup</tag>
       </tags>
   </entry>
   <entry>
@@ -1849,25 +1997,6 @@ repo: name1:name1/yourRepository
       <tags>
         <tag>java</tag>
         <tag>junit</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>浅谈 jsoup</title>
-    <url>/2017/07/29/%E6%B5%85%E8%B0%88%20jsoup/</url>
-    <content><![CDATA[<p>最近遇到一个需要，是要提取 speedo 商品的商品描述，无奈这个字段是一段 html 的 string，咨询架构师之后，决定使用 jsoup 做 html 内容提取，特此记录。<a id="more"></a></p>
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>maven 导入 jsoup</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">version.jsoup</span>&gt;</span>1.7.3<span class="tag">&lt;/<span class="name">version.jsoup</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jsoup<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsoup<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;version.jsoup&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>使用 select 取值</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getInnerHtmlValueByClassNameAngTagName</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    String fileStr = readFileJava8(<span class="string">&quot;D:/htmlContent.txt&quot;</span>);</span><br><span class="line">    Document document = Jsoup.parse(fileStr, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">    <span class="comment">// 获取 父节点class值为 description-text 的 h2 元素</span></span><br><span class="line">    Elements elements = document.select(<span class="string">&quot;.description-text h2&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line"></span><br><span class="line">    elements = document.select(<span class="string">&quot;.text-a p&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line"></span><br><span class="line">    elements = document.select(<span class="string">&quot;.text-a span&quot;</span>);</span><br><span class="line">    logger.info(elements.text());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>jsoup 详解请移步 <a href="http://www.open-open.com/jsoup/parsing-a-document.htm">http://www.open-open.com/jsoup/parsing-a-document.htm</a></p>
-<p>project github url ： <a href="https://github.com/Knight-JNXU/OpenSourcePackage/tree/OpenSourcePackageUsage">https://github.com/Knight-JNXU/OpenSourcePackage/tree/OpenSourcePackageUsage</a></p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jsoup</tag>
       </tags>
   </entry>
   <entry>
@@ -1968,6 +2097,29 @@ repo: name1:name1/yourRepository
       </tags>
   </entry>
   <entry>
+    <title>设计模式-原型模式-实战篇</title>
+    <url>/2018/01/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F-%E5%AE%9E%E6%88%98%E7%AF%87/</url>
+    <content><![CDATA[<p>近期，楼主老大给楼主优化代码的时候，使用了 bean 注入一个 httprequest 的方式减少了大量业务代码，同时提高了代码健壮性，在楼主苦思冥想一周后，发现这种做法是原型模式的一种应用，特此记录。</p>
+<a id="more"></a>
+
+<h2 id="背景交代"><a href="#背景交代" class="headerlink" title="背景交代"></a>背景交代</h2><p>楼主最近写了一个专门调用第三方服务的业务类，最先的设计是这样的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.properties文件 &#123;</span><br><span class="line">配置一些固定参数，如 key 什么的</span><br><span class="line">&#125;</span><br><span class="line">service层 &#123; </span><br><span class="line">	注入一堆业务参数</span><br><span class="line">	拼接 .properties 业务参数，根据某算法计算一个url参数值</span><br><span class="line">	拼接 .properties 业务参数、计算出来的参数、服务端口地址，得到请求 url</span><br><span class="line">	根据请求 url 获取返回值</span><br><span class="line">	解析返回值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以发现，当需要 增加或者减少 url参数 后，需要修改 .properties 、service 层注入、<strong>service层两个拼接</strong>，比较麻烦。在楼主老大 code review 之后，代码设计变成了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.properties文件 &#123;</span><br><span class="line">配置一些固定参数，如 key 什么的</span><br><span class="line">&#125;</span><br><span class="line">.xml &#123;</span><br><span class="line">	把固定参数注入 com.feilong.net.entity.HttpRequest，使用 prototype</span><br><span class="line">&#125;</span><br><span class="line">service层 &#123; </span><br><span class="line">	使用HttpRequest自动拼接，根据某算法计算一个url参数值</span><br><span class="line">	把计算出的参数放入 HttpRequest.paramMap 自动拼接请求 url </span><br><span class="line">	根据请求 url 获取返回值</span><br><span class="line">	解析返回值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在优化之后，代码更加 简洁、优雅，在 增加或者减少 url参数 后，不用再做 <strong>繁杂的参数处理</strong>。</p>
+<p><a href="https://github.com/Knight-JNXU/demos/tree/SpringPrototypePattern">优化demo</a></p>
+<h2 id="以小见大"><a href="#以小见大" class="headerlink" title="以小见大"></a>以小见大</h2><p>当某个业务的需要用到<strong>一些特定参数的处理结果</strong>时，可以把这些参数封装成一个<strong>原型类</strong>，通用的参数处理规则、生成规则<strong>在原型类中进行封装</strong>。</p>
+<p>指导：<a href="http://feitianbenyue.iteye.com/">飞天奔月</a> | <a href="https://github.com/venusdrogon">venusdrogon</a></p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>蒜薹回锅肉</title>
     <url>/2017/07/30/%E8%92%9C%E8%96%B9%E5%9B%9E%E9%94%85%E8%82%89/</url>
     <content><![CDATA[<p>记得有次分享会的时候，楼主说要多练厨艺的，今天做了个比较复杂的菜（虽说以前也做过，但是没有记录），特此记录！<a id="more"></a></p>
@@ -1991,29 +2143,6 @@ repo: name1:name1/yourRepository
       </categories>
       <tags>
         <tag>烹饪</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式-原型模式-实战篇</title>
-    <url>/2018/01/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F-%E5%AE%9E%E6%88%98%E7%AF%87/</url>
-    <content><![CDATA[<p>近期，楼主老大给楼主优化代码的时候，使用了 bean 注入一个 httprequest 的方式减少了大量业务代码，同时提高了代码健壮性，在楼主苦思冥想一周后，发现这种做法是原型模式的一种应用，特此记录。</p>
-<a id="more"></a>
-
-<h2 id="背景交代"><a href="#背景交代" class="headerlink" title="背景交代"></a>背景交代</h2><p>楼主最近写了一个专门调用第三方服务的业务类，最先的设计是这样的</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.properties文件 &#123;</span><br><span class="line">配置一些固定参数，如 key 什么的</span><br><span class="line">&#125;</span><br><span class="line">service层 &#123; </span><br><span class="line">	注入一堆业务参数</span><br><span class="line">	拼接 .properties 业务参数，根据某算法计算一个url参数值</span><br><span class="line">	拼接 .properties 业务参数、计算出来的参数、服务端口地址，得到请求 url</span><br><span class="line">	根据请求 url 获取返回值</span><br><span class="line">	解析返回值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以发现，当需要 增加或者减少 url参数 后，需要修改 .properties 、service 层注入、<strong>service层两个拼接</strong>，比较麻烦。在楼主老大 code review 之后，代码设计变成了</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.properties文件 &#123;</span><br><span class="line">配置一些固定参数，如 key 什么的</span><br><span class="line">&#125;</span><br><span class="line">.xml &#123;</span><br><span class="line">	把固定参数注入 com.feilong.net.entity.HttpRequest，使用 prototype</span><br><span class="line">&#125;</span><br><span class="line">service层 &#123; </span><br><span class="line">	使用HttpRequest自动拼接，根据某算法计算一个url参数值</span><br><span class="line">	把计算出的参数放入 HttpRequest.paramMap 自动拼接请求 url </span><br><span class="line">	根据请求 url 获取返回值</span><br><span class="line">	解析返回值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在优化之后，代码更加 简洁、优雅，在 增加或者减少 url参数 后，不用再做 <strong>繁杂的参数处理</strong>。</p>
-<p><a href="https://github.com/Knight-JNXU/demos/tree/SpringPrototypePattern">优化demo</a></p>
-<h2 id="以小见大"><a href="#以小见大" class="headerlink" title="以小见大"></a>以小见大</h2><p>当某个业务的需要用到<strong>一些特定参数的处理结果</strong>时，可以把这些参数封装成一个<strong>原型类</strong>，通用的参数处理规则、生成规则<strong>在原型类中进行封装</strong>。</p>
-<p>指导：<a href="http://feitianbenyue.iteye.com/">飞天奔月</a> | <a href="https://github.com/venusdrogon">venusdrogon</a></p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>

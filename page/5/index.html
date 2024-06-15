@@ -168,8 +168,6 @@
                     <nav class="header-menu">
                         <ul>
                         
-                            <li><a href="/tags/%E6%88%91%E4%BB%AC/">我们</a></li>
-                        
                             <li><a href="/tags/java/">java</a></li>
                         
                             <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
@@ -237,8 +235,6 @@
             <nav class="header-menu">
                 <ul>
                 
-                    <li><a href="/tags/%E6%88%91%E4%BB%AC/">我们</a></li>
-                
                     <li><a href="/tags/java/">java</a></li>
                 
                     <li><a href="/tags/%E5%85%B6%E4%BB%96/">其他</a></li>
@@ -261,10 +257,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-POSTGRESQL" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-OWASP Top 10" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/04/03/POSTGRESQL/" class="article-date">
+      <a href="/2017/04/03/OWASP%20Top%2010/" class="article-date">
       <time datetime="2017-04-02T16:00:00.000Z" itemprop="datePublished">2017-04-03</time>
 </a>
 
@@ -280,7 +276,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/03/POSTGRESQL/">POSTGRESQL</a>
+      <a class="article-title" href="/2017/04/03/OWASP%20Top%2010/">OWASP Top 10</a>
     </h1>
   
 
@@ -290,8 +286,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h4 id="1-使用dbeaver连接postgresql"><a href="#1-使用dbeaver连接postgresql" class="headerlink" title="1. 使用dbeaver连接postgresql"></a>1. 使用dbeaver连接postgresql</h4><p><img src="./1490420105832.png" alt="Alt text">
-在使用dbeaver下载postgresql（以下简称pg）的driver时，楼主遇到一个问题，就是那个驱动无法正常安装，于是楼主去pg的安装目录找了一下，发现了pg的jdbc驱动，就是下图那个东西。</p>
+              <h4 id="1-SQL注入"><a href="#1-SQL注入" class="headerlink" title="1. SQL注入"></a>1. SQL注入</h4><ul>
+<li>楼主认为，就是数据库名、表名、字段名被恶意获取，并且被恶意替换系统安全性较低的SQL注入语句。</li>
+<li>预防措施：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 使用预编译的SQL语句</span><br><span class="line">比如：使用prepareStatement(XXX&#x3D;?).setXXX()，这样SQL的语义不会发生变化，攻击者也无法改变SQL结构</span><br><span class="line">2. 参数化查询</span><br><span class="line">就是SQL中的变量通过参数传入，而不是以字符串拼接的方式传入，但是不要使用“$name”的形式，要使用“:name”的形式</span><br></pre></td></tr></table></figure>
           
       
     </div>
@@ -306,12 +303,12 @@
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9B%E9%98%B6/" rel="tag">进阶</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2017/04/03/POSTGRESQL/#more">阅读全文 >></a>
+          <a href="/2017/04/03/OWASP%20Top%2010/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -383,6 +380,75 @@
       
         <p class="article-more-link">
           <a href="/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-POSTGRESQL" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/04/03/POSTGRESQL/" class="article-date">
+      <time datetime="2017-04-02T16:00:00.000Z" itemprop="datePublished">2017-04-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/03/POSTGRESQL/">POSTGRESQL</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h4 id="1-使用dbeaver连接postgresql"><a href="#1-使用dbeaver连接postgresql" class="headerlink" title="1. 使用dbeaver连接postgresql"></a>1. 使用dbeaver连接postgresql</h4><p><img src="./1490420105832.png" alt="Alt text">
+在使用dbeaver下载postgresql（以下简称pg）的driver时，楼主遇到一个问题，就是那个驱动无法正常安装，于是楼主去pg的安装目录找了一下，发现了pg的jdbc驱动，就是下图那个东西。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/04/03/POSTGRESQL/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
