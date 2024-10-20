@@ -16,35 +16,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Cisco Packet Tracer 思科模拟器 搭建Email服务</title>
-    <url>/2024/10/19/Cisco%20Packet%20Tracer%20%E6%80%9D%E7%A7%91%E6%A8%A1%E6%8B%9F%E5%99%A8%20%E6%90%AD%E5%BB%BAEmail%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<p>网络技术课程实操训练。</p>
-<span id="more"></span>
-
-<p>拓扑结构如下：</p>
-<p><img src="./1729330932980.png" alt="Alt text"></p>
-<p>配置如下：</p>
-<p><img src="./1729330946291.png" alt="Alt text"></p>
-<p><img src="./1729330966395.png" alt="Alt text"></p>
-<p><img src="./1729330980147.png" alt="Alt text"></p>
-<p><img src="./1729330992073.png" alt="Alt text"></p>
-<p><img src="./1729331007301.png" alt="Alt text"></p>
-<p><img src="./1729331023903.png" alt="Alt text"></p>
-<p><img src="./1729331039521.png" alt="Alt text"></p>
-<p><img src="./1729331052131.png" alt="Alt text"></p>
-<p>可以收发邮件了</p>
-<p><img src="./1729331072786.png" alt="Alt text"></p>
-<p><img src="./1729331093997.png" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>Cisco Packet Tracer</category>
-        <category>思科模拟器</category>
-      </categories>
-      <tags>
-        <tag>网络技术</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Cisco Packet Tracer 思科模拟器 搭建DNS服务</title>
     <url>/2024/10/19/Cisco%20Packet%20Tracer%20%E6%80%9D%E7%A7%91%E6%A8%A1%E6%8B%9F%E5%99%A8%20%E6%90%AD%E5%BB%BADNS%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<p>网络技术课程实操训练。</p>
@@ -71,35 +42,32 @@
       </tags>
   </entry>
   <entry>
-    <title>IDEA Git 提交 403 Error Code</title>
-    <url>/2017/06/05/IDEA%20Git%20%E6%8F%90%E4%BA%A4%20403%20Error%20Code/</url>
-    <content><![CDATA[<p>今天楼主使用 idea 的 git 插件往 github 提交代码的时候出现了如下报错</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Failed with error: unable to access XXXXX. The requested URL returned error: <span class="number">403</span></span><br></pre></td></tr></table></figure>
-<p>特此记录，以便下次遇到相同问题时翻阅！</p>
+    <title>Cisco Packet Tracer 思科模拟器 搭建Email服务</title>
+    <url>/2024/10/19/Cisco%20Packet%20Tracer%20%E6%80%9D%E7%A7%91%E6%A8%A1%E6%8B%9F%E5%99%A8%20%E6%90%AD%E5%BB%BAEmail%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<p>网络技术课程实操训练。</p>
 <span id="more"></span>
 
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><ul>
-<li>打开 C:\Users&quot;username”.ssh 目录下的 config 文件，楼主这里是 C:\Users\hasee.ssh.config</li>
-</ul>
-<p><img src="./1496671206715.png" alt="Alt text"></p>
-<ul>
-<li>选择你需要用来提交的 host 记为 “host_name”，楼主这里选择 knight-jxnu，如果一台电脑上配置了多个 github 就会有多个 host</li>
-</ul>
-<p><img src="./1496671229509.png" alt="Alt text"></p>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>打开 project.git\config</p>
-<p><img src="./1496671104200.png" alt="Alt text"></p>
-<p>在 “github.com” 前面加上 “host_name”</p>
-<p><strong>Before：</strong></p>
-<p><img src="./1496671406198.png" alt="Alt text"></p>
-<p><strong>After：</strong></p>
-<p><img src="./1496671526671.png" alt="Alt text"></p>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>继续 push !</p>
+<p>拓扑结构如下：</p>
+<p><img src="./1729330932980.png" alt="Alt text"></p>
+<p>配置如下：</p>
+<p><img src="./1729330946291.png" alt="Alt text"></p>
+<p><img src="./1729330966395.png" alt="Alt text"></p>
+<p><img src="./1729330980147.png" alt="Alt text"></p>
+<p><img src="./1729330992073.png" alt="Alt text"></p>
+<p><img src="./1729331007301.png" alt="Alt text"></p>
+<p><img src="./1729331023903.png" alt="Alt text"></p>
+<p><img src="./1729331039521.png" alt="Alt text"></p>
+<p><img src="./1729331052131.png" alt="Alt text"></p>
+<p>可以收发邮件了</p>
+<p><img src="./1729331072786.png" alt="Alt text"></p>
+<p><img src="./1729331093997.png" alt="Alt text"></p>
 ]]></content>
       <categories>
-        <category>开发</category>
+        <category>Cisco Packet Tracer</category>
+        <category>思科模拟器</category>
       </categories>
       <tags>
-        <tag>其他</tag>
+        <tag>网络技术</tag>
       </tags>
   </entry>
   <entry>
@@ -234,6 +202,38 @@ start-all.sh </p>
 ]]></content>
       <categories>
         <category>Hadoop</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IDEA Git 提交 403 Error Code</title>
+    <url>/2017/06/05/IDEA%20Git%20%E6%8F%90%E4%BA%A4%20403%20Error%20Code/</url>
+    <content><![CDATA[<p>今天楼主使用 idea 的 git 插件往 github 提交代码的时候出现了如下报错</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Failed with error: unable to access XXXXX. The requested URL returned error: <span class="number">403</span></span><br></pre></td></tr></table></figure>
+<p>特此记录，以便下次遇到相同问题时翻阅！</p>
+<span id="more"></span>
+
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><ul>
+<li>打开 C:\Users&quot;username”.ssh 目录下的 config 文件，楼主这里是 C:\Users\hasee.ssh.config</li>
+</ul>
+<p><img src="./1496671206715.png" alt="Alt text"></p>
+<ul>
+<li>选择你需要用来提交的 host 记为 “host_name”，楼主这里选择 knight-jxnu，如果一台电脑上配置了多个 github 就会有多个 host</li>
+</ul>
+<p><img src="./1496671229509.png" alt="Alt text"></p>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>打开 project.git\config</p>
+<p><img src="./1496671104200.png" alt="Alt text"></p>
+<p>在 “github.com” 前面加上 “host_name”</p>
+<p><strong>Before：</strong></p>
+<p><img src="./1496671406198.png" alt="Alt text"></p>
+<p><strong>After：</strong></p>
+<p><img src="./1496671526671.png" alt="Alt text"></p>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>继续 push !</p>
+]]></content>
+      <categories>
+        <category>开发</category>
       </categories>
       <tags>
         <tag>其他</tag>
@@ -404,57 +404,6 @@ trace：可以获取网站前端缓存服务器、进行XSS攻击、在启用htt
       <tags>
         <tag>其他</tag>
         <tag>进阶</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Web如何提高响应速度</title>
-    <url>/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/</url>
-    <content><![CDATA[<p>web性能优化中有句话叫“前端为八、后端为二”，在前端进行优化往往能够起到立竿见影的效果。</p>
-<h4 id="1-尽量减少前端的http请求"><a href="#1-尽量减少前端的http请求" class="headerlink" title="1. 尽量减少前端的http请求"></a>1. 尽量减少前端的http请求</h4><ul>
-<li>合并CSS文件、JS文件，就是把多个CSS文件合成一个CSS文件，多个JS文件合成一个JS文件，去除里面的空格、换行等等。</li>
-<li>把多张图片合成一张大图片，CSS Sprites利用CSS background相关元素进行背景图绝对定位，就可以从这张大图片中取出需要的部分。<span id="more"></span>
-<h4 id="2-使用静态页面"><a href="#2-使用静态页面" class="headerlink" title="2. 使用静态页面"></a>2. 使用静态页面</h4></li>
-<li>将不常更新的页面内容静态化。<h4 id="3-CDN加速"><a href="#3-CDN加速" class="headerlink" title="3. CDN加速"></a>3. CDN加速</h4></li>
-<li>cdn加速是通过一个服务器集群对网站内容建立缓存和镜像，并且通过对网页静态资源的压缩来加快网站的最终访问速度。<h4 id="4-把JS脚本的加载放在页面加载的后面"><a href="#4-把JS脚本的加载放在页面加载的后面" class="headerlink" title="4. 把JS脚本的加载放在页面加载的后面"></a>4. 把JS脚本的加载放在页面加载的后面</h4></li>
-<li>避免JS加载卡顿时，对页面加载产生影响。<h4 id="5-使用NOSQL"><a href="#5-使用NOSQL" class="headerlink" title="5. 使用NOSQL"></a>5. 使用NOSQL</h4></li>
-<li>使用nosql提高应用服务器与数据库的数据库交互，从而提高web响应速度。<h4 id="6-使用分布式"><a href="#6-使用分布式" class="headerlink" title="6. 使用分布式"></a>6. 使用分布式</h4></li>
-<li>比如说把原来一个服务器做的任务分发到两个服务器，建立专门图片服务器。<blockquote>
-<p>分布式和集群的区别：集群是同一个业务部署在多台机器上，提高系统可用性。分布式是不同的业务模块拆分到不同的机器上，解决高并发的问题。打个比方，一个饭店，为了提高上菜效率，如果是雇佣多个厨师，就是集群，如果是把切菜、洗菜等工作分给不同的人做的话，就是分布式。集群主要的优点是增强服务器的容灾性。</p>
-</blockquote>
-<h4 id="7-使用缓存"><a href="#7-使用缓存" class="headerlink" title="7. 使用缓存"></a>7. 使用缓存</h4></li>
-<li>服务器缓存、浏览器缓存等。<h4 id="8-升级硬件"><a href="#8-升级硬件" class="headerlink" title="8. 升级硬件"></a>8. 升级硬件</h4></li>
-<li>升级硬件，提高服务器运算速度和网络传输速度。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-        <tag>进阶</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Win11 edge 时不时出现 youtobe 账号登录的弹窗</title>
-    <url>/2024/10/20/Win11%20edge%20%E6%97%B6%E4%B8%8D%E6%97%B6%E5%87%BA%E7%8E%B0%20youtobe%20%E8%B4%A6%E5%8F%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%BC%B9%E7%AA%97/</url>
-    <content><![CDATA[<p>半年前安装一些绿色软件，导致 google 账号下记住的其他账号密码泄露，而且 win11 自带的 edge 时不时弹出 各种 account 登录的页面，不胜其烦，昨天终于除掉了这块牛皮癣。</p>
-<span id="more"></span>
-
-<p>由于是存在第三方进程去调用 edge 打开网页，所以我先去 edge 的安装包下面，把 edge 的启动程序改下名字</p>
-<p><img src="./1729396449566.png" alt="Alt text"></p>
-<p>这个第三方进程如果继续调用 edge 就会出现多种情况，一种是无法调用 edge 而无法弹窗，一种是相关线程出现报错，其他的暂时没想到，也有可能超出了我现有的认知。</p>
-<p>我运气很好，我的直接出现了弹窗。</p>
-<p>直接使用 Process Explorer 软件分析一下这个弹窗是由谁产生的，过去直接把这个应用干掉就行了</p>
-<p><img src="./1729396659018.png" alt="Alt text"></p>
-<p>最后再把 edge 的应用程序名字改回去。</p>
-<p><img src="./1729396699952.png" alt="Alt text"></p>
-<p>测试了一上午，再也没有这个弹窗了。</p>
-]]></content>
-      <categories>
-        <category>弹窗</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
       </tags>
   </entry>
   <entry>
@@ -780,6 +729,57 @@ demo：</p>
       </tags>
   </entry>
   <entry>
+    <title>Web如何提高响应速度</title>
+    <url>/2017/04/03/Web%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6/</url>
+    <content><![CDATA[<p>web性能优化中有句话叫“前端为八、后端为二”，在前端进行优化往往能够起到立竿见影的效果。</p>
+<h4 id="1-尽量减少前端的http请求"><a href="#1-尽量减少前端的http请求" class="headerlink" title="1. 尽量减少前端的http请求"></a>1. 尽量减少前端的http请求</h4><ul>
+<li>合并CSS文件、JS文件，就是把多个CSS文件合成一个CSS文件，多个JS文件合成一个JS文件，去除里面的空格、换行等等。</li>
+<li>把多张图片合成一张大图片，CSS Sprites利用CSS background相关元素进行背景图绝对定位，就可以从这张大图片中取出需要的部分。<span id="more"></span>
+<h4 id="2-使用静态页面"><a href="#2-使用静态页面" class="headerlink" title="2. 使用静态页面"></a>2. 使用静态页面</h4></li>
+<li>将不常更新的页面内容静态化。<h4 id="3-CDN加速"><a href="#3-CDN加速" class="headerlink" title="3. CDN加速"></a>3. CDN加速</h4></li>
+<li>cdn加速是通过一个服务器集群对网站内容建立缓存和镜像，并且通过对网页静态资源的压缩来加快网站的最终访问速度。<h4 id="4-把JS脚本的加载放在页面加载的后面"><a href="#4-把JS脚本的加载放在页面加载的后面" class="headerlink" title="4. 把JS脚本的加载放在页面加载的后面"></a>4. 把JS脚本的加载放在页面加载的后面</h4></li>
+<li>避免JS加载卡顿时，对页面加载产生影响。<h4 id="5-使用NOSQL"><a href="#5-使用NOSQL" class="headerlink" title="5. 使用NOSQL"></a>5. 使用NOSQL</h4></li>
+<li>使用nosql提高应用服务器与数据库的数据库交互，从而提高web响应速度。<h4 id="6-使用分布式"><a href="#6-使用分布式" class="headerlink" title="6. 使用分布式"></a>6. 使用分布式</h4></li>
+<li>比如说把原来一个服务器做的任务分发到两个服务器，建立专门图片服务器。<blockquote>
+<p>分布式和集群的区别：集群是同一个业务部署在多台机器上，提高系统可用性。分布式是不同的业务模块拆分到不同的机器上，解决高并发的问题。打个比方，一个饭店，为了提高上菜效率，如果是雇佣多个厨师，就是集群，如果是把切菜、洗菜等工作分给不同的人做的话，就是分布式。集群主要的优点是增强服务器的容灾性。</p>
+</blockquote>
+<h4 id="7-使用缓存"><a href="#7-使用缓存" class="headerlink" title="7. 使用缓存"></a>7. 使用缓存</h4></li>
+<li>服务器缓存、浏览器缓存等。<h4 id="8-升级硬件"><a href="#8-升级硬件" class="headerlink" title="8. 升级硬件"></a>8. 升级硬件</h4></li>
+<li>升级硬件，提高服务器运算速度和网络传输速度。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+        <tag>进阶</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Win11 edge 时不时出现 youtobe 账号登录的弹窗</title>
+    <url>/2024/10/20/Win11%20edge%20%E6%97%B6%E4%B8%8D%E6%97%B6%E5%87%BA%E7%8E%B0%20youtobe%20%E8%B4%A6%E5%8F%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%BC%B9%E7%AA%97/</url>
+    <content><![CDATA[<p>半年前安装一些绿色软件，导致 google 账号下记住的其他账号密码泄露，而且 win11 自带的 edge 时不时弹出 各种 account 登录的页面，不胜其烦，昨天终于除掉了这块牛皮癣。</p>
+<span id="more"></span>
+
+<p>由于是存在第三方进程去调用 edge 打开网页，所以我先去 edge 的安装包下面，把 edge 的启动程序改下名字</p>
+<p><img src="./1729396449566.png" alt="Alt text"></p>
+<p>这个第三方进程如果继续调用 edge 就会出现多种情况，一种是无法调用 edge 而无法弹窗，一种是相关线程出现报错，其他的暂时没想到，也有可能超出了我现有的认知。</p>
+<p>我运气很好，我的直接出现了弹窗。</p>
+<p>直接使用 Process Explorer 软件分析一下这个弹窗是由谁产生的，过去直接把这个应用干掉就行了</p>
+<p><img src="./1729396659018.png" alt="Alt text"></p>
+<p>最后再把 edge 的应用程序名字改回去。</p>
+<p><img src="./1729396699952.png" alt="Alt text"></p>
+<p>测试了一上午，再也没有这个弹窗了。</p>
+]]></content>
+      <categories>
+        <category>弹窗</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows Server 2012 配置 FTP 服务</title>
     <url>/2024/10/20/Windows%20Server%202012%20%E9%85%8D%E7%BD%AE%20FTP%20%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<p>1.3 FTP服务配置
@@ -992,36 +992,6 @@ vim /home/hadoop/bin/my_zk.sh</p>
       </tags>
   </entry>
   <entry>
-    <title>hexo yelee local search 不能使用</title>
-    <url>/2017/07/22/hexo%20yelee%20local%20search%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>前几天楼主发现自家的博客的搜索功能不能用，在看了看文档和别人的 hexo 博客后，解决了这个问题，仅此记录。</p>
-<span id="more"></span>
-
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>在安装了 npm 的情况下运行</p>
-<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
-<p>安装 hexo-generator-search</p>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>配置<strong>博客根目录</strong>下的 _config.yml</p>
-<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="function">url: <span class="title">http</span>://<span class="title">yoursite.com</span></span></span><br></pre></td></tr></table></figure>
-
-<p>楼主的是这个：</p>
-<p><img src="./1500698623090.png" alt="Alt text"></p>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>配置 <strong>yelee 主题</strong>下的  _config.yml</p>
-<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="function">search: </span></span><br><span class="line"><span class="function">  <span class="title">on</span>: <span class="title">true</span></span></span><br><span class="line"><span class="function">  <span class="title">onload</span>: <span class="title">true</span></span></span><br></pre></td></tr></table></figure>
-
-<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s -p <span class="number">5000</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p>大功告成！</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo blog 迁移到另一台电脑小记</title>
     <url>/2021/02/08/hexo%20blog%20%E8%BF%81%E7%A7%BB%E5%88%B0%E5%8F%A6%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91%E5%B0%8F%E8%AE%B0/</url>
     <content><![CDATA[<p>最开始那套 hexo 是部署笔记本上的，台式机上一直没有部署，由于发 blog 不方便，顺便迁移一下</p>
@@ -1082,6 +1052,36 @@ vim /home/hadoop/bin/my_zk.sh</p>
       </categories>
       <tags>
         <tag>开发</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo yelee local search 不能使用</title>
+    <url>/2017/07/22/hexo%20yelee%20local%20search%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>前几天楼主发现自家的博客的搜索功能不能用，在看了看文档和别人的 hexo 博客后，解决了这个问题，仅此记录。</p>
+<span id="more"></span>
+
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>在安装了 npm 的情况下运行</p>
+<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<p>安装 hexo-generator-search</p>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>配置<strong>博客根目录</strong>下的 _config.yml</p>
+<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="function">url: <span class="title">http</span>://<span class="title">yoursite.com</span></span></span><br></pre></td></tr></table></figure>
+
+<p>楼主的是这个：</p>
+<p><img src="./1500698623090.png" alt="Alt text"></p>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>配置 <strong>yelee 主题</strong>下的  _config.yml</p>
+<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line"><span class="function">search: </span></span><br><span class="line"><span class="function">  <span class="title">on</span>: <span class="title">true</span></span></span><br><span class="line"><span class="function">  <span class="title">onload</span>: <span class="title">true</span></span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s -p <span class="number">5000</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>大功告成！</p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1409,6 +1409,26 @@ p!=q;
       </tags>
   </entry>
   <entry>
+    <title>python 文件打包 exe</title>
+    <url>/2024/10/20/python%20%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85%20exe/</url>
+    <content><![CDATA[<p>写了自动解压个马克飞象md压缩包的python代码，打算把它转成 exe 文件</p>
+<span id="more"></span>
+
+<p>安装 pyinstaller</p>
+<p><img src="./1729409565843.png" alt="Alt text"></p>
+<p>直接执行
+pyinstaller –onefile 解压马克飞象打包的md文件.py 搞定</p>
+<p><img src="./1729409944385.png" alt="Alt text"></p>
+<p><img src="./1729409871520.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>solr+db</title>
     <url>/2017/05/28/solr+db/</url>
     <content><![CDATA[<p>solr 可以从数据库中取出数据建立 index，这样就可以通过 solr 查询数据库中的数据了。
@@ -1480,6 +1500,33 @@ p!=q;
       </tags>
   </entry>
   <entry>
+    <title>ubuntu 建站 - tomcat</title>
+    <url>/2018/07/14/ubuntu%20%E5%BB%BA%E7%AB%99%20-%20tomcat/</url>
+    <content><![CDATA[<p>去年看到腾讯云打折，忍不住买了一年，闲置半年了，感觉有点亏，就让它 run 起来吧。</p>
+<span id="more"></span>
+
+<h3 id="xshell-连服务器"><a href="#xshell-连服务器" class="headerlink" title="xshell 连服务器"></a>xshell 连服务器</h3><p><img src="./1531562440995.png" alt="Alt text"></p>
+<p>input username (可以选择记住 username)</p>
+<p>input password (可以选择记住 password)</p>
+<h3 id="install-JDK"><a href="#install-JDK" class="headerlink" title="install JDK"></a>install JDK</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install openjdk-8-jdk</span><br><span class="line">y</span><br></pre></td></tr></table></figure>
+
+<p>一顿操作过后，jdk 就装好了，如果不放心，可以使用 “java -version” 查看是否安装成功。</p>
+<h3 id="install-tomcat"><a href="#install-tomcat" class="headerlink" title="install tomcat"></a>install tomcat</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install tomcat8</span><br><span class="line">sudo apt-get install tomcat8-docs tomcat8-examples tomcat8-admin</span><br></pre></td></tr></table></figure>
+
+<p>（感觉用了这么多 sudo 会出事。。到时出问题再补充好了。。）</p>
+<h3 id="run-tomcat"><a href="#run-tomcat" class="headerlink" title="run tomcat"></a>run tomcat</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start tomcat8</span><br><span class="line">systemctl stop tomcat8</span><br><span class="line">systemctl restart tomcat8</span><br></pre></td></tr></table></figure>
+
+<p><a href="http://115.159.193.245:8080/">http://115.159.193.245:8080/</a></p>
+<p><img src="./1531566556002.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>web</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>tomcat8+solr6.5.1</title>
     <url>/2017/05/22/tomcat8+solr6.5.1/</url>
     <content><![CDATA[<h4 id="Step-1：下载solr6-5-1、tomcat8解压缩"><a href="#Step-1：下载solr6-5-1、tomcat8解压缩" class="headerlink" title="Step 1：下载solr6.5.1、tomcat8解压缩"></a>Step 1：下载solr6.5.1、tomcat8解压缩</h4><h4 id="Step-2：在tomcat8-webapps-下创建-solr-web应用"><a href="#Step-2：在tomcat8-webapps-下创建-solr-web应用" class="headerlink" title="Step 2：在tomcat8\webapps 下创建 solr web应用"></a>Step 2：在tomcat8\webapps 下创建 solr web应用</h4><ul>
@@ -1541,33 +1588,6 @@ p!=q;
       <tags>
         <tag>java</tag>
         <tag>solr</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu 建站 - tomcat</title>
-    <url>/2018/07/14/ubuntu%20%E5%BB%BA%E7%AB%99%20-%20tomcat/</url>
-    <content><![CDATA[<p>去年看到腾讯云打折，忍不住买了一年，闲置半年了，感觉有点亏，就让它 run 起来吧。</p>
-<span id="more"></span>
-
-<h3 id="xshell-连服务器"><a href="#xshell-连服务器" class="headerlink" title="xshell 连服务器"></a>xshell 连服务器</h3><p><img src="./1531562440995.png" alt="Alt text"></p>
-<p>input username (可以选择记住 username)</p>
-<p>input password (可以选择记住 password)</p>
-<h3 id="install-JDK"><a href="#install-JDK" class="headerlink" title="install JDK"></a>install JDK</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install openjdk-8-jdk</span><br><span class="line">y</span><br></pre></td></tr></table></figure>
-
-<p>一顿操作过后，jdk 就装好了，如果不放心，可以使用 “java -version” 查看是否安装成功。</p>
-<h3 id="install-tomcat"><a href="#install-tomcat" class="headerlink" title="install tomcat"></a>install tomcat</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install tomcat8</span><br><span class="line">sudo apt-get install tomcat8-docs tomcat8-examples tomcat8-admin</span><br></pre></td></tr></table></figure>
-
-<p>（感觉用了这么多 sudo 会出事。。到时出问题再补充好了。。）</p>
-<h3 id="run-tomcat"><a href="#run-tomcat" class="headerlink" title="run tomcat"></a>run tomcat</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start tomcat8</span><br><span class="line">systemctl stop tomcat8</span><br><span class="line">systemctl restart tomcat8</span><br></pre></td></tr></table></figure>
-
-<p><a href="http://115.159.193.245:8080/">http://115.159.193.245:8080/</a></p>
-<p><img src="./1531566556002.png" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>web</tag>
       </tags>
   </entry>
   <entry>
@@ -1834,6 +1854,38 @@ p!=q;
       </tags>
   </entry>
   <entry>
+    <title>《后浪》观后感</title>
+    <url>/2020/05/10/%E3%80%8A%E5%90%8E%E6%B5%AA%E3%80%8B%E8%A7%82%E5%90%8E%E6%84%9F/</url>
+    <content><![CDATA[<p>2020年5月4日 B站发布后浪，引发热议，抒予己见，特此记录。</p>
+<span id="more"></span>
+
+<p>场景一：</p>
+<p>同学小A是一位诗人，他认为，生活不仅有眼前的苟且，还有诗和远方。</p>
+<p>同学小B是一位积极向上的青年，她认为，每当夕阳穿透高楼大厦的缝隙时，崭新的一天将在一个夜晚后开始。</p>
+<p>同学小C是一位悲观抑郁的青年，他认为，生而为人，他感觉很抱歉。</p>
+<p>同学小D是一位佛性青年，她认为，生活不必被辛苦的努力满满填充，随遇而安终其一生就好。</p>
+<p>同学小E是一位充满斗志的青年，他认为，天下“王侯将相”非生而有其种，自己努力拼搏也会成功人士。</p>
+<p>场景二：</p>
+<p>先天失明的盲人甲，摸着大象的牙说道，“大象有点像大萝卜”。</p>
+<p>先天失明的盲人乙，摸着大象的耳朵说道，“大象像簸箕”。</p>
+<p>先天失明的盲人丙，摸着大象的尾巴说道，“大象好像一根绳子”。</p>
+<p>先天失明的盲人丙，摸着大象的头说道，“大象应该是一块大石头”。</p>
+<p>先天失明的盲人丁，摸着大象的鼻子说道，“大象跟棍子一样”。</p>
+<p>先天失明的盲人戊，摸着大象的腿说道，“大象是四根粗木桩”。</p>
+<p>先天失明的盲人己，躺在大象身上说，“大象就是一张床”。</p>
+<p>先天失明的盲人庚，摸着大象的肚子说，“大象不就是一座翁吗”。</p>
+<p>场景三：</p>
+<p>无边无垠的灰白雾气涌现，阳光明媚波涛起伏的海面上，一根萝卜、一张簸箕、一根绳子、一块大石头、一根棍子、四根粗木桩、一张床、一座翁若隐若现，在一阵阵海风的吹拂下，渐渐汇聚成一头“象”，它挥舞着四根粗木桩，扇动着簸箕，缓慢的游向远方。</p>
+<p><img src="./%E8%B1%A1.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>评论</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hadoop单机/伪分布式部署</title>
     <url>/2024/06/14/%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<p>使用 VMware Workstation 安装 1台centos 7，并在上面实现 hadoop 的单机部署。</p>
@@ -1906,38 +1958,6 @@ chmod 600 ~/.ssh/id_rsa</p>
 ]]></content>
       <categories>
         <category>Hadoop</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>《后浪》观后感</title>
-    <url>/2020/05/10/%E3%80%8A%E5%90%8E%E6%B5%AA%E3%80%8B%E8%A7%82%E5%90%8E%E6%84%9F/</url>
-    <content><![CDATA[<p>2020年5月4日 B站发布后浪，引发热议，抒予己见，特此记录。</p>
-<span id="more"></span>
-
-<p>场景一：</p>
-<p>同学小A是一位诗人，他认为，生活不仅有眼前的苟且，还有诗和远方。</p>
-<p>同学小B是一位积极向上的青年，她认为，每当夕阳穿透高楼大厦的缝隙时，崭新的一天将在一个夜晚后开始。</p>
-<p>同学小C是一位悲观抑郁的青年，他认为，生而为人，他感觉很抱歉。</p>
-<p>同学小D是一位佛性青年，她认为，生活不必被辛苦的努力满满填充，随遇而安终其一生就好。</p>
-<p>同学小E是一位充满斗志的青年，他认为，天下“王侯将相”非生而有其种，自己努力拼搏也会成功人士。</p>
-<p>场景二：</p>
-<p>先天失明的盲人甲，摸着大象的牙说道，“大象有点像大萝卜”。</p>
-<p>先天失明的盲人乙，摸着大象的耳朵说道，“大象像簸箕”。</p>
-<p>先天失明的盲人丙，摸着大象的尾巴说道，“大象好像一根绳子”。</p>
-<p>先天失明的盲人丙，摸着大象的头说道，“大象应该是一块大石头”。</p>
-<p>先天失明的盲人丁，摸着大象的鼻子说道，“大象跟棍子一样”。</p>
-<p>先天失明的盲人戊，摸着大象的腿说道，“大象是四根粗木桩”。</p>
-<p>先天失明的盲人己，躺在大象身上说，“大象就是一张床”。</p>
-<p>先天失明的盲人庚，摸着大象的肚子说，“大象不就是一座翁吗”。</p>
-<p>场景三：</p>
-<p>无边无垠的灰白雾气涌现，阳光明媚波涛起伏的海面上，一根萝卜、一张簸箕、一根绳子、一块大石头、一根棍子、四根粗木桩、一张床、一座翁若隐若现，在一阵阵海风的吹拂下，渐渐汇聚成一头“象”，它挥舞着四根粗木桩，扇动着簸箕，缓慢的游向远方。</p>
-<p><img src="./%E8%B1%A1.png" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>评论</category>
       </categories>
       <tags>
         <tag>其他</tag>
@@ -2115,7 +2135,7 @@ repo: name1:name1/yourRepository
 <p><img src="./1515081366509.png" alt="Alt text"></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add demos git@github.com:<span class="string">&quot;one of your ssh config host&quot;</span>/xxx.git</span><br></pre></td></tr></table></figure>
 
-<p><strong>注意：</strong>把 <a href="mailto:&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#104;&#x75;&#x62;&#x2e;&#x63;&#111;&#x6d;">&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#104;&#x75;&#x62;&#x2e;&#x63;&#111;&#x6d;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
+<p><strong>注意：</strong>把 <a href="mailto:&#103;&#105;&#x74;&#x40;&#x67;&#x69;&#x74;&#x68;&#x75;&#x62;&#46;&#x63;&#x6f;&#x6d;">&#103;&#105;&#x74;&#x40;&#x67;&#x69;&#x74;&#x68;&#x75;&#x62;&#46;&#x63;&#x6f;&#x6d;</a>: 后面那串东西替换成你在 ssh config 里面的 Host，区分大小写</p>
 <p><img src="./1515081415724.png" alt="Alt text"></p>
 <h4 id="Step-4：常规的提交操作"><a href="#Step-4：常规的提交操作" class="headerlink" title="Step 4：常规的提交操作"></a>Step 4：常规的提交操作</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add <span class="string">&quot;folder or file, split by space&quot;</span></span><br><span class="line">git commit -m <span class="string">&quot;your commit message&quot;</span></span><br><span class="line">git branch <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git checkout <span class="string">&quot;your branch&quot;</span></span><br><span class="line">git push --set-upstream <span class="string">&quot;your repository&quot;</span> <span class="string">&quot;your branch&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -2281,32 +2301,6 @@ repo: name1:name1/yourRepository
       </tags>
   </entry>
   <entry>
-    <title>蒜薹回锅肉</title>
-    <url>/2017/07/30/%E8%92%9C%E8%96%B9%E5%9B%9E%E9%94%85%E8%82%89/</url>
-    <content><![CDATA[<p>记得有次分享会的时候，楼主说要多练厨艺的，今天做了个比较复杂的菜（虽说以前也做过，但是没有记录），特此记录！<span id="more"></span></p>
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>准备 五花肉、姜、蒜、葱、干辣椒、食盐、蒜薹、辣椒罐头、蒜薹、豆瓣酱、八角、生抽、鸡精</p>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>五花肉切小，姜、蒜、葱 切末</p>
-<p><img src="./1501416567915.png" alt="Alt text"></p>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>把切好的 五花肉、姜、蒜、葱 和 干辣椒、八角、盐、水 放入容器中煮 20 分钟，把五花肉稍微煮熟一些就行。</p>
-<p><img src="./1501416717271.png" alt="Alt text"></p>
-<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>蒜薹切成小段，放入盐水中浸泡 10 分钟左右。</p>
-<p><img src="./1501416784370.png" alt="Alt text"></p>
-<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>把煮好的五花肉捞起、切片，滤出一部分汤汁。</p>
-<p><img src="./1501416858240.png" alt="Alt text"></p>
-<h4 id="Step-6："><a href="#Step-6：" class="headerlink" title="Step 6："></a>Step 6：</h4><p>往锅中加入油清炒蒜薹至3层熟，捞起。</p>
-<p><img src="./1501416916511.png" alt="Alt text"></p>
-<h4 id="Step-7："><a href="#Step-7：" class="headerlink" title="Step 7："></a>Step 7：</h4><p>往锅中加入油，油热之后加入 豆瓣酱、辣椒罐头、姜，炒一小会 加入切好片的五花肉，边炒边加入生抽、煮肉的汤汁、3层熟的蒜薹、盐。</p>
-<p><img src="./1501417367047.png" alt="Alt text"></p>
-<p>大功告成！</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>烹饪</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>致准备进入IT行业学弟学妹们的一封信</title>
     <url>/2017/07/07/%E8%87%B4%E5%87%86%E5%A4%87%E8%BF%9B%E5%85%A5IT%E8%A1%8C%E4%B8%9A%E5%AD%A6%E5%BC%9F%E5%AD%A6%E5%A6%B9%E4%BB%AC%E7%9A%84%E4%B8%80%E5%B0%81%E4%BF%A1/</url>
     <content><![CDATA[<p>又是一年报考季，相信其中对IT行业充满兴趣的童鞋大有人在，作为一个在IT项目打杂半年、在IT公司打杂1年的学长，在此分享对IT行业以及如何进入IT行业的一些粗浅的看法和建议。</p>
@@ -2371,18 +2365,23 @@ repo: name1:name1/yourRepository
       </tags>
   </entry>
   <entry>
-    <title>辣椒炒肉</title>
-    <url>/2017/08/26/%E8%BE%A3%E6%A4%92%E7%82%92%E8%82%89/</url>
-    <content><![CDATA[<p>家常菜系列。<span id="more"></span></p>
-<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>猪瘦肉、青椒、生抽、老抽、生粉、盐、炒菜料、腌制红椒（楼主老妈做的）</p>
-<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>猪瘦肉切小，加入老抽、生抽、生粉拌匀，腌制20min左右。</p>
-<p><img src="./1503718007376.png" alt="Alt text"></p>
-<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>青椒切小，静置待用。</p>
-<p><img src="./1503718048422.png" alt="Alt text"></p>
-<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>往锅中倒入适量的油，油热之后放入腌制好的猪肉，翻炒至7成熟。</p>
-<p><img src="./1503718247241.png" alt="Alt text"></p>
-<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>加入青椒、腌制红椒，翻炒一小会，放入炒菜料，翻炒一小会加入盐，翻炒片刻，就大功告成了！</p>
-<p><img src="./1503718385591.png" alt="Alt text"></p>
+    <title>蒜薹回锅肉</title>
+    <url>/2017/07/30/%E8%92%9C%E8%96%B9%E5%9B%9E%E9%94%85%E8%82%89/</url>
+    <content><![CDATA[<p>记得有次分享会的时候，楼主说要多练厨艺的，今天做了个比较复杂的菜（虽说以前也做过，但是没有记录），特此记录！<span id="more"></span></p>
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>准备 五花肉、姜、蒜、葱、干辣椒、食盐、蒜薹、辣椒罐头、蒜薹、豆瓣酱、八角、生抽、鸡精</p>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>五花肉切小，姜、蒜、葱 切末</p>
+<p><img src="./1501416567915.png" alt="Alt text"></p>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>把切好的 五花肉、姜、蒜、葱 和 干辣椒、八角、盐、水 放入容器中煮 20 分钟，把五花肉稍微煮熟一些就行。</p>
+<p><img src="./1501416717271.png" alt="Alt text"></p>
+<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>蒜薹切成小段，放入盐水中浸泡 10 分钟左右。</p>
+<p><img src="./1501416784370.png" alt="Alt text"></p>
+<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>把煮好的五花肉捞起、切片，滤出一部分汤汁。</p>
+<p><img src="./1501416858240.png" alt="Alt text"></p>
+<h4 id="Step-6："><a href="#Step-6：" class="headerlink" title="Step 6："></a>Step 6：</h4><p>往锅中加入油清炒蒜薹至3层熟，捞起。</p>
+<p><img src="./1501416916511.png" alt="Alt text"></p>
+<h4 id="Step-7："><a href="#Step-7：" class="headerlink" title="Step 7："></a>Step 7：</h4><p>往锅中加入油，油热之后加入 豆瓣酱、辣椒罐头、姜，炒一小会 加入切好片的五花肉，边炒边加入生抽、煮肉的汤汁、3层熟的蒜薹、盐。</p>
+<p><img src="./1501417367047.png" alt="Alt text"></p>
+<p>大功告成！</p>
 ]]></content>
       <categories>
         <category>生活</category>
@@ -2414,6 +2413,27 @@ repo: name1:name1/yourRepository
       <tags>
         <tag>java</tag>
         <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>辣椒炒肉</title>
+    <url>/2017/08/26/%E8%BE%A3%E6%A4%92%E7%82%92%E8%82%89/</url>
+    <content><![CDATA[<p>家常菜系列。<span id="more"></span></p>
+<h4 id="Step-1："><a href="#Step-1：" class="headerlink" title="Step 1："></a>Step 1：</h4><p>猪瘦肉、青椒、生抽、老抽、生粉、盐、炒菜料、腌制红椒（楼主老妈做的）</p>
+<h4 id="Step-2："><a href="#Step-2：" class="headerlink" title="Step 2："></a>Step 2：</h4><p>猪瘦肉切小，加入老抽、生抽、生粉拌匀，腌制20min左右。</p>
+<p><img src="./1503718007376.png" alt="Alt text"></p>
+<h4 id="Step-3："><a href="#Step-3：" class="headerlink" title="Step 3："></a>Step 3：</h4><p>青椒切小，静置待用。</p>
+<p><img src="./1503718048422.png" alt="Alt text"></p>
+<h4 id="Step-4："><a href="#Step-4：" class="headerlink" title="Step 4："></a>Step 4：</h4><p>往锅中倒入适量的油，油热之后放入腌制好的猪肉，翻炒至7成熟。</p>
+<p><img src="./1503718247241.png" alt="Alt text"></p>
+<h4 id="Step-5："><a href="#Step-5：" class="headerlink" title="Step 5："></a>Step 5：</h4><p>加入青椒、腌制红椒，翻炒一小会，放入炒菜料，翻炒一小会加入盐，翻炒片刻，就大功告成了！</p>
+<p><img src="./1503718385591.png" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>烹饪</tag>
       </tags>
   </entry>
 </search>
